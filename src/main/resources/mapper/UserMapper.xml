@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.User" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="DECIMAL" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USER_ID, USER_NAME, EMAIL, PHONE, PASSWORD, CREATE_TIME, UPDATE_TIME, CREATE_BY, 
+    UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAL"."USER"
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from USER
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.User" >
+    insert into USER (USER_ID, USER_NAME, EMAIL, 
+      PHONE, PASSWORD, CREATE_TIME, 
+      UPDATE_TIME, CREATE_BY, UPDATE_BY
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=DECIMAL}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
+      #{updateTime,jdbcType=DATE}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.User" >
+    insert into USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.User" >
+    update USER
+    <set >
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.User" >
+    update USER
+    set USER_NAME = #{userName,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=DECIMAL},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>
