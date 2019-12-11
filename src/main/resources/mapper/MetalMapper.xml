@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.MetalMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.Metal" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
+    <result column="FAMILY" property="family" jdbcType="VARCHAR" />
+    <result column="SPECIFICATION" property="specification" jdbcType="VARCHAR" />
+    <result column="FORM" property="form" jdbcType="VARCHAR" />
+    <result column="TEMPER" property="temper" jdbcType="VARCHAR" />
+    <result column="TEMPERATURE" property="temperature" jdbcType="DECIMAL" />
+    <result column="DENSITY" property="density" jdbcType="DECIMAL" />
+    <result column="BOOKS" property="books" jdbcType="VARCHAR" />
+    <result column="AIRCRAFTID" property="aircraftid" jdbcType="VARCHAR" />
+    <result column="TH_MIN" property="thMin" jdbcType="DECIMAL" />
+    <result column="TH_MAX" property="thMax" jdbcType="DECIMAL" />
+    <result column="BASIS" property="basis" jdbcType="VARCHAR" />
+    <result column="DIRECTION" property="direction" jdbcType="VARCHAR" />
+    <result column="E" property="e" jdbcType="DECIMAL" />
+    <result column="F_SU" property="fSu" jdbcType="DECIMAL" />
+    <result column="E_C" property="eC" jdbcType="DECIMAL" />
+    <result column="F_CY" property="fCy" jdbcType="DECIMAL" />
+    <result column="G" property="g" jdbcType="DECIMAL" />
+    <result column="NU" property="nu" jdbcType="DECIMAL" />
+    <result column="F_TU" property="fTu" jdbcType="DECIMAL" />
+    <result column="F_TY" property="fTy" jdbcType="DECIMAL" />
+    <result column="RA" property="ra" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TYPE_NAME, FAMILY, SPECIFICATION, FORM, TEMPER, TEMPERATURE, DENSITY, BOOKS, 
+    AIRCRAFTID, TH_MIN, TH_MAX, BASIS, DIRECTION, E, F_SU, E_C, F_CY, G, NU, F_TU, F_TY, 
+    RA
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from METAL
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.Metal">
+ select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."METAL_copy1" where TYPE_NAME=#{type}) a where rownum <= #{end} and TYPE_NAME=#{type}
+    ]]>
+    )
+    where rn >= #{start}
+
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count (*) from "METAL"."METAL_copy1" where TYPE_NAME=#{type}
+</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from METAL
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.Metal" >
+    insert into METAL (ID, TYPE_NAME, FAMILY, 
+      SPECIFICATION, FORM, TEMPER, 
+      TEMPERATURE, DENSITY, BOOKS, 
+      AIRCRAFTID, TH_MIN, TH_MAX, 
+      BASIS, DIRECTION, E, 
+      F_SU, E_C, F_CY, G, 
+      NU, F_TU, F_TY, RA
+      )
+    values (#{id,jdbcType=DECIMAL}, #{typeName,jdbcType=VARCHAR}, #{family,jdbcType=VARCHAR}, 
+      #{specification,jdbcType=VARCHAR}, #{form,jdbcType=VARCHAR}, #{temper,jdbcType=VARCHAR}, 
+      #{temperature,jdbcType=DECIMAL}, #{density,jdbcType=DECIMAL}, #{books,jdbcType=VARCHAR}, 
+      #{aircraftid,jdbcType=VARCHAR}, #{thMin,jdbcType=DECIMAL}, #{thMax,jdbcType=DECIMAL}, 
+      #{basis,jdbcType=VARCHAR}, #{direction,jdbcType=VARCHAR}, #{e,jdbcType=DECIMAL}, 
+      #{fSu,jdbcType=DECIMAL}, #{eC,jdbcType=DECIMAL}, #{fCy,jdbcType=DECIMAL}, #{g,jdbcType=DECIMAL}, 
+      #{nu,jdbcType=DECIMAL}, #{fTu,jdbcType=DECIMAL}, #{fTy,jdbcType=DECIMAL}, #{ra,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.Metal" >
+    insert into METAL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="typeName != null" >
+        TYPE_NAME,
+      </if>
+      <if test="family != null" >
+        FAMILY,
+      </if>
+      <if test="specification != null" >
+        SPECIFICATION,
+      </if>
+      <if test="form != null" >
+        FORM,
+      </if>
+      <if test="temper != null" >
+        TEMPER,
+      </if>
+      <if test="temperature != null" >
+        TEMPERATURE,
+      </if>
+      <if test="density != null" >
+        DENSITY,
+      </if>
+      <if test="books != null" >
+        BOOKS,
+      </if>
+      <if test="aircraftid != null" >
+        AIRCRAFTID,
+      </if>
+      <if test="thMin != null" >
+        TH_MIN,
+      </if>
+      <if test="thMax != null" >
+        TH_MAX,
+      </if>
+      <if test="basis != null" >
+        BASIS,
+      </if>
+      <if test="direction != null" >
+        DIRECTION,
+      </if>
+      <if test="e != null" >
+        E,
+      </if>
+      <if test="fSu != null" >
+        F_SU,
+      </if>
+      <if test="eC != null" >
+        E_C,
+      </if>
+      <if test="fCy != null" >
+        F_CY,
+      </if>
+      <if test="g != null" >
+        G,
+      </if>
+      <if test="nu != null" >
+        NU,
+      </if>
+      <if test="fTu != null" >
+        F_TU,
+      </if>
+      <if test="fTy != null" >
+        F_TY,
+      </if>
+      <if test="ra != null" >
+        RA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="family != null" >
+        #{family,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="form != null" >
+        #{form,jdbcType=VARCHAR},
+      </if>
+      <if test="temper != null" >
+        #{temper,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=DECIMAL},
+      </if>
+      <if test="density != null" >
+        #{density,jdbcType=DECIMAL},
+      </if>
+      <if test="books != null" >
+        #{books,jdbcType=VARCHAR},
+      </if>
+      <if test="aircraftid != null" >
+        #{aircraftid,jdbcType=VARCHAR},
+      </if>
+      <if test="thMin != null" >
+        #{thMin,jdbcType=DECIMAL},
+      </if>
+      <if test="thMax != null" >
+        #{thMax,jdbcType=DECIMAL},
+      </if>
+      <if test="basis != null" >
+        #{basis,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="e != null" >
+        #{e,jdbcType=DECIMAL},
+      </if>
+      <if test="fSu != null" >
+        #{fSu,jdbcType=DECIMAL},
+      </if>
+      <if test="eC != null" >
+        #{eC,jdbcType=DECIMAL},
+      </if>
+      <if test="fCy != null" >
+        #{fCy,jdbcType=DECIMAL},
+      </if>
+      <if test="g != null" >
+        #{g,jdbcType=DECIMAL},
+      </if>
+      <if test="nu != null" >
+        #{nu,jdbcType=DECIMAL},
+      </if>
+      <if test="fTu != null" >
+        #{fTu,jdbcType=DECIMAL},
+      </if>
+      <if test="fTy != null" >
+        #{fTy,jdbcType=DECIMAL},
+      </if>
+      <if test="ra != null" >
+        #{ra,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.Metal" >
+    update METAL
+    <set >
+      <if test="typeName != null" >
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="family != null" >
+        FAMILY = #{family,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        SPECIFICATION = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="form != null" >
+        FORM = #{form,jdbcType=VARCHAR},
+      </if>
+      <if test="temper != null" >
+        TEMPER = #{temper,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        TEMPERATURE = #{temperature,jdbcType=DECIMAL},
+      </if>
+      <if test="density != null" >
+        DENSITY = #{density,jdbcType=DECIMAL},
+      </if>
+      <if test="books != null" >
+        BOOKS = #{books,jdbcType=VARCHAR},
+      </if>
+      <if test="aircraftid != null" >
+        AIRCRAFTID = #{aircraftid,jdbcType=VARCHAR},
+      </if>
+      <if test="thMin != null" >
+        TH_MIN = #{thMin,jdbcType=DECIMAL},
+      </if>
+      <if test="thMax != null" >
+        TH_MAX = #{thMax,jdbcType=DECIMAL},
+      </if>
+      <if test="basis != null" >
+        BASIS = #{basis,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        DIRECTION = #{direction,jdbcType=VARCHAR},
+      </if>
+      <if test="e != null" >
+        E = #{e,jdbcType=DECIMAL},
+      </if>
+      <if test="fSu != null" >
+        F_SU = #{fSu,jdbcType=DECIMAL},
+      </if>
+      <if test="eC != null" >
+        E_C = #{eC,jdbcType=DECIMAL},
+      </if>
+      <if test="fCy != null" >
+        F_CY = #{fCy,jdbcType=DECIMAL},
+      </if>
+      <if test="g != null" >
+        G = #{g,jdbcType=DECIMAL},
+      </if>
+      <if test="nu != null" >
+        NU = #{nu,jdbcType=DECIMAL},
+      </if>
+      <if test="fTu != null" >
+        F_TU = #{fTu,jdbcType=DECIMAL},
+      </if>
+      <if test="fTy != null" >
+        F_TY = #{fTy,jdbcType=DECIMAL},
+      </if>
+      <if test="ra != null" >
+        RA = #{ra,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.Metal" >
+    update METAL
+    set TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      FAMILY = #{family,jdbcType=VARCHAR},
+      SPECIFICATION = #{specification,jdbcType=VARCHAR},
+      FORM = #{form,jdbcType=VARCHAR},
+      TEMPER = #{temper,jdbcType=VARCHAR},
+      TEMPERATURE = #{temperature,jdbcType=DECIMAL},
+      DENSITY = #{density,jdbcType=DECIMAL},
+      BOOKS = #{books,jdbcType=VARCHAR},
+      AIRCRAFTID = #{aircraftid,jdbcType=VARCHAR},
+      TH_MIN = #{thMin,jdbcType=DECIMAL},
+      TH_MAX = #{thMax,jdbcType=DECIMAL},
+      BASIS = #{basis,jdbcType=VARCHAR},
+      DIRECTION = #{direction,jdbcType=VARCHAR},
+      E = #{e,jdbcType=DECIMAL},
+      F_SU = #{fSu,jdbcType=DECIMAL},
+      E_C = #{eC,jdbcType=DECIMAL},
+      F_CY = #{fCy,jdbcType=DECIMAL},
+      G = #{g,jdbcType=DECIMAL},
+      NU = #{nu,jdbcType=DECIMAL},
+      F_TU = #{fTu,jdbcType=DECIMAL},
+      F_TY = #{fTy,jdbcType=DECIMAL},
+      RA = #{ra,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
