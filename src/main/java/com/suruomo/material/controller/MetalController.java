@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,5 +103,19 @@ public class MetalController {
         map.put("count", count);
         return map;
     }
+
+    /**
+     * 跳转至导出MAT1页面
+     * @return
+     */
+
+    @GetMapping("/metal/export/{id}")
+    public String mat(@PathVariable String id, Model model) {
+        System.out.println(id);
+        Metal metal=metalMapper.selectByPrimaryKey(new BigDecimal(id));
+        model.addAttribute("metal",metal);
+        return "metal/mat1";
+    }
+
 
 }

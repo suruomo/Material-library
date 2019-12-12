@@ -34,7 +34,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
-    from METAL
+    from "METAL"."METAL_copy1"
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="getAll" resultType="com.suruomo.material.pojo.Metal">
@@ -50,7 +50,7 @@
     select count (*) from "METAL"."METAL_copy1" where TYPE_NAME=#{type}
 </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
-    delete from METAL
+    delete from "METAL"."METAL_copy1"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.Metal" >

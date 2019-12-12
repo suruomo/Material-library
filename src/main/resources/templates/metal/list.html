@@ -32,7 +32,6 @@
     <a class="layui-btn layui-btn-xs" lay-event="export">导出MAT 1</a>
 </script>
 <script type="text/html" id="toolbarDemo">
-
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" id="importFile" type="file"><i class="layui-icon">&#xe62f;</i> 批量导出
         </button>
@@ -99,7 +98,7 @@
                 });
             } else {
                 // layer.alert('编辑行：<br>' + JSON.stringify(data));
-                window.location.href = "/metal/export/mat1/" + 1;
+                window.location.href = "/metal/export/" + data.id;
             }
         });
         //监听顶部操作工具条
