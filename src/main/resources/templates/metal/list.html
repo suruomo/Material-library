@@ -29,7 +29,7 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="export">导出MAT 1</a>
+    <a class="layui-btn layui-btn-xs" lay-event="export">导出MAT1</a>
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -46,7 +46,7 @@
         //初始化
         table.render({
             elem: '#idTest'
-            , url: '/metals/'+type
+            , url: '/metals?type='+type
             , method: "get"
             , page: true    //true表示分页
             , title: '铝信息'
@@ -56,11 +56,9 @@
             , cols: [
                 [
                     {type: 'checkbox', fixed: 'left'}
-                    , {field: 'family', width: 100, title: '类别', sort: true}
-                    , {field: 'specification', width: 250, title: '规格'}
-                    , {field: 'form', width: 250, title: '构成'}
+                    , {field: 'family', width: 100, title: '材料系列', sort: true}
                     , {field: 'books', width: 80, title: '来源'}
-                    , {field: 'aircraftid', width: 100, title: '飞机'}
+                    , {field: 'aircraft', width: 100, title: '飞机'}
                     , {field: 'e',width: 100, title: '拉伸杨氏模量', sort: true}
                     , {field: 'eC',width: 100, title: '压缩杨氏模量', sort: true}
                     , {field: 'fSu',width: 100, title: '剪切应力极限', sort: true}
@@ -98,7 +96,7 @@
                 });
             } else {
                 // layer.alert('编辑行：<br>' + JSON.stringify(data));
-                window.location.href = "/metal/export/" + data.id;
+                window.location.href = "/metal/export/" + data.name;
             }
         });
         //监听顶部操作工具条

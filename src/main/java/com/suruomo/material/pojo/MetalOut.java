@@ -3,8 +3,8 @@ package com.suruomo.material.pojo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Metal implements Serializable {
-    private BigDecimal id;
+public class MetalOut implements Serializable {
+    private String name;
 
     private String typeName;
 
@@ -16,21 +16,17 @@ public class Metal implements Serializable {
 
     private String temper;
 
-    private BigDecimal temperature;
+    private String matId;
 
-    private BigDecimal density;
+    private BigDecimal rho;
 
     private String books;
 
-    private String aircraftid;
+    private String aircraft;
 
-    private BigDecimal thMin;
+    private BigDecimal fBru;
 
-    private BigDecimal thMax;
-
-    private String basis;
-
-    private String direction;
+    private BigDecimal fBry;
 
     private BigDecimal e;
 
@@ -48,16 +44,18 @@ public class Metal implements Serializable {
 
     private BigDecimal fTy;
 
-    private BigDecimal ra;
+    private BigDecimal a;
+
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
-    public BigDecimal getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(BigDecimal id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getTypeName() {
@@ -100,20 +98,20 @@ public class Metal implements Serializable {
         this.temper = temper == null ? null : temper.trim();
     }
 
-    public BigDecimal getTemperature() {
-        return temperature;
+    public String getMatId() {
+        return matId;
     }
 
-    public void setTemperature(BigDecimal temperature) {
-        this.temperature = temperature;
+    public void setMatId(String matId) {
+        this.matId = matId == null ? null : matId.trim();
     }
 
-    public BigDecimal getDensity() {
-        return density;
+    public BigDecimal getRho() {
+        return rho;
     }
 
-    public void setDensity(BigDecimal density) {
-        this.density = density;
+    public void setRho(BigDecimal rho) {
+        this.rho = rho;
     }
 
     public String getBooks() {
@@ -124,44 +122,28 @@ public class Metal implements Serializable {
         this.books = books == null ? null : books.trim();
     }
 
-    public String getAircraftid() {
-        return aircraftid;
+    public String getAircraft() {
+        return aircraft;
     }
 
-    public void setAircraftid(String aircraftid) {
-        this.aircraftid = aircraftid == null ? null : aircraftid.trim();
+    public void setAircraft(String aircraft) {
+        this.aircraft = aircraft == null ? null : aircraft.trim();
     }
 
-    public BigDecimal getThMin() {
-        return thMin;
+    public BigDecimal getfBru() {
+        return fBru;
     }
 
-    public void setThMin(BigDecimal thMin) {
-        this.thMin = thMin;
+    public void setfBru(BigDecimal fBru) {
+        this.fBru = fBru;
     }
 
-    public BigDecimal getThMax() {
-        return thMax;
+    public BigDecimal getfBry() {
+        return fBry;
     }
 
-    public void setThMax(BigDecimal thMax) {
-        this.thMax = thMax;
-    }
-
-    public String getBasis() {
-        return basis;
-    }
-
-    public void setBasis(String basis) {
-        this.basis = basis == null ? null : basis.trim();
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction == null ? null : direction.trim();
+    public void setfBry(BigDecimal fBry) {
+        this.fBry = fBry;
     }
 
     public BigDecimal getE() {
@@ -228,12 +210,20 @@ public class Metal implements Serializable {
         this.fTy = fTy;
     }
 
-    public BigDecimal getRa() {
-        return ra;
+    public BigDecimal getA() {
+        return a;
     }
 
-    public void setRa(BigDecimal ra) {
-        this.ra = ra;
+    public void setA(BigDecimal a) {
+        this.a = a;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
     }
 
     @Override
@@ -247,21 +237,19 @@ public class Metal implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        Metal other = (Metal) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+        MetalOut other = (MetalOut) that;
+        return (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getTypeName() == null ? other.getTypeName() == null : this.getTypeName().equals(other.getTypeName()))
             && (this.getFamily() == null ? other.getFamily() == null : this.getFamily().equals(other.getFamily()))
             && (this.getSpecification() == null ? other.getSpecification() == null : this.getSpecification().equals(other.getSpecification()))
             && (this.getForm() == null ? other.getForm() == null : this.getForm().equals(other.getForm()))
             && (this.getTemper() == null ? other.getTemper() == null : this.getTemper().equals(other.getTemper()))
-            && (this.getTemperature() == null ? other.getTemperature() == null : this.getTemperature().equals(other.getTemperature()))
-            && (this.getDensity() == null ? other.getDensity() == null : this.getDensity().equals(other.getDensity()))
+            && (this.getMatId() == null ? other.getMatId() == null : this.getMatId().equals(other.getMatId()))
+            && (this.getRho() == null ? other.getRho() == null : this.getRho().equals(other.getRho()))
             && (this.getBooks() == null ? other.getBooks() == null : this.getBooks().equals(other.getBooks()))
-            && (this.getAircraftid() == null ? other.getAircraftid() == null : this.getAircraftid().equals(other.getAircraftid()))
-            && (this.getThMin() == null ? other.getThMin() == null : this.getThMin().equals(other.getThMin()))
-            && (this.getThMax() == null ? other.getThMax() == null : this.getThMax().equals(other.getThMax()))
-            && (this.getBasis() == null ? other.getBasis() == null : this.getBasis().equals(other.getBasis()))
-            && (this.getDirection() == null ? other.getDirection() == null : this.getDirection().equals(other.getDirection()))
+            && (this.getAircraft() == null ? other.getAircraft() == null : this.getAircraft().equals(other.getAircraft()))
+            && (this.getfBru() == null ? other.getfBru() == null : this.getfBru().equals(other.getfBru()))
+            && (this.getfBry() == null ? other.getfBry() == null : this.getfBry().equals(other.getfBry()))
             && (this.getE() == null ? other.getE() == null : this.getE().equals(other.getE()))
             && (this.getfSu() == null ? other.getfSu() == null : this.getfSu().equals(other.getfSu()))
             && (this.geteC() == null ? other.geteC() == null : this.geteC().equals(other.geteC()))
@@ -270,27 +258,26 @@ public class Metal implements Serializable {
             && (this.getNu() == null ? other.getNu() == null : this.getNu().equals(other.getNu()))
             && (this.getfTu() == null ? other.getfTu() == null : this.getfTu().equals(other.getfTu()))
             && (this.getfTy() == null ? other.getfTy() == null : this.getfTy().equals(other.getfTy()))
-            && (this.getRa() == null ? other.getRa() == null : this.getRa().equals(other.getRa()));
+            && (this.getA() == null ? other.getA() == null : this.getA().equals(other.getA()))
+            && (this.getRemark() == null ? other.getRemark() == null : this.getRemark().equals(other.getRemark()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getTypeName() == null) ? 0 : getTypeName().hashCode());
         result = prime * result + ((getFamily() == null) ? 0 : getFamily().hashCode());
         result = prime * result + ((getSpecification() == null) ? 0 : getSpecification().hashCode());
         result = prime * result + ((getForm() == null) ? 0 : getForm().hashCode());
         result = prime * result + ((getTemper() == null) ? 0 : getTemper().hashCode());
-        result = prime * result + ((getTemperature() == null) ? 0 : getTemperature().hashCode());
-        result = prime * result + ((getDensity() == null) ? 0 : getDensity().hashCode());
+        result = prime * result + ((getMatId() == null) ? 0 : getMatId().hashCode());
+        result = prime * result + ((getRho() == null) ? 0 : getRho().hashCode());
         result = prime * result + ((getBooks() == null) ? 0 : getBooks().hashCode());
-        result = prime * result + ((getAircraftid() == null) ? 0 : getAircraftid().hashCode());
-        result = prime * result + ((getThMin() == null) ? 0 : getThMin().hashCode());
-        result = prime * result + ((getThMax() == null) ? 0 : getThMax().hashCode());
-        result = prime * result + ((getBasis() == null) ? 0 : getBasis().hashCode());
-        result = prime * result + ((getDirection() == null) ? 0 : getDirection().hashCode());
+        result = prime * result + ((getAircraft() == null) ? 0 : getAircraft().hashCode());
+        result = prime * result + ((getfBru() == null) ? 0 : getfBru().hashCode());
+        result = prime * result + ((getfBry() == null) ? 0 : getfBry().hashCode());
         result = prime * result + ((getE() == null) ? 0 : getE().hashCode());
         result = prime * result + ((getfSu() == null) ? 0 : getfSu().hashCode());
         result = prime * result + ((geteC() == null) ? 0 : geteC().hashCode());
@@ -299,7 +286,8 @@ public class Metal implements Serializable {
         result = prime * result + ((getNu() == null) ? 0 : getNu().hashCode());
         result = prime * result + ((getfTu() == null) ? 0 : getfTu().hashCode());
         result = prime * result + ((getfTy() == null) ? 0 : getfTy().hashCode());
-        result = prime * result + ((getRa() == null) ? 0 : getRa().hashCode());
+        result = prime * result + ((getA() == null) ? 0 : getA().hashCode());
+        result = prime * result + ((getRemark() == null) ? 0 : getRemark().hashCode());
         return result;
     }
 
@@ -309,20 +297,18 @@ public class Metal implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+        sb.append(", name=").append(name);
         sb.append(", typeName=").append(typeName);
         sb.append(", family=").append(family);
         sb.append(", specification=").append(specification);
         sb.append(", form=").append(form);
         sb.append(", temper=").append(temper);
-        sb.append(", temperature=").append(temperature);
-        sb.append(", density=").append(density);
+        sb.append(", matId=").append(matId);
+        sb.append(", rho=").append(rho);
         sb.append(", books=").append(books);
-        sb.append(", aircraftid=").append(aircraftid);
-        sb.append(", thMin=").append(thMin);
-        sb.append(", thMax=").append(thMax);
-        sb.append(", basis=").append(basis);
-        sb.append(", direction=").append(direction);
+        sb.append(", aircraft=").append(aircraft);
+        sb.append(", fBru=").append(fBru);
+        sb.append(", fBry=").append(fBry);
         sb.append(", e=").append(e);
         sb.append(", fSu=").append(fSu);
         sb.append(", eC=").append(eC);
@@ -331,7 +317,8 @@ public class Metal implements Serializable {
         sb.append(", nu=").append(nu);
         sb.append(", fTu=").append(fTu);
         sb.append(", fTy=").append(fTy);
-        sb.append(", ra=").append(ra);
+        sb.append(", a=").append(a);
+        sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

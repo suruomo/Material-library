@@ -3,8 +3,8 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.suruomo.material.dao.MetalMapper;
-import com.suruomo.material.pojo.Metal;
+import com.suruomo.material.dao.MetalOutMapper;
+import com.suruomo.material.pojo.MetalOut;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,7 @@ import java.util.Map;
 @Controller
 public class MetalController {
     @Resource
-    MetalMapper metalMapper;
+    MetalOutMapper metalOutMapper;
 
     /**
      * 跳转所有铝数据列表页面
@@ -54,16 +54,6 @@ public class MetalController {
         model.addAttribute("type","titanium");
         return "metal/list";
     }
-    /**
-     * 跳转所有耐热合金数据列表页面
-     * @return
-     */
-    @GetMapping("/metal/heatresistantalloy")
-    public String heatResistantAlloyList(Model model) {
-        model.addAttribute("type","heatresistantalloy");
-        return "metal/list";
-    }
-
 
     /**
      * 返回查询金属数据
@@ -73,11 +63,12 @@ public class MetalController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping("/metals/{type}")
-    public Map<String, Object> list(@RequestParam("page") int page, @RequestParam("limit") int limit,@PathVariable("type") String type) throws JsonProcessingException {
+    @GetMapping("/metals")
+    public Map<String, Object> list(@RequestParam("page") int page, @RequestParam("limit") int limit,@RequestParam("type") String type) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
         String queryType = "";
+        System.out.println("类型"+queryType);
         if (type.equals("aluminum")) {
             queryType = "EO_Material_Aluminium";
         } else if (type.equals("steel")) {
@@ -85,11 +76,8 @@ public class MetalController {
         } else if (type.equals("titanium")) {
             queryType = "EO_Material_Titanium";
         }
-         else{
-            queryType = "EO_Material_HeatResistantAlloy";
-        }
-        List<Metal> users = metalMapper.getAll(start, end,queryType);
-        int count = metalMapper.getCount(queryType);
+        List<MetalOut> users = metalOutMapper.getAll(start, end,queryType);
+        int count = metalOutMapper.getCount(queryType);
         HashMap<String, Object> map = new HashMap();
         //返回Json
         ObjectMapper mapper = new ObjectMapper();
@@ -109,11 +97,11 @@ public class MetalController {
      * @return
      */
 
-    @GetMapping("/metal/export/{id}")
-    public String mat(@PathVariable String id, Model model) {
-        System.out.println(id);
-        Metal metal=metalMapper.selectByPrimaryKey(new BigDecimal(id));
-        model.addAttribute("metal",metal);
+    @GetMapping("/metal/export/{name}")
+    public String mat(@PathVariable String name, Model model) {
+        System.out.println(name);
+        MetalOut metalOut=metalOutMapper.selectByPrimaryKey(name);
+        model.addAttribute("metal",metalOut);
         return "metal/mat1";
     }
 
