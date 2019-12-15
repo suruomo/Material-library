@@ -8,10 +8,7 @@ import com.suruomo.material.pojo.MetalOut;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -63,19 +60,22 @@ public class MetalController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping("/metals")
-    public Map<String, Object> list(@RequestParam("page") int page, @RequestParam("limit") int limit,@RequestParam("type") String type) throws JsonProcessingException {
+    @GetMapping(value = "/metals/{type}")
+    public Map<String, Object> list(@RequestParam("page") int page, @RequestParam("limit") int limit,@PathVariable("type") String type) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
         String queryType = "";
-        System.out.println("类型"+queryType);
-        if (type.equals("aluminum")) {
+        System.out.println("类型"+type);
+        if ("aluminum".equals(type)) {
             queryType = "EO_Material_Aluminium";
-        } else if (type.equals("steel")) {
-            queryType = "EO_Material_Steel";
-        } else if (type.equals("titanium")) {
-            queryType = "EO_Material_Titanium";
+        } else {
+            if ("steel".equals(type)) {
+                queryType = "EO_Material_Steel";
+            } else  {
+                queryType = "EO_Material_Titanium";
+            }
         }
+        System.out.println("类型"+queryType);
         List<MetalOut> users = metalOutMapper.getAll(start, end,queryType);
         int count = metalOutMapper.getCount(queryType);
         HashMap<String, Object> map = new HashMap();

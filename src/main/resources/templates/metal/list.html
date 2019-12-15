@@ -46,7 +46,7 @@
         //初始化
         table.render({
             elem: '#idTest'
-            , url: '/metals?type='+type
+            , url: '/metals/'+type
             , method: "get"
             , page: true    //true表示分页
             , title: '铝信息'
@@ -55,8 +55,7 @@
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {type: 'checkbox', fixed: 'left'}
-                    , {field: 'family', width: 100, title: '材料系列', sort: true}
+                   {field: 'family', width: 100, title: '材料系列', sort: true}
                     , {field: 'books', width: 80, title: '来源'}
                     , {field: 'aircraft', width: 100, title: '飞机'}
                     , {field: 'e',width: 100, title: '拉伸杨氏模量', sort: true}
