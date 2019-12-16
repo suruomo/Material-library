@@ -91,7 +91,6 @@ public class LoginController {
             rm=false;
         }
         UsernamePasswordToken token=new UsernamePasswordToken(userId,password,rm);
-        System.out.println("rememberMe:"+token);
         try{
             //若当前用户没有授权，进行验证
             if(!subject.isAuthenticated()){
@@ -117,8 +116,6 @@ public class LoginController {
     @GetMapping(value = {"/main"})
     public String index(HttpServletRequest request,Model model) {
         User user= SecurityUtils.getSubject().getPrincipals().oneByType(User.class);
-        System.out.println("name:"+user.getUserName());
-        System.out.println("id:"+user.getUserId());
         request.getSession().setAttribute("user",user);
         return "main";
     }

@@ -3,6 +3,7 @@ package com.suruomo.material.dao;
 import com.suruomo.material.pojo.MetalOut;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -10,13 +11,13 @@ import java.util.List;
  */
 @Mapper
 public interface MetalOutMapper {
-    int deleteByPrimaryKey(String name);
+    int deleteByPrimaryKey(BigDecimal id);
 
     int insert(MetalOut record);
 
     int insertSelective(MetalOut record);
 
-    MetalOut selectByPrimaryKey(String name);
+    MetalOut selectByPrimaryKey(BigDecimal id);
 
     int updateByPrimaryKeySelective(MetalOut record);
 

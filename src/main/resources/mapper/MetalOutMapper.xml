@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.suruomo.material.dao.MetalOutMapper" >
   <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.MetalOut" >
-    <id column="NAME" property="name" jdbcType="VARCHAR" />
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
     <result column="TYPE_NAME" property="typeName" jdbcType="VARCHAR" />
     <result column="FAMILY" property="family" jdbcType="VARCHAR" />
     <result column="SPECIFICATION" property="specification" jdbcType="VARCHAR" />
@@ -26,14 +27,14 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    NAME, TYPE_NAME, FAMILY, SPECIFICATION, FORM, TEMPER, MAT_ID, RHO, BOOKS, AIRCRAFT, 
+    ID, NAME, TYPE_NAME, FAMILY, SPECIFICATION, FORM, TEMPER, MAT_ID, RHO, BOOKS, AIRCRAFT, 
     F_BRU, F_BRY, E, F_SU, E_C, F_CY, G, NU, F_TU, F_TY, A, REMARK
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
-    from "METAL"."METAL_OUTPUT"
-    where NAME = #{name,jdbcType=VARCHAR}
+    from  "METAL"."METAL_OUTPUT"
+    where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="getAll" resultType="com.suruomo.material.pojo.MetalOut">
  select * from (
@@ -44,31 +45,34 @@
     where rn >= #{start}
   </select>
   <select id="getCount" resultType="java.lang.Integer">
-    select count (*) from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{type}
+    select count (*) from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{queryType}
 </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from METAL_OUTPUT
-    where NAME = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.MetalOut" >
-    insert into METAL_OUTPUT (NAME, TYPE_NAME, FAMILY, 
-      SPECIFICATION, FORM, TEMPER, 
-      MAT_ID, RHO, BOOKS, 
-      AIRCRAFT, F_BRU, F_BRY, 
-      E, F_SU, E_C, F_CY, 
-      G, NU, F_TU, F_TY, 
-      A, REMARK)
-    values (#{name,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, #{family,jdbcType=VARCHAR}, 
-      #{specification,jdbcType=VARCHAR}, #{form,jdbcType=VARCHAR}, #{temper,jdbcType=VARCHAR}, 
-      #{matId,jdbcType=VARCHAR}, #{rho,jdbcType=DECIMAL}, #{books,jdbcType=VARCHAR}, 
-      #{aircraft,jdbcType=VARCHAR}, #{fBru,jdbcType=DECIMAL}, #{fBry,jdbcType=DECIMAL}, 
-      #{e,jdbcType=DECIMAL}, #{fSu,jdbcType=DECIMAL}, #{eC,jdbcType=DECIMAL}, #{fCy,jdbcType=DECIMAL}, 
-      #{g,jdbcType=DECIMAL}, #{nu,jdbcType=DECIMAL}, #{fTu,jdbcType=DECIMAL}, #{fTy,jdbcType=DECIMAL}, 
-      #{a,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR})
+    insert into METAL_OUTPUT (ID, NAME, TYPE_NAME, 
+      FAMILY, SPECIFICATION, FORM, 
+      TEMPER, MAT_ID, RHO, 
+      BOOKS, AIRCRAFT, F_BRU, 
+      F_BRY, E, F_SU, E_C, 
+      F_CY, G, NU, F_TU, 
+      F_TY, A, REMARK)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
+      #{family,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, #{form,jdbcType=VARCHAR}, 
+      #{temper,jdbcType=VARCHAR}, #{matId,jdbcType=VARCHAR}, #{rho,jdbcType=DECIMAL}, 
+      #{books,jdbcType=VARCHAR}, #{aircraft,jdbcType=VARCHAR}, #{fBru,jdbcType=DECIMAL}, 
+      #{fBry,jdbcType=DECIMAL}, #{e,jdbcType=DECIMAL}, #{fSu,jdbcType=DECIMAL}, #{eC,jdbcType=DECIMAL}, 
+      #{fCy,jdbcType=DECIMAL}, #{g,jdbcType=DECIMAL}, #{nu,jdbcType=DECIMAL}, #{fTu,jdbcType=DECIMAL}, 
+      #{fTy,jdbcType=DECIMAL}, #{a,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.MetalOut" >
     insert into METAL_OUTPUT
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
       <if test="name != null" >
         NAME,
       </if>
@@ -137,6 +141,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
@@ -208,6 +215,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.MetalOut" >
     update METAL_OUTPUT
     <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="typeName != null" >
         TYPE_NAME = #{typeName,jdbcType=VARCHAR},
       </if>
@@ -272,11 +282,12 @@
         REMARK = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
-    where NAME = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.MetalOut" >
     update METAL_OUTPUT
-    set TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+    set NAME = #{name,jdbcType=VARCHAR},
+      TYPE_NAME = #{typeName,jdbcType=VARCHAR},
       FAMILY = #{family,jdbcType=VARCHAR},
       SPECIFICATION = #{specification,jdbcType=VARCHAR},
       FORM = #{form,jdbcType=VARCHAR},
@@ -297,6 +308,6 @@
       F_TY = #{fTy,jdbcType=DECIMAL},
       A = #{a,jdbcType=DECIMAL},
       REMARK = #{remark,jdbcType=VARCHAR}
-    where NAME = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>
