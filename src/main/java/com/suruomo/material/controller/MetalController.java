@@ -116,7 +116,7 @@ public class MetalController {
         //获取输入流，
         InputStream bis = new BufferedInputStream(new FileInputStream(exportMat1.export(mat1)));
         //假如以中文名下载的话，设置下载文件名称
-        String filename = "导出MAT1卡片.bdf";
+        String filename = mat1.getID()+"导出MAT1卡片.bdf";
         //转码，免得文件名中文乱码
         filename = URLEncoder.encode(filename, "UTF-8");
         //设置文件下载头
