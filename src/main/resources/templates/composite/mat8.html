@@ -16,9 +16,9 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-                <legend><h2>金属导出MAT1卡片</h2></legend>
+                <legend><h2>复合导出MAT8卡片</h2></legend>
             </fieldset>
-            <form class="layui-form" th:action="@{/export/mat1}" method="post" id="form">
+            <form class="layui-form" th:action="@{/export/mat8}" method="post" id="form">
                 <div class="layui-form-item">
                     <fieldset class="layui-elem-field">
                         <legend><h6 style="color: #c82333">执行控制段</h6></legend>
@@ -28,7 +28,7 @@
                                         style="color: red;">*</span>ID</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="ID" class="layui-input"
-                                           th:value="'M'+${metal.id}" readOnly>
+                                           th:value="'C'+${composite.id}" readOnly>
                                 </div>
                             </div>
                             <div class="layui-inline">
@@ -49,7 +49,7 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label">TITLE</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="TITLE" class="layui-input" th:value="METAL" readOnly>
+                                    <input type="text" name="TITLE" class="layui-input" th:value="COMPOSITE" readOnly>
                                 </div>
                             </div>
                         </div>
@@ -62,80 +62,69 @@
                             <div class="layui-inline">
                                 <label class="layui-form-label"><span style="color: red; "></span>MID</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="MID" class="layui-input" th:value="${metal.matId}" readOnly>
-                                </div>
-                            </div>
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>标识号MCSID</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="MCSID" class="layui-input" th:value="不定义此数据" readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                            <div class="layui-inline">
-                                <label class="layui-form-label"><span style="color: red; "></span>剪切模量G</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="G" class="layui-input" th:value="${metal.g}" readOnly>
+                                    <input type="text" name="MID" class="layui-input" th:value="${composite.matId}" readOnly>
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <label class="layui-form-label"><span style="color: red; "></span>泊松比NU</label>
+                                <label class="layui-form-label"><span style="color: red; "></span>纵向弹性模量E1</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="NU" class="layui-input" th:value="${metal.nu}" readOnly>
+                                    <input type="text" name="E1" class="layui-input" th:value="${composite.e1}" readOnly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span style="color: red; "></span>纵向弹性模量E2</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E2" class="layui-input" th:value="${composite.e2}" readOnly>
                                 </div>
                             </div>
                             <div class="layui-inline">
                                 <label class="layui-form-label"><span style="color: red; "></span>质量密度RHO</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="RHO" class="layui-input" th:value="${metal.rho}"
+                                    <input type="text" name="RHO" class="layui-input" th:value="${composite.rho}"
                                            readOnly>
                                 </div>
                             </div>
                             <div class="layui-inline">
-                                <label class="layui-form-label"><span style="color: red; "></span>热膨胀系数A</label>
+                                <label class="layui-form-label"><span style="color: red; "></span>泊松比NU12</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="A" class="layui-input" th:value="${metal.a}" readOnly>
+                                    <input type="text" name="NU12" class="layui-input" th:value="${composite.nu12}" readOnly>
                                 </div>
                             </div>
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>参考温度TREF</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="TREF" class="layui-input" th:value="缺省值0.0"-->
-<!--                                           readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>结构单元阻尼系数GE</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="GE" class="layui-input" th:value="不定义此数据" readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="layui-inline">
-                                <label class="layui-form-label"><span style="color: red; "></span>拉伸应力极限ST</label>
+                                <label class="layui-form-label"><span style="color: red; "></span>面内剪切模量G12</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="ST" class="layui-input" th:value="${metal.fTu}" readOnly>
+                                    <input type="text" name="G12" class="layui-input" th:value="${composite.g12}"
+                                           readOnly>
                                 </div>
                             </div>
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>压缩应力极限SC</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="SC" class="layui-input" th:value="暂无此数据" readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="layui-inline">
-                                <label class="layui-form-label"><span style="color: red; "></span>剪切应力极限SS</label>
+                                <label class="layui-form-label"><span style="color: red; "></span>1Z平面受剪切模量G1Z</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="SS" class="layui-input" th:value="${metal.fSu}" readOnly>
+                                    <input type="text" name="G1Z" class="layui-input" th:value="${composite.g1z}" readOnly>
                                 </div>
                             </div>
-
                             <div class="layui-inline">
-                                <label class="layui-form-label"><span style="color: red; "></span>弹性模量E</label>
+                                <label class="layui-form-label"><span style="color: red; "></span>2Z平面受剪切模量G2Z</label>
                                 <div class="layui-input-block">
-                                    <select name="E" lay-verify="">
-                                        <option th:value="${metal.e}">拉伸[[${metal.e}]]</option>
-                                        <option th:value="${metal.eC}">压缩[[${metal.eC}]]</option>
-                                        <option th:value="${(metal.e+metal.eC)/2}">平均值[[${(metal.e+metal.eC)/2}]]</option>
-                                    </select>
+                                    <input type="text" name="G2Z" class="layui-input" th:value="${composite.g2z}" readOnly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span style="color: red; "></span>1方向热膨胀系数A1</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="A1" class="layui-input" th:value="${composite.a}" readOnly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span style="color: red; "></span>2方向热膨胀系数A2</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="A2" class="layui-input" th:value="${composite.a}" readOnly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label"><span style="color: red; "></span>参考温度TREF</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="TREF" class="layui-input" th:value="${composite.temperature}" readOnly>
                                 </div>
                             </div>
                         </div>

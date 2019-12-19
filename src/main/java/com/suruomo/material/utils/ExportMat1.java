@@ -26,7 +26,7 @@ public class ExportMat1 {
             bufferedWriter.write("BEGIN BULK\n");
             //模型数据集
             bufferedWriter.write("MAT1,"+mat1.getMID()+","+mat1.getE()+","+mat1.getG()+","+mat1.getNU()+","+mat1.getRHO()+","+mat1.getA()+"\n");
-            bufferedWriter.write("    ,"+mat1.getST()+","+mat1.getSC()+","+mat1.getSS()+"\n");
+            bufferedWriter.write("        ,"+mat1.getST()+","+mat1.getSC()+","+mat1.getSS()+"\n");
             //文件结束
             bufferedWriter.write("ENDDATA");
         } catch (Exception e) {

@@ -22,12 +22,11 @@
         <table class="layui-hide" style="margin-top:15px;" id="idTest" lay-filter="demo">
         </table>
     </div>
-    <input type="hidden" id="type" name="type" th:value="${type} "/>
     <!--引入footer-->
     <div th:replace="commons/bar::footer"></div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="export">导出MAT1</a>
+    <a class="layui-btn layui-btn-xs" lay-event="export">导出MAT8</a>
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -40,29 +39,30 @@
         var $ = layui.jquery;
         var table = layui.table;
         var element = layui.element;
-        var type =$("#type").val()
         //初始化
         table.render({
             elem: '#idTest'
-            , url: '/metals/'+type
+            , url: '/composites'
             , method: "get"
             , page: true    //true表示分页
-            , title: '金属信息'
+            , title: '复合信息'
             , id: 'list'
             , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                   {field: 'family', width: 120, title: '材料系列', sort: true}
-                    , {field: 'books', width: 100, title: '来源'}
-                    , {field: 'aircraft', width: 100, title: '飞机'}
-                    , {field: 'e',width: 150, title: '拉伸杨氏模量', sort: true}
-                    , {field: 'eC',width: 150, title: '压缩杨氏模量', sort: true}
-                    , {field: 'fSu',width: 150, title: '剪切应力极限', sort: true}
-                    , {field: 'fCy', width: 150,title: '压缩屈服', sort: true}
-                    , {field: 'fTu', width: 150,title: '拉伸应力极限', sort: true}
-                    , {field: 'g', width: 150,title: '剪切模量', sort: true}
-                    , {field: 'nu',width: 100, title: '泊松比', sort: true}
+                   {field: 'name', width: 120, title: '名称', sort: true}
+                    , {field: 'matId', width: 100, title: '材料卡编号'}
+                    , {field: 'aircraft', width: 70, title: '机型'}
+                    , {field: 'rho',width: 100, title: '密度', sort: true}
+                    , {field: 'thickness',width: 80, title: '厚度', sort: true}
+                    , {field: 'a',width: 120, title: '热膨胀系数', sort: true}
+                    , {field: 'e1',width: 80, title: 'E1', sort: true}
+                    , {field: 'e2', width: 80,title: 'E2', sort: true}
+                    , {field: 'nu12', width: 100,title: 'NU12', sort: true}
+                    , {field: 'g12', width: 100,title: 'G12', sort: true}
+                    , {field: 'g1z', width: 100,title: 'G1Z', sort: true}
+                    , {field: 'g2z', width: 100,title: 'G2Z', sort: true}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120}
                 ]
             ]
@@ -93,7 +93,7 @@
                 });
             } else {
                 // layer.alert('编辑行：<br>' + JSON.stringify(data));
-                window.location.href = "/metal/export/" + data.id;
+                window.location.href = "/composite/export/" + data.id;
             }
         });
         //监听顶部操作工具条

@@ -43,7 +43,7 @@
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
-                <a th:href="@{/users}">复合材料</a>
+                <a th:href="@{/composite}">复合材料</a>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
                 <a th:href="@{/users}">铺层</a>
@@ -69,7 +69,11 @@
         </button>
     </div>
 </div>
-
+<!--footer-->
+<<div class="layui-footer" th:fragment="footer">
+    <!-- 底部固定区域 -->
+    © 西北工业大学 - 联系电话：88888888
+</div>
 <!-- Icons -->
 <script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
 <script>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.CompositeOutMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.CompositeOut" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MAT_ID" property="matId" jdbcType="VARCHAR" />
+    <result column="TEMPERATURE" property="temperature" jdbcType="DECIMAL" />
+    <result column="THICKNESS" property="thickness" jdbcType="DECIMAL" />
+    <result column="RHO" property="rho" jdbcType="DECIMAL" />
+    <result column="AIRCRAFT" property="aircraft" jdbcType="VARCHAR" />
+    <result column="E1" property="e1" jdbcType="DECIMAL" />
+    <result column="E2" property="e2" jdbcType="DECIMAL" />
+    <result column="NU12" property="nu12" jdbcType="DECIMAL" />
+    <result column="G12" property="g12" jdbcType="DECIMAL" />
+    <result column="G1Z" property="g1z" jdbcType="DECIMAL" />
+    <result column="G2Z" property="g2z" jdbcType="DECIMAL" />
+    <result column="A" property="a" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, MAT_ID, TEMPERATURE, THICKNESS, RHO, AIRCRAFT, E1, E2, NU12, G12, G1Z, 
+    G2Z, A, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAL"."COMPOSITE_OUTPUT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.CompositeOut">
+ select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."COMPOSITE_OUTPUT") a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count (*) from "METAL"."COMPOSITE_OUTPUT"
+</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from COMPOSITE_OUTPUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.CompositeOut" >
+    insert into COMPOSITE_OUTPUT (ID, NAME, MAT_ID, 
+      TEMPERATURE, THICKNESS, RHO, 
+      AIRCRAFT, E1, E2, NU12, 
+      G12, G1Z, G2Z, A, 
+      REMARK)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{matId,jdbcType=VARCHAR}, 
+      #{temperature,jdbcType=DECIMAL}, #{thickness,jdbcType=DECIMAL}, #{rho,jdbcType=DECIMAL}, 
+      #{aircraft,jdbcType=VARCHAR}, #{e1,jdbcType=DECIMAL}, #{e2,jdbcType=DECIMAL}, #{nu12,jdbcType=DECIMAL}, 
+      #{g12,jdbcType=DECIMAL}, #{g1z,jdbcType=DECIMAL}, #{g2z,jdbcType=DECIMAL}, #{a,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.CompositeOut" >
+    insert into COMPOSITE_OUTPUT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="matId != null" >
+        MAT_ID,
+      </if>
+      <if test="temperature != null" >
+        TEMPERATURE,
+      </if>
+      <if test="thickness != null" >
+        THICKNESS,
+      </if>
+      <if test="rho != null" >
+        RHO,
+      </if>
+      <if test="aircraft != null" >
+        AIRCRAFT,
+      </if>
+      <if test="e1 != null" >
+        E1,
+      </if>
+      <if test="e2 != null" >
+        E2,
+      </if>
+      <if test="nu12 != null" >
+        NU12,
+      </if>
+      <if test="g12 != null" >
+        G12,
+      </if>
+      <if test="g1z != null" >
+        G1Z,
+      </if>
+      <if test="g2z != null" >
+        G2Z,
+      </if>
+      <if test="a != null" >
+        A,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="matId != null" >
+        #{matId,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=DECIMAL},
+      </if>
+      <if test="thickness != null" >
+        #{thickness,jdbcType=DECIMAL},
+      </if>
+      <if test="rho != null" >
+        #{rho,jdbcType=DECIMAL},
+      </if>
+      <if test="aircraft != null" >
+        #{aircraft,jdbcType=VARCHAR},
+      </if>
+      <if test="e1 != null" >
+        #{e1,jdbcType=DECIMAL},
+      </if>
+      <if test="e2 != null" >
+        #{e2,jdbcType=DECIMAL},
+      </if>
+      <if test="nu12 != null" >
+        #{nu12,jdbcType=DECIMAL},
+      </if>
+      <if test="g12 != null" >
+        #{g12,jdbcType=DECIMAL},
+      </if>
+      <if test="g1z != null" >
+        #{g1z,jdbcType=DECIMAL},
+      </if>
+      <if test="g2z != null" >
+        #{g2z,jdbcType=DECIMAL},
+      </if>
+      <if test="a != null" >
+        #{a,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.CompositeOut" >
+    update COMPOSITE_OUTPUT
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="matId != null" >
+        MAT_ID = #{matId,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        TEMPERATURE = #{temperature,jdbcType=DECIMAL},
+      </if>
+      <if test="thickness != null" >
+        THICKNESS = #{thickness,jdbcType=DECIMAL},
+      </if>
+      <if test="rho != null" >
+        RHO = #{rho,jdbcType=DECIMAL},
+      </if>
+      <if test="aircraft != null" >
+        AIRCRAFT = #{aircraft,jdbcType=VARCHAR},
+      </if>
+      <if test="e1 != null" >
+        E1 = #{e1,jdbcType=DECIMAL},
+      </if>
+      <if test="e2 != null" >
+        E2 = #{e2,jdbcType=DECIMAL},
+      </if>
+      <if test="nu12 != null" >
+        NU12 = #{nu12,jdbcType=DECIMAL},
+      </if>
+      <if test="g12 != null" >
+        G12 = #{g12,jdbcType=DECIMAL},
+      </if>
+      <if test="g1z != null" >
+        G1Z = #{g1z,jdbcType=DECIMAL},
+      </if>
+      <if test="g2z != null" >
+        G2Z = #{g2z,jdbcType=DECIMAL},
+      </if>
+      <if test="a != null" >
+        A = #{a,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.CompositeOut" >
+    update COMPOSITE_OUTPUT
+    set NAME = #{name,jdbcType=VARCHAR},
+      MAT_ID = #{matId,jdbcType=VARCHAR},
+      TEMPERATURE = #{temperature,jdbcType=DECIMAL},
+      THICKNESS = #{thickness,jdbcType=DECIMAL},
+      RHO = #{rho,jdbcType=DECIMAL},
+      AIRCRAFT = #{aircraft,jdbcType=VARCHAR},
+      E1 = #{e1,jdbcType=DECIMAL},
+      E2 = #{e2,jdbcType=DECIMAL},
+      NU12 = #{nu12,jdbcType=DECIMAL},
+      G12 = #{g12,jdbcType=DECIMAL},
+      G1Z = #{g1z,jdbcType=DECIMAL},
+      G2Z = #{g2z,jdbcType=DECIMAL},
+      A = #{a,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
