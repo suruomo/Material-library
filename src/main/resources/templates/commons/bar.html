@@ -37,13 +37,23 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a class="" href="javascript:;">金属材料</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;铝</a> </dd>
-                    <dd><a th:href="@{/metal/steel}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钢</a> </dd>
-                    <dd><a th:href="@{/metal/titanium}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钛</a> </dd>
+                    <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a> </dd>
+                    <dd>
+                        <a href="javascript:;" ><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a>
+                        <dl class="layui-nav-child">
+                            <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;铝</a> </dd>
+                            <dd><a th:href="@{/metal/steel}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钢</a> </dd>
+                            <dd><a th:href="@{/metal/titanium}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钛</a> </dd>
+                        </dl>
+                    </dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
-                <a th:href="@{/composite}">复合材料</a>
+                <a href="javascript:;">复合材料</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a> </dd>
+                    <dd><a th:href="@{/composite}" ><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a></dd>
+                </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
                 <a th:href="@{/users}">铺层</a>
