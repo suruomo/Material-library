@@ -3,6 +3,7 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.suruomo.material.dao.MetalInputMapper;
 import com.suruomo.material.dao.MetalOutMapper;
 import com.suruomo.material.dto.Mat1;
 import com.suruomo.material.pojo.MetalOut;
@@ -27,7 +28,16 @@ import java.util.Map;
 public class MetalController {
     @Resource
     MetalOutMapper metalOutMapper;
-
+    @Resource
+    MetalInputMapper metalInputMapper;
+    /**
+     * 跳转原始数据列表页面
+     * @return
+     */
+    @GetMapping("/metal/rawdata")
+    public String rawDatas() {
+        return "metal/all";
+    }
     /**
      * 跳转所有铝数据列表页面
      * @return
@@ -55,6 +65,34 @@ public class MetalController {
         model.addAttribute("type","titanium");
         return "metal/list";
     }
+    /**
+     * 返回查询金属数据
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/metals")
+    public Map<String, Object> mentals(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<MetalOut> users = metalInputMapper.getAll(start, end);
+        int count = metalInputMapper.getCount();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(users);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
+
 
     /**
      * 返回查询金属数据
