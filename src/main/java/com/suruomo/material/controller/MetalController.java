@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suruomo.material.dao.MetalInputMapper;
 import com.suruomo.material.dao.MetalOutMapper;
 import com.suruomo.material.dto.Mat1;
+import com.suruomo.material.pojo.MetalInput;
 import com.suruomo.material.pojo.MetalOut;
 import com.suruomo.material.utils.ExportMat1;
 import net.sf.json.JSONArray;
@@ -131,7 +132,17 @@ public class MetalController {
         map.put("count", count);
         return map;
     }
+    /**
+     * 跳转至金属信息页面
+     * @return
+     */
 
+    @GetMapping("/metal/{id}")
+    public String info(@PathVariable String id, Model model) {
+        MetalInput metalInput=metalInputMapper.selectByPrimaryKey(new BigDecimal(id));
+        model.addAttribute("metal",metalInput);
+        return "metal/info";
+    }
     /**
      * 跳转至导出MAT1页面
      * @return
