@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.CompositeInputMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.CompositeInput" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PARAMETER" property="parameter" jdbcType="VARCHAR" />
+    <result column="CONDITION" property="condition" jdbcType="VARCHAR" />
+    <result column="VALUE" property="value" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, PARAMETER, CONDITION, VALUE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAL"."COMPOSITE_INPUT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.CompositeInput">
+ select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."COMPOSITE_INPUT") a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count (*) from "METAL"."COMPOSITE_INPUT"
+</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from COMPOSITE_INPUT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.CompositeInput" >
+    insert into COMPOSITE_INPUT (ID, NAME, PARAMETER, 
+      CONDITION, VALUE)
+    values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{parameter,jdbcType=VARCHAR}, 
+      #{condition,jdbcType=VARCHAR}, #{value,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.CompositeInput" >
+    insert into COMPOSITE_INPUT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="parameter != null" >
+        PARAMETER,
+      </if>
+      <if test="condition != null" >
+        CONDITION,
+      </if>
+      <if test="value != null" >
+        VALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parameter != null" >
+        #{parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="condition != null" >
+        #{condition,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.CompositeInput" >
+    update COMPOSITE_INPUT
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parameter != null" >
+        PARAMETER = #{parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="condition != null" >
+        CONDITION = #{condition,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        VALUE = #{value,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.CompositeInput" >
+    update COMPOSITE_INPUT
+    set NAME = #{name,jdbcType=VARCHAR},
+      PARAMETER = #{parameter,jdbcType=VARCHAR},
+      CONDITION = #{condition,jdbcType=VARCHAR},
+      VALUE = #{value,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

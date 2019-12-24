@@ -3,8 +3,10 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.suruomo.material.dao.CompositeInputMapper;
 import com.suruomo.material.dao.CompositeOutMapper;
 import com.suruomo.material.dto.Mat8;
+import com.suruomo.material.pojo.CompositeInput;
 import com.suruomo.material.pojo.CompositeOut;
 import com.suruomo.material.utils.ExportMat8;
 import net.sf.json.JSONArray;
@@ -28,7 +30,16 @@ import java.util.Map;
 public class CompositeController {
     @Resource
     CompositeOutMapper compositeOutMapper;
-
+    @Resource
+    CompositeInputMapper compositeInputMapper;
+    /**
+     * 跳转原始数据列表页面
+     * @return
+     */
+    @GetMapping("/composite/rawdata")
+    public String rawDatas() {
+        return "composite/all";
+    }
     /**
      * 跳转所有复合数据列表页面
      * @return
@@ -38,7 +49,35 @@ public class CompositeController {
         return "composite/list";
     }
     /**
-     * 返回查询复合数据
+     * 返回查询金全部复合数据
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/compositerawdatas")
+    public Map<String, Object> composites(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<CompositeInput> users = compositeInputMapper.getAll(start, end);
+        int count = compositeInputMapper.getCount();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(users);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
+
+    /**
+     * 返回查询导出材料卡复合数据
      * @param page
      * @param limit
      * @return

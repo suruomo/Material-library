@@ -189,10 +189,8 @@
         </div>
     </div>
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
-    </div>
+    <!--引入footer-->
+    <div th:replace="commons/bar::footer"></div>
 </div>
 <script>
     layui.use(['form', 'layedit', 'laydate', 'jquery', 'element'], function () {

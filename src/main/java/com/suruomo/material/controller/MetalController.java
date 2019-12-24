@@ -67,7 +67,7 @@ public class MetalController {
         return "metal/list";
     }
     /**
-     * 返回查询金属数据
+     * 返回查询全部金属数据
      * @param page
      * @param limit
      * @return
@@ -96,7 +96,7 @@ public class MetalController {
 
 
     /**
-     * 返回查询金属数据
+     * 返回查询导出材料卡金属数据
      * @param page
      * @param limit
      * @return
