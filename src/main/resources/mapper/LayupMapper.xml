@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.LayupMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.Layup" >
+    <id column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="MID" property="mid" jdbcType="VARCHAR" />
+    <result column="T" property="t" jdbcType="DECIMAL" />
+    <result column="PLY" property="ply" jdbcType="VARCHAR" />
+    <result column="SYMMETRY" property="symmetry" jdbcType="VARCHAR" />
+    <result column="BALANCE" property="balance" jdbcType="VARCHAR" />
+    <result column="EXX" property="exx" jdbcType="DECIMAL" />
+    <result column="EYY" property="eyy" jdbcType="DECIMAL" />
+    <result column="GXY" property="gxy" jdbcType="DECIMAL" />
+    <result column="NUXY" property="nuxy" jdbcType="DECIMAL" />
+    <result column="NUYX" property="nuyx" jdbcType="DECIMAL" />
+    <result column="A11" property="a11" jdbcType="DECIMAL" />
+    <result column="A22" property="a22" jdbcType="DECIMAL" />
+    <result column="A12" property="a12" jdbcType="DECIMAL" />
+    <result column="A66" property="a66" jdbcType="DECIMAL" />
+    <result column="D11" property="d11" jdbcType="DECIMAL" />
+    <result column="D22" property="d22" jdbcType="DECIMAL" />
+    <result column="D12" property="d12" jdbcType="DECIMAL" />
+    <result column="D66" property="d66" jdbcType="DECIMAL" />
+    <result column="PCOMP" property="pcomp" jdbcType="VARCHAR" />
+    <result column="AIRCRAFT" property="aircraft" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    NAME, MID, T, PLY, SYMMETRY, BALANCE, EXX, EYY, GXY, NUXY, NUYX, A11, A22, A12, A66, 
+    D11, D22, D12, D66, PCOMP, AIRCRAFT, REMARK
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAL"."LAYUP"
+    where NAME = #{name,jdbcType=VARCHAR}
+  </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.Layup">
+ select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."LAYUP") a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count (*) from "METAL"."LAYUP"
+</select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LAYUP
+    where NAME = #{name,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.Layup" >
+    insert into LAYUP (NAME, MID, T, 
+      PLY, SYMMETRY, BALANCE, 
+      EXX, EYY, GXY, NUXY, 
+      NUYX, A11, A22, A12, 
+      A66, D11, D22, D12, 
+      D66, PCOMP, AIRCRAFT, 
+      REMARK)
+    values (#{name,jdbcType=VARCHAR}, #{mid,jdbcType=VARCHAR}, #{t,jdbcType=DECIMAL}, 
+      #{ply,jdbcType=VARCHAR}, #{symmetry,jdbcType=VARCHAR}, #{balance,jdbcType=VARCHAR}, 
+      #{exx,jdbcType=DECIMAL}, #{eyy,jdbcType=DECIMAL}, #{gxy,jdbcType=DECIMAL}, #{nuxy,jdbcType=DECIMAL}, 
+      #{nuyx,jdbcType=DECIMAL}, #{a11,jdbcType=DECIMAL}, #{a22,jdbcType=DECIMAL}, #{a12,jdbcType=DECIMAL}, 
+      #{a66,jdbcType=DECIMAL}, #{d11,jdbcType=DECIMAL}, #{d22,jdbcType=DECIMAL}, #{d12,jdbcType=DECIMAL}, 
+      #{d66,jdbcType=DECIMAL}, #{pcomp,jdbcType=VARCHAR}, #{aircraft,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.Layup" >
+    insert into LAYUP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="mid != null" >
+        MID,
+      </if>
+      <if test="t != null" >
+        T,
+      </if>
+      <if test="ply != null" >
+        PLY,
+      </if>
+      <if test="symmetry != null" >
+        SYMMETRY,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="exx != null" >
+        EXX,
+      </if>
+      <if test="eyy != null" >
+        EYY,
+      </if>
+      <if test="gxy != null" >
+        GXY,
+      </if>
+      <if test="nuxy != null" >
+        NUXY,
+      </if>
+      <if test="nuyx != null" >
+        NUYX,
+      </if>
+      <if test="a11 != null" >
+        A11,
+      </if>
+      <if test="a22 != null" >
+        A22,
+      </if>
+      <if test="a12 != null" >
+        A12,
+      </if>
+      <if test="a66 != null" >
+        A66,
+      </if>
+      <if test="d11 != null" >
+        D11,
+      </if>
+      <if test="d22 != null" >
+        D22,
+      </if>
+      <if test="d12 != null" >
+        D12,
+      </if>
+      <if test="d66 != null" >
+        D66,
+      </if>
+      <if test="pcomp != null" >
+        PCOMP,
+      </if>
+      <if test="aircraft != null" >
+        AIRCRAFT,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="t != null" >
+        #{t,jdbcType=DECIMAL},
+      </if>
+      <if test="ply != null" >
+        #{ply,jdbcType=VARCHAR},
+      </if>
+      <if test="symmetry != null" >
+        #{symmetry,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=VARCHAR},
+      </if>
+      <if test="exx != null" >
+        #{exx,jdbcType=DECIMAL},
+      </if>
+      <if test="eyy != null" >
+        #{eyy,jdbcType=DECIMAL},
+      </if>
+      <if test="gxy != null" >
+        #{gxy,jdbcType=DECIMAL},
+      </if>
+      <if test="nuxy != null" >
+        #{nuxy,jdbcType=DECIMAL},
+      </if>
+      <if test="nuyx != null" >
+        #{nuyx,jdbcType=DECIMAL},
+      </if>
+      <if test="a11 != null" >
+        #{a11,jdbcType=DECIMAL},
+      </if>
+      <if test="a22 != null" >
+        #{a22,jdbcType=DECIMAL},
+      </if>
+      <if test="a12 != null" >
+        #{a12,jdbcType=DECIMAL},
+      </if>
+      <if test="a66 != null" >
+        #{a66,jdbcType=DECIMAL},
+      </if>
+      <if test="d11 != null" >
+        #{d11,jdbcType=DECIMAL},
+      </if>
+      <if test="d22 != null" >
+        #{d22,jdbcType=DECIMAL},
+      </if>
+      <if test="d12 != null" >
+        #{d12,jdbcType=DECIMAL},
+      </if>
+      <if test="d66 != null" >
+        #{d66,jdbcType=DECIMAL},
+      </if>
+      <if test="pcomp != null" >
+        #{pcomp,jdbcType=VARCHAR},
+      </if>
+      <if test="aircraft != null" >
+        #{aircraft,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.Layup" >
+    update LAYUP
+    <set >
+      <if test="mid != null" >
+        MID = #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="t != null" >
+        T = #{t,jdbcType=DECIMAL},
+      </if>
+      <if test="ply != null" >
+        PLY = #{ply,jdbcType=VARCHAR},
+      </if>
+      <if test="symmetry != null" >
+        SYMMETRY = #{symmetry,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=VARCHAR},
+      </if>
+      <if test="exx != null" >
+        EXX = #{exx,jdbcType=DECIMAL},
+      </if>
+      <if test="eyy != null" >
+        EYY = #{eyy,jdbcType=DECIMAL},
+      </if>
+      <if test="gxy != null" >
+        GXY = #{gxy,jdbcType=DECIMAL},
+      </if>
+      <if test="nuxy != null" >
+        NUXY = #{nuxy,jdbcType=DECIMAL},
+      </if>
+      <if test="nuyx != null" >
+        NUYX = #{nuyx,jdbcType=DECIMAL},
+      </if>
+      <if test="a11 != null" >
+        A11 = #{a11,jdbcType=DECIMAL},
+      </if>
+      <if test="a22 != null" >
+        A22 = #{a22,jdbcType=DECIMAL},
+      </if>
+      <if test="a12 != null" >
+        A12 = #{a12,jdbcType=DECIMAL},
+      </if>
+      <if test="a66 != null" >
+        A66 = #{a66,jdbcType=DECIMAL},
+      </if>
+      <if test="d11 != null" >
+        D11 = #{d11,jdbcType=DECIMAL},
+      </if>
+      <if test="d22 != null" >
+        D22 = #{d22,jdbcType=DECIMAL},
+      </if>
+      <if test="d12 != null" >
+        D12 = #{d12,jdbcType=DECIMAL},
+      </if>
+      <if test="d66 != null" >
+        D66 = #{d66,jdbcType=DECIMAL},
+      </if>
+      <if test="pcomp != null" >
+        PCOMP = #{pcomp,jdbcType=VARCHAR},
+      </if>
+      <if test="aircraft != null" >
+        AIRCRAFT = #{aircraft,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where NAME = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.Layup" >
+    update LAYUP
+    set MID = #{mid,jdbcType=VARCHAR},
+      T = #{t,jdbcType=DECIMAL},
+      PLY = #{ply,jdbcType=VARCHAR},
+      SYMMETRY = #{symmetry,jdbcType=VARCHAR},
+      BALANCE = #{balance,jdbcType=VARCHAR},
+      EXX = #{exx,jdbcType=DECIMAL},
+      EYY = #{eyy,jdbcType=DECIMAL},
+      GXY = #{gxy,jdbcType=DECIMAL},
+      NUXY = #{nuxy,jdbcType=DECIMAL},
+      NUYX = #{nuyx,jdbcType=DECIMAL},
+      A11 = #{a11,jdbcType=DECIMAL},
+      A22 = #{a22,jdbcType=DECIMAL},
+      A12 = #{a12,jdbcType=DECIMAL},
+      A66 = #{a66,jdbcType=DECIMAL},
+      D11 = #{d11,jdbcType=DECIMAL},
+      D22 = #{d22,jdbcType=DECIMAL},
+      D12 = #{d12,jdbcType=DECIMAL},
+      D66 = #{d66,jdbcType=DECIMAL},
+      PCOMP = #{pcomp,jdbcType=VARCHAR},
+      AIRCRAFT = #{aircraft,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR}
+    where NAME = #{name,jdbcType=VARCHAR}
+  </update>
+</mapper>
