@@ -7,7 +7,9 @@ import com.suruomo.material.dao.LayupMapper;
 import com.suruomo.material.pojo.Layup;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -58,6 +60,18 @@ public class LayupController {
         map.put("data", json);
         map.put("count", count);
         return map;
+    }
+
+    /**
+     * 跳转至导出PCOMP页面
+     * @return
+     */
+
+    @GetMapping("/layup/export/{id}")
+    public String mat(@PathVariable String id, Model model) {
+        Layup layup=layupMapper.selectByPrimaryKey(id);
+        model.addAttribute("layup",layup);
+        return "layup/pcomp";
     }
 
 }
