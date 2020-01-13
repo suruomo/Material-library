@@ -11,7 +11,7 @@
     <!--引入topbar-->
     <div th:replace="commons/bar::topbar"></div>
     <!--引入sidebar-->
-    <div th:replace="commons/bar::sidebar"></div>
+<!--    <div th:replace="commons/bar::sidebar"></div>-->
     <div class="layui-body" style="padding: 25px;border:20px;">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
@@ -128,9 +128,6 @@
         form.render();
         //监听提交
         form.on('submit(demo1)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
             form.submit();
             return false;
         });

@@ -11,7 +11,7 @@
     <!--引入topbar-->
     <div th:replace="commons/bar::topbar"></div>
     <!--引入sidebar-->
-    <div th:replace="commons/bar::sidebar"></div>
+<!--    <div th:replace="commons/bar::sidebar"></div>-->
     <div class="layui-body" style="padding: 25px;border:20px;">
         <!-- 内容主体区域 -->
         <div class="layui-btn-group demoTable" style="margin-top:20px;">
@@ -64,7 +64,7 @@
                     , {field: 'fTy', width: 80,title: 'F_TY', sort: true}
                     , {field: 'g', width: 80,title: 'G', sort: true}
                     , {field: 'nu',width: 100, title: 'NU', sort: true}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]
             ]
         });

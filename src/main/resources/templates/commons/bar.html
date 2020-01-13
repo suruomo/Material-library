@@ -9,17 +9,45 @@
 </head>
 <body>
 <!--topbar-->
-<div class="layui-header" th:fragment="topbar">
+<div class="layui-header" th:fragment="topbar" >
     <div class="layui-logo">结构强度材料性能库</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
-    <a>
-        <div class="layuimini-tool"><i title="展开" class="fa fa-outdent" data-side-fold="1"></i></div>
-    </a>
+    <ul class="layui-nav layui-layout-left">
+        <li class="layui-nav-item"><a th:href="@{/main}">首页</a></li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">金属材料</a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                </dd>
+                <dd>
+                    <dl >
+                        <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出铝</a></dd>
+                        <dd><a th:href="@{/metal/steel}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出钢</a></dd>
+                        <dd><a th:href="@{/metal/titanium}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出钛</a></dd>
+                    </dl>
+                </dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a href="javascript:;">复合材料</a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/composite/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                </dd>
+                <dd><a th:href="@{/composite}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item">
+            <a th:href="@{/layups}">铺层</a>
+        </li>
+        <li class="layui-nav-item">
+            <a th:href="@{/users}">型材</a>
+        </li>
+    </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
             <a href="javascript:;">
                 <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-              [[${session.user.userName}]]
+                [[${session.user.userName}]]
             </a>
             <dl class="layui-nav-child">
                 <dd><a href="">基本资料</a></dd>
@@ -37,13 +65,18 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a class="" href="javascript:;">金属材料</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a> </dd>
+                    <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                    </dd>
                     <dd>
-                        <a href="javascript:;" ><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a>
+                        <a href="javascript:;"><i class="layui-icon "
+                                                  style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a>
                         <dl class="layui-nav-child">
-                            <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;铝</a> </dd>
-                            <dd><a th:href="@{/metal/steel}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钢</a> </dd>
-                            <dd><a th:href="@{/metal/titanium}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钛</a> </dd>
+                            <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon "
+                                                                   style="font-size:18px;">&#xe656;</i>&nbsp;铝</a></dd>
+                            <dd><a th:href="@{/metal/steel}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钢</a>
+                            </dd>
+                            <dd><a th:href="@{/metal/titanium}"><i class="layui-icon "
+                                                                   style="font-size:18px;">&#xe656;</i>&nbsp;钛</a></dd>
                         </dl>
                     </dd>
                 </dl>
@@ -51,8 +84,10 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">复合材料</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/composite/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a> </dd>
-                    <dd><a th:href="@{/composite}" ><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a></dd>
+                    <dd><a th:href="@{/composite/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                    </dd>
+                    <dd><a th:href="@{/composite}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a>
+                    </dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
@@ -80,7 +115,8 @@
     </div>
 </div>
 <!--footer-->
-<<div class="layui-footer" th:fragment="footer">
+<
+<div class="layui-footer" th:fragment="footer">
     <!-- 底部固定区域 -->
     © 西北工业大学 - 联系电话：88888888
 </div>
@@ -89,6 +125,17 @@
 <script>
     feather.replace()
 </script>
-
+<script>
+    //JavaScript代码区域
+    layui.use(['element','jquery'], function(){
+        var element = layui.element,$=layui.jquery;
+        $(".layui-nav-third-child").hide();
+        $(".third-class").on('mouseover',function () {
+            $(".layui-nav-third-child").hide();
+            $(this).next().show();
+        });
+        element.init();
+    });
+</script>
 </body>
 </html>
