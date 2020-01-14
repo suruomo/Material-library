@@ -10,7 +10,6 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -116,8 +115,8 @@ public class LoginController {
     }
     @GetMapping(value = {"/main"})
     public String index(HttpServletRequest request,Model model) {
-        User user= SecurityUtils.getSubject().getPrincipals().oneByType(User.class);
-        request.getSession().setAttribute("user",user);
+//        User user= SecurityUtils.getSubject().getPrincipals().oneByType(User.class);
+//        request.getSession().setAttribute("user",user);
         return "main";
     }
 

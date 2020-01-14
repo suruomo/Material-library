@@ -44,17 +44,25 @@
         </li>
     </ul>
     <ul class="layui-nav layui-layout-right">
-        <li class="layui-nav-item">
+        <li class="layui-nav-item" th:if="${session.user}!=null">
             <a href="javascript:;">
                 <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
                 [[${session.user.userName}]]
             </a>
             <dl class="layui-nav-child">
                 <dd><a href="">基本资料</a></dd>
-                <dd><a href="">安全设置</a></dd>
+                <dd><a href="">修改密码</a></dd>
+                <dd><a th:href="@{/user/exit}">退出登录</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item"><a th:href="@{/user/exit}">退出登录</a></li>
+        <li class="layui-nav-item" th:if="${session.user}==null">
+            <a th:href="@{/}"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                登录</a>
+        </li>
+        <li class="layui-nav-item" th:if="${session.user}==null">
+            <a th:href="@{/}">
+                注册</a>
+        </li>
     </ul>
 </div>
 <!--sidebar-->

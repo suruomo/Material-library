@@ -43,6 +43,7 @@ public class ShiroConfig {
         filterMap.put("/index", "anon");
         filterMap.put("/doLogin", "anon");
         filterMap.put("/verifycode", "anon");
+        filterMap.put("/main", "anon");
         //授权过滤器:放在所有拦截的上面，否则无效
         //注意：当前授权拦截后，shiro会自动跳转到未授权页面
 //        filterMap.put("/add", "perms[user:add]");
