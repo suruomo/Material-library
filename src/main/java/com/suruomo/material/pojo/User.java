@@ -22,6 +22,8 @@ public class User implements Serializable {
 
     private String updateBy;
 
+    private String token;
+
     private static final long serialVersionUID = 1L;
 
     public String getUserId() {
@@ -96,6 +98,14 @@ public class User implements Serializable {
         this.updateBy = updateBy == null ? null : updateBy.trim();
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token == null ? null : token.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -116,7 +126,8 @@ public class User implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
-            && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()));
+            && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
+            && (this.getToken() == null ? other.getToken() == null : this.getToken().equals(other.getToken()));
     }
 
     @Override
@@ -132,6 +143,7 @@ public class User implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
         result = prime * result + ((getUpdateBy() == null) ? 0 : getUpdateBy().hashCode());
+        result = prime * result + ((getToken() == null) ? 0 : getToken().hashCode());
         return result;
     }
 
@@ -150,6 +162,7 @@ public class User implements Serializable {
         sb.append(", updateTime=").append(updateTime);
         sb.append(", createBy=").append(createBy);
         sb.append(", updateBy=").append(updateBy);
+        sb.append(", token=").append(token);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -1,5 +1,7 @@
 package com.suruomo.material.controller;
 
+import java.util.UUID;
+
 import com.suruomo.material.dao.UserMapper;
 import com.suruomo.material.pojo.User;
 import com.suruomo.material.utils.Md5;
@@ -15,10 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -111,12 +113,34 @@ public class LoginController {
             model.addAttribute("msg","该账号已锁定，请联系管理员后登陆");
             return "login";
         }
+        // 通过用户名到数据库查询用户信息
+        User user = userMapper.selectByPrimaryKey(userId);
+        //UUID生成当前唯一标识符
+        String userToken = UUID.randomUUID().toString();
+        user.setToken(userToken);
+        //将用户信息写入数据库
+        userMapper.updateByPrimaryKey(user);
+        Cookie cookie = new Cookie("token", userToken);
+        // 设置cookie的过期时间，单位为秒，这里为一天
+        cookie.setMaxAge(86400);
+        response.addCookie(cookie);
         return "redirect:/main";
     }
     @GetMapping(value = {"/main"})
     public String index(HttpServletRequest request,Model model) {
-//        User user= SecurityUtils.getSubject().getPrincipals().oneByType(User.class);
-//        request.getSession().setAttribute("user",user);
+        //拿到cookies数组
+        Cookie[] cookies=request.getCookies();
+        for(Cookie cookie:cookies){
+            if(cookie.getName().equals("token")){
+                String token=cookie.getValue();
+                //根据cookie去数据库拿到user对象
+                User user=userMapper.findByToken(token);
+                if(user!=null){
+                    request.getSession().setAttribute("user",user);
+                }
+                break;
+            }
+        }
         return "main";
     }
 
