@@ -132,11 +132,17 @@ public class LoginController {
         Cookie[] cookies=request.getCookies();
         for(Cookie cookie:cookies){
             if(cookie.getName().equals("token")){
-                String token=cookie.getValue();
-                //根据cookie去数据库拿到user对象
-                User user=userMapper.findByToken(token);
-                if(user!=null){
-                    request.getSession().setAttribute("user",user);
+                for(Cookie cookie1:cookies){
+                    if(cookie1.getName().equals("rememberMe")) {
+                        String token=cookie.getValue();
+                        //根据cookie去数据库拿到user对象
+                        User user=userMapper.findByToken(token);
+                        //当token和rememberMe都存在时说明处于登录状态
+                        if(user!=null){
+                            request.getSession().setAttribute("user",user);
+                        }
+                        break;
+                    }
                 }
                 break;
             }
@@ -146,7 +152,9 @@ public class LoginController {
 
     @GetMapping(value = {"/user/exit"})
     public String doLogout(HttpServletRequest request) {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         request.getSession().invalidate();
-        return "login";
+        return "redirect:/";
     }
 }

@@ -44,13 +44,21 @@ public class ShiroConfig {
         filterMap.put("/doLogin", "anon");
         filterMap.put("/verifycode", "anon");
         filterMap.put("/main", "anon");
-        //授权过滤器:放在所有拦截的上面，否则无效
-        //注意：当前授权拦截后，shiro会自动跳转到未授权页面
-//        filterMap.put("/add", "perms[user:add]");
-//        filterMap.put("/update", "perms[user:update]");
+        //金属原始数据
+        filterMap.put("/metals", "anon");
+        filterMap.put("/metal/rawdata", "anon");
+        //铺层原始数据
+//        filterMap.put("/layups", "anon");
+//        filterMap.put("/layup", "anon");
+        //复合原始数据
+        filterMap.put("/composite/rawdata", "anon");
+        filterMap.put("/compositerawdatas", "anon");
+        filterMap.put("/metal/aluminum", "authc");
+        filterMap.put("/metal/titanium", "authc");
+        filterMap.put("/metal/steel", "authc");
 
-        //设置拦截页面:拦截user目录下所有页面，要写在最后面，否则全部拦截
-        filterMap.put("/*", "user");
+        //设置拦截页面:拦截user目录下所z 有页面，要写在最后面，否则全部拦截
+        filterMap.put("/*", "authc");
         //拦截跳转页面
         shiroFilterFactoryBean.setLoginUrl("/");
         //设置未授权提示页面
