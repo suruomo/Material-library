@@ -24,6 +24,10 @@ public class User implements Serializable {
 
     private String token;
 
+    private String gender;
+
+    private String lastIp;
+
     private static final long serialVersionUID = 1L;
 
     public String getUserId() {
@@ -106,6 +110,22 @@ public class User implements Serializable {
         this.token = token == null ? null : token.trim();
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
+    }
+
+    public String getLastIp() {
+        return lastIp;
+    }
+
+    public void setLastIp(String lastIp) {
+        this.lastIp = lastIp == null ? null : lastIp.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -127,7 +147,9 @@ public class User implements Serializable {
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getCreateBy() == null ? other.getCreateBy() == null : this.getCreateBy().equals(other.getCreateBy()))
             && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
-            && (this.getToken() == null ? other.getToken() == null : this.getToken().equals(other.getToken()));
+            && (this.getToken() == null ? other.getToken() == null : this.getToken().equals(other.getToken()))
+            && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
+            && (this.getLastIp() == null ? other.getLastIp() == null : this.getLastIp().equals(other.getLastIp()));
     }
 
     @Override
@@ -144,6 +166,8 @@ public class User implements Serializable {
         result = prime * result + ((getCreateBy() == null) ? 0 : getCreateBy().hashCode());
         result = prime * result + ((getUpdateBy() == null) ? 0 : getUpdateBy().hashCode());
         result = prime * result + ((getToken() == null) ? 0 : getToken().hashCode());
+        result = prime * result + ((getGender() == null) ? 0 : getGender().hashCode());
+        result = prime * result + ((getLastIp() == null) ? 0 : getLastIp().hashCode());
         return result;
     }
 
@@ -163,6 +187,8 @@ public class User implements Serializable {
         sb.append(", createBy=").append(createBy);
         sb.append(", updateBy=").append(updateBy);
         sb.append(", token=").append(token);
+        sb.append(", gender=").append(gender);
+        sb.append(", lastIp=").append(lastIp);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

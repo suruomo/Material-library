@@ -130,21 +130,23 @@ public class LoginController {
     public String index(HttpServletRequest request,Model model) {
         //拿到cookies数组
         Cookie[] cookies=request.getCookies();
-        for(Cookie cookie:cookies){
-            if(cookie.getName().equals("token")){
-                for(Cookie cookie1:cookies){
-                    if(cookie1.getName().equals("rememberMe")) {
-                        String token=cookie.getValue();
-                        //根据cookie去数据库拿到user对象
-                        User user=userMapper.findByToken(token);
-                        //当token和rememberMe都存在时说明处于登录状态
-                        if(user!=null){
-                            request.getSession().setAttribute("user",user);
+        if(cookies!=null){
+            for(Cookie cookie:cookies){
+                if(cookie.getName().equals("token")){
+                    for(Cookie cookie1:cookies){
+                        if(cookie1.getName().equals("rememberMe")) {
+                            String token=cookie.getValue();
+                            //根据cookie去数据库拿到user对象
+                            User user=userMapper.findByToken(token);
+                            //当token和rememberMe都存在时说明处于登录状态
+                            if(user!=null){
+                                request.getSession().setAttribute("user",user);
+                            }
+                            break;
                         }
-                        break;
                     }
+                    break;
                 }
-                break;
             }
         }
         return "main";
@@ -154,7 +156,7 @@ public class LoginController {
     public String doLogout(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        request.getSession().invalidate();
+//        request.getSession().invalidate();
         return "redirect:/";
     }
 }

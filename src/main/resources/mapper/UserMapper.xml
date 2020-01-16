@@ -12,10 +12,12 @@
     <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
     <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
     <result column="TOKEN" property="token" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="CHAR" />
+    <result column="LAST_IP" property="lastIp" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     USER_ID, USER_NAME, EMAIL, PHONE, PASSWORD, CREATE_TIME, UPDATE_TIME, CREATE_BY, 
-    UPDATE_BY, TOKEN
+    UPDATE_BY, TOKEN, GENDER, LAST_IP
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -23,12 +25,12 @@
     from "METAL"."USER"
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </select>
-    <select id="findByToken" resultType="com.suruomo.material.pojo.User">
-      select
-      <include refid="Base_Column_List" />
-      from "METAL"."USER"
-      where TOKEN = #{token,jdbcType=VARCHAR}
-    </select>
+  <select id="findByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from "METAL"."USER"
+    where TOKEN = #{token,jdbcType=VARCHAR}
+  </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from USER
     where USER_ID = #{userId,jdbcType=VARCHAR}
@@ -37,11 +39,11 @@
     insert into USER (USER_ID, USER_NAME, EMAIL, 
       PHONE, PASSWORD, CREATE_TIME, 
       UPDATE_TIME, CREATE_BY, UPDATE_BY, 
-      TOKEN)
+      TOKEN, GENDER, LAST_IP)
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{phone,jdbcType=DECIMAL}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
       #{updateTime,jdbcType=DATE}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
-      #{token,jdbcType=VARCHAR})
+      #{token,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{lastIp,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.User" >
     insert into USER
@@ -76,6 +78,12 @@
       <if test="token != null" >
         TOKEN,
       </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="lastIp != null" >
+        LAST_IP,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -107,6 +115,12 @@
       </if>
       <if test="token != null" >
         #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=CHAR},
+      </if>
+      <if test="lastIp != null" >
+        #{lastIp,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -140,6 +154,12 @@
       <if test="token != null" >
         TOKEN = #{token,jdbcType=VARCHAR},
       </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=CHAR},
+      </if>
+      <if test="lastIp != null" >
+        LAST_IP = #{lastIp,jdbcType=VARCHAR},
+      </if>
     </set>
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </update>
@@ -153,7 +173,9 @@
       UPDATE_TIME = #{updateTime,jdbcType=DATE},
       CREATE_BY = #{createBy,jdbcType=VARCHAR},
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
-      TOKEN = #{token,jdbcType=VARCHAR}
+      TOKEN = #{token,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=CHAR},
+      LAST_IP = #{lastIp,jdbcType=VARCHAR}
     where USER_ID = #{userId,jdbcType=VARCHAR}
   </update>
 </mapper>
