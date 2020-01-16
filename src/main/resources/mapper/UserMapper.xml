@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.suruomo.material.dao.UserMapper" >
   <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.User" >
-    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
     <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
     <result column="EMAIL" property="email" jdbcType="VARCHAR" />
     <result column="PHONE" property="phone" jdbcType="DECIMAL" />
@@ -19,11 +19,11 @@
     USER_ID, USER_NAME, EMAIL, PHONE, PASSWORD, CREATE_TIME, UPDATE_TIME, CREATE_BY, 
     UPDATE_BY, TOKEN, GENDER, LAST_IP
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from "METAL"."USER"
-    where USER_ID = #{userId,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
   </select>
   <select id="findByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
@@ -31,16 +31,19 @@
     from "METAL"."USER"
     where TOKEN = #{token,jdbcType=VARCHAR}
   </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from USER
-    where USER_ID = #{userId,jdbcType=VARCHAR}
+  <select id="findMaxUserId" resultType="java.lang.Long">
+    select max(USER_ID) from "METAL"."USER"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from "METAL"."USER"
+    where USER_ID = #{userId,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.User" >
     insert into USER (USER_ID, USER_NAME, EMAIL, 
       PHONE, PASSWORD, CREATE_TIME, 
       UPDATE_TIME, CREATE_BY, UPDATE_BY, 
       TOKEN, GENDER, LAST_IP)
-    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{phone,jdbcType=DECIMAL}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
       #{updateTime,jdbcType=DATE}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
       #{token,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{lastIp,jdbcType=VARCHAR})
@@ -87,7 +90,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
+        #{userId,jdbcType=DECIMAL},
       </if>
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
@@ -161,7 +164,7 @@
         LAST_IP = #{lastIp,jdbcType=VARCHAR},
       </if>
     </set>
-    where USER_ID = #{userId,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.User" >
     update "METAL"."USER"
@@ -176,6 +179,6 @@
       TOKEN = #{token,jdbcType=VARCHAR},
       GENDER = #{gender,jdbcType=CHAR},
       LAST_IP = #{lastIp,jdbcType=VARCHAR}
-    where USER_ID = #{userId,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
   </update>
 </mapper>

@@ -114,7 +114,7 @@ public class LoginController {
             return "login";
         }
         // 通过用户名到数据库查询用户信息
-        User user = userMapper.selectByPrimaryKey(userId);
+        User user = userMapper.selectByPrimaryKey(Long.parseLong(userId));
         //UUID生成当前唯一标识符
         String userToken = UUID.randomUUID().toString();
         user.setToken(userToken);

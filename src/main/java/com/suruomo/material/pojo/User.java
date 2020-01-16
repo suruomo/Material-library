@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class User implements Serializable {
-    private String userId;
+    private Long userId;
 
     private String userName;
 
@@ -30,12 +30,12 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId == null ? null : userId.trim();
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {

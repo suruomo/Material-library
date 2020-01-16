@@ -33,7 +33,7 @@ public class UserRealm extends AuthorizingRealm {
         System.out.println("用户" + userId + "认证");
 
         // 通过用户名到数据库查询用户信息
-        User user = userMapper.selectByPrimaryKey(userId);
+        User user = userMapper.selectByPrimaryKey(Long.parseLong(userId));
 
         if (user == null) {
             throw new UnknownAccountException("用户名或密码错误！");
