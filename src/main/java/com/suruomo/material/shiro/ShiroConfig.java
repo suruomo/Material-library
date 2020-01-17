@@ -45,6 +45,7 @@ public class ShiroConfig {
         filterMap.put("/verifycode", "anon");
         filterMap.put("/main", "anon");
         filterMap.put("/register", "anon");
+        filterMap.put("/user", "anon");
         //金属原始数据
         filterMap.put("/metals", "anon");
         filterMap.put("/metal/rawdata", "anon");

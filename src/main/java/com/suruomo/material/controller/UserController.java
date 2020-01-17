@@ -1,12 +1,17 @@
 package com.suruomo.material.controller;
 
 import com.suruomo.material.dao.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.suruomo.material.pojo.User;
+import com.suruomo.material.utils.GetIp;
+import com.suruomo.material.utils.Md5;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * @author 苏若墨
@@ -19,8 +24,21 @@ public class UserController {
     @GetMapping(value = {"/register"})
     public String register(Model model) {
         long userId=userMapper.findMaxUserId()+1;
-        String id="2020"+userId;
-        model.addAttribute("userId",id);
+        model.addAttribute("userId",userId);
         return "user/register";
     }
+    @PostMapping(value ={"/user"})
+    public String addUser(User user, HttpServletRequest request){
+        System.out.println(user.toString());
+        String password=new Md5().endode(user.getPassword());
+        user.setPassword(password);
+        user.setLastIp(new GetIp().getIpAddr(request));
+        user.setCreateBy(user.getUserName());
+        user.setCreateTime(new Date());
+        user.setUpdateBy(user.getUserName());
+        user.setUpdateTime(new Date());
+        userMapper.insert(user);
+        return "login";
+    }
+
 }
