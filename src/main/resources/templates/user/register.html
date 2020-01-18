@@ -5,6 +5,7 @@
     <title>注册</title>
     <script th:src="@{/layui/layui.js}"></script>
     <link th:rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link th:href="@{static/asserts/css/bootstrap.min.css}">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -33,7 +34,7 @@
                     <div class="layui-inline">
                         <label class="layui-form-label"><span style="color: red; ">*</span>用户昵称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="userName" lay-verify="required" ay-reqtext="用户名是必填项，岂能为空？"
+                            <input type="text" name="userName" lay-verify="title" ay-reqtext="用户名是必填项，岂能为空？"
                                    autocomplete="off" placeholder="请输入昵称"
                                    class="layui-input">
                         </div>
@@ -67,10 +68,21 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red; ">*</span>密码</label>
                     <div class="layui-input-inline">
-                        <input type="password" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off"
+                        <input type="password" name="password" id="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off"
                                class="layui-input" >
                     </div>
-                    <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
+                    <div class="layui-form-mid layui-word-aux">
+<!--                        <button type="button" id="btn" onclick="qiehuan()">显示</button>-->
+                       <a  class="layui-btn layui-btn-primary layui-btn-xs" id="btn"><i class="layui-icon " style="font-size:18px;">&#xe673;</i></a>
+                    </div>
+<!--                    <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>-->
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red; ">*</span>再输入一遍密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="repassword" id="repassword" lay-verify="repass" placeholder="请再次输入密码" autocomplete="off"
+                               class="layui-input" >
+                    </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
@@ -92,7 +104,6 @@
         var $ = layui.jquery;
         var form = layui.form
             , layer = layui.layer
-            , layedit = layui.layedit
             , laydate = layui.laydate;
         form.render();
         var element = layui.element;
@@ -103,23 +114,33 @@
         laydate.render({
             elem: '#date1'
         });
-
-        //创建一个编辑器
-        var editIndex = layedit.build('LAY_demo_editor');
-
+        var isPs = true;
+        $('#btn').on('click', function(){
+            var Input = document.getElementById('password');
+            if(isPs){
+                Input.setAttribute("type","password");
+                isPs = false;
+            }else{
+                Input.setAttribute("type","text");
+                isPs = true;
+            }
+        });
         //自定义验证规则
         form.verify({
             title: function (value) {
-                if (value.length < 5) {
-                    return '标题至少得5个字符啊';
+                if (value.length < 3) {
+                    return '昵称至少得3个字符啊';
                 }
             }
             , pass: [
                 /^[\S]{6,12}$/
                 , '密码必须6到12位，且不能出现空格'
             ]
-            , content: function (value) {
-                layedit.sync(editIndex);
+            , repass:  function (value) {
+                var password = document.getElementById("password").value;
+                if (value!=password) {
+                    return '两次密码输入不一致！请重新输入';
+                }
             }
         });
         //监听提交
@@ -127,13 +148,23 @@
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })
-
-            form.submit();
+            // form.submit();
             return false;
         });
-
-
     });
 </script>
+<!--<script type="text/javascript">-->
+<!--    var isPs = true;-->
+<!--    function qiehuan(){-->
+<!--        var Input = document.getElementById('password');-->
+<!--        if(isPs){-->
+<!--            Input.setAttribute("type","password");-->
+<!--            isPs = false;-->
+<!--        }else{-->
+<!--            Input.setAttribute("type","text");-->
+<!--            isPs = true;-->
+<!--        }-->
+<!--    }-->
+<!--</script>-->
 </body>
 </html>
