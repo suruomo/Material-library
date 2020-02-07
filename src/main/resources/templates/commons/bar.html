@@ -50,8 +50,8 @@
                 [[${session.user.userName}]]
             </a>
             <dl class="layui-nav-child">
-                <dd><a href="">基本资料</a></dd>
-                <dd><a href="">修改密码</a></dd>
+                <dd><a th:href="@{/user/info}">基本资料</a></dd>
+                <dd><a th:href="@{/user/modifypwd}">修改密码</a></dd>
                 <dd><a th:href="@{/user/exit}">退出登录</a></dd>
             </dl>
         </li>
