@@ -161,7 +161,6 @@ public class MetalController {
     @PostMapping("/export/mat1")
     public void exportMat1(Mat1 mat1, HttpServletResponse response) throws IOException {
         ExportMat1 exportMat1=new ExportMat1();
-        System.out.println(mat1.toString());
         //获取输入流，
         InputStream bis = new BufferedInputStream(new FileInputStream(exportMat1.export(mat1)));
         //假如以中文名下载的话，设置下载文件名称
