@@ -124,8 +124,21 @@ public class LoginController {
         // 设置cookie的过期时间，单位为秒，这里为一天
         cookie.setMaxAge(86400);
         response.addCookie(cookie);
-        return "redirect:/main";
+        if(user.getRole().equals("user")){
+            return "redirect:/main";
+        }
+        else{
+            return "redirect:/admin/main";
+        }
+
     }
+
+    /**
+     * 跳转普通用户主页面
+     * @param request
+     * @param model
+     * @return
+     */
     @GetMapping(value = {"/main"})
     public String index(HttpServletRequest request,Model model) {
         //拿到cookies数组
@@ -152,6 +165,37 @@ public class LoginController {
         return "main";
     }
 
+    /**
+     * 跳转管理员主页面
+     * @param request
+     * @param model
+     * @return
+     */
+    @GetMapping(value = {"/admin/main"})
+    public String adminIndex(HttpServletRequest request,Model model) {
+        //拿到cookies数组
+        Cookie[] cookies=request.getCookies();
+        if(cookies!=null){
+            for(Cookie cookie:cookies){
+                if(cookie.getName().equals("token")){
+                    for(Cookie cookie1:cookies){
+                        if(cookie1.getName().equals("rememberMe")) {
+                            String token=cookie.getValue();
+                            //根据cookie去数据库拿到user对象
+                            User user=userMapper.findByToken(token);
+                            //当token和rememberMe都存在时说明处于登录状态
+                            if(user!=null){
+                                request.getSession().setAttribute("user",user);
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        return "admin/main";
+    }
     @GetMapping(value = {"/user/exit"})
     public String doLogout(HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
