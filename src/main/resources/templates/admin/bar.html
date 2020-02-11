@@ -19,8 +19,6 @@
                 [[${session.user.userName}]]
             </a>
             <dl class="layui-nav-child">
-                <dd><a th:href="@{/user/info}">基本资料</a></dd>
-                <dd><a th:href="@{/user/modifypwd}">修改密码</a></dd>
                 <dd><a th:href="@{/user/exit}">退出登录</a></dd>
             </dl>
         </li>
@@ -32,34 +30,34 @@
         <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
         <ul class="layui-nav layui-nav-tree" lay-filter="test">
             <li class="layui-nav-item layui-nav-itemed">
-                <a th:href="@{/layups}">用户管理</a>
+                <a th:href="@{/admin/user/list}"><i class="layui-icon " style="font-size:18px;">&#xe66f;</i>&nbsp;用户管理</a>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
-                <a class="" href="javascript:;">金属材料</a>
+                <a class="" href="javascript:;"><i class="layui-icon " style="font-size:18px;">&#xe620;</i>&nbsp;金属材料管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                    <dd><a th:href="@{/metal/rawdata}">原始数据</a>
                     </dd>
-                    <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;材料卡数据</a>
+                    <dd><a th:href="@{/metal/rawdata}">材料卡数据</a>
                     </dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
-                <a href="javascript:;">复合材料</a>
+                <a href="javascript:;"><i class="layui-icon " style="font-size:18px;">&#xe620;</i>&nbsp;复合材料管理</a>
                 <dl class="layui-nav-child">
-                    <dd><a th:href="@{/composite/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                    <dd><a th:href="@{/composite/rawdata}">&nbsp;原始数据</a>
                     </dd>
-                    <dd><a th:href="@{/composite}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;材料卡数据</a>
+                    <dd><a th:href="@{/composite}">材料卡数据</a>
                     </dd>
                 </dl>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
-                <a th:href="@{/layups}">铺层</a>
+                <a th:href="@{/layups}"><i class="layui-icon " style="font-size:18px;">&#xe620;</i>&nbsp;铺层管理</a>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
-                <a th:href="@{/users}">型材</a>
+                <a th:href="@{/users}"><i class="layui-icon " style="font-size:18px;">&#xe620;</i>&nbsp;型材管理</a>
             </li>
             <li class="layui-nav-item layui-nav-itemed">
-                <a th:href="@{/users}">日志信息</a>
+                <a th:href="@{/users}"><i class="layui-icon " style="font-size:18px;">&#xe62d;</i>&nbsp;日志信息</a>
             </li>
         </ul>
     </div>

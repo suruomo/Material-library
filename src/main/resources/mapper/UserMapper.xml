@@ -35,6 +35,17 @@
   <select id="findMaxUserId" resultType="java.lang.Long">
     select max(USER_ID) from "METAL"."USER"
   </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.User">
+    select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."USER") a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+     select count (*) from "METAL"."USER"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from "METAL"."USER"
     where USER_ID = #{userId,jdbcType=DECIMAL}
