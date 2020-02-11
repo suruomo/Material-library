@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/admin-layui/css/layui.css}">
+    <link th:rel="stylesheet" th:href="@{/layui/css/layuimini.css}">
+</head>
+<body>
+<!--topbar-->
+<div class="layui-header" th:fragment="topbar" >
+    <div class="layui-logo">结构强度材料性能库</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item" >
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                [[${session.user.userName}]]
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/user/info}">基本资料</a></dd>
+                <dd><a th:href="@{/user/modifypwd}">修改密码</a></dd>
+                <dd><a th:href="@{/user/exit}">退出登录</a></dd>
+            </dl>
+        </li>
+    </ul>
+</div>
+<!--sidebar-->
+<div class="layui-side layui-bg-black" th:fragment="sidebar">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item layui-nav-itemed">
+                <a class="" href="javascript:;">金属材料</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                    </dd>
+                    <dd>
+                        <a href="javascript:;"><i class="layui-icon "
+                                                  style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a>
+                        <dl class="layui-nav-child">
+                            <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon "
+                                                                   style="font-size:18px;">&#xe656;</i>&nbsp;铝</a></dd>
+                            <dd><a th:href="@{/metal/steel}"><i class="layui-icon " style="font-size:18px;">&#xe656;</i>&nbsp;钢</a>
+                            </dd>
+                            <dd><a th:href="@{/metal/titanium}"><i class="layui-icon "
+                                                                   style="font-size:18px;">&#xe656;</i>&nbsp;钛</a></dd>
+                        </dl>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">复合材料</a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/composite/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
+                    </dd>
+                    <dd><a th:href="@{/composite}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a th:href="@{/layups}">铺层</a>
+            </li>
+            <li class="layui-nav-item layui-nav-itemed">
+                <a th:href="@{/users}">型材</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--内容区顶部空白-->
+<!--填补内容区域顶部-->
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"
+     th:fragment="bar">
+    <h1 class="h2">Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-outline-secondary"></button>
+            <button class="btn btn-sm btn-outline-secondary"></button>
+        </div>
+        <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+        </button>
+    </div>
+</div>
+<!--footer-->
+<
+<div class="layui-footer" th:fragment="footer" style="text-align: center;background-color:#b2b2b2">
+    <!-- 底部固定区域 -->
+    CopyRight   ©2020   NPU. All Rights Reserved   西北工业大学 版权所有
+</div>
+<!-- Icons -->
+<script type="text/javascript" src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
+<script>
+    feather.replace()
+</script>
+<script>
+    //JavaScript代码区域
+    layui.use(['element','jquery'], function(){
+        var element = layui.element,$=layui.jquery;
+        $(".layui-nav-third-child").hide();
+        $(".third-class").on('mouseover',function () {
+            $(".layui-nav-third-child").hide();
+            $(this).next().show();
+        });
+        element.init();
+    });
+</script>
+</body>
+</html>

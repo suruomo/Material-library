@@ -28,6 +28,8 @@ public class User implements Serializable {
 
     private String lastIp;
 
+    private String role;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUserId() {
@@ -126,6 +128,14 @@ public class User implements Serializable {
         this.lastIp = lastIp == null ? null : lastIp.trim();
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role == null ? null : role.trim();
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -149,7 +159,8 @@ public class User implements Serializable {
             && (this.getUpdateBy() == null ? other.getUpdateBy() == null : this.getUpdateBy().equals(other.getUpdateBy()))
             && (this.getToken() == null ? other.getToken() == null : this.getToken().equals(other.getToken()))
             && (this.getGender() == null ? other.getGender() == null : this.getGender().equals(other.getGender()))
-            && (this.getLastIp() == null ? other.getLastIp() == null : this.getLastIp().equals(other.getLastIp()));
+            && (this.getLastIp() == null ? other.getLastIp() == null : this.getLastIp().equals(other.getLastIp()))
+            && (this.getRole() == null ? other.getRole() == null : this.getRole().equals(other.getRole()));
     }
 
     @Override
@@ -168,6 +179,7 @@ public class User implements Serializable {
         result = prime * result + ((getToken() == null) ? 0 : getToken().hashCode());
         result = prime * result + ((getGender() == null) ? 0 : getGender().hashCode());
         result = prime * result + ((getLastIp() == null) ? 0 : getLastIp().hashCode());
+        result = prime * result + ((getRole() == null) ? 0 : getRole().hashCode());
         return result;
     }
 
@@ -189,6 +201,7 @@ public class User implements Serializable {
         sb.append(", token=").append(token);
         sb.append(", gender=").append(gender);
         sb.append(", lastIp=").append(lastIp);
+        sb.append(", role=").append(role);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

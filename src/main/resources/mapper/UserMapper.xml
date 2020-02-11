@@ -14,13 +14,14 @@
     <result column="TOKEN" property="token" jdbcType="VARCHAR" />
     <result column="GENDER" property="gender" jdbcType="CHAR" />
     <result column="LAST_IP" property="lastIp" jdbcType="VARCHAR" />
+    <result column="ROLE" property="role" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     USER_ID, USER_NAME, EMAIL, PHONE, PASSWORD, CREATE_TIME, UPDATE_TIME, CREATE_BY, 
-    UPDATE_BY, TOKEN, GENDER, LAST_IP
+    UPDATE_BY, TOKEN, GENDER, LAST_IP, ROLE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from "METAL"."USER"
     where USER_ID = #{userId,jdbcType=DECIMAL}
@@ -39,14 +40,16 @@
     where USER_ID = #{userId,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.User" >
-    insert into "METAL"."USER" (USER_ID, USER_NAME, EMAIL,
+    insert into USER (USER_ID, USER_NAME, EMAIL, 
       PHONE, PASSWORD, CREATE_TIME, 
       UPDATE_TIME, CREATE_BY, UPDATE_BY, 
-      TOKEN, GENDER, LAST_IP)
+      TOKEN, GENDER, LAST_IP, 
+      ROLE)
     values (#{userId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{phone,jdbcType=DECIMAL}, #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}, 
       #{updateTime,jdbcType=DATE}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}, 
-      #{token,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{lastIp,jdbcType=VARCHAR})
+      #{token,jdbcType=VARCHAR}, #{gender,jdbcType=CHAR}, #{lastIp,jdbcType=VARCHAR}, 
+      #{role,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.User" >
     insert into USER
@@ -87,6 +90,9 @@
       <if test="lastIp != null" >
         LAST_IP,
       </if>
+      <if test="role != null" >
+        ROLE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -124,6 +130,9 @@
       </if>
       <if test="lastIp != null" >
         #{lastIp,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -163,6 +172,9 @@
       <if test="lastIp != null" >
         LAST_IP = #{lastIp,jdbcType=VARCHAR},
       </if>
+      <if test="role != null" >
+        ROLE = #{role,jdbcType=VARCHAR},
+      </if>
     </set>
     where USER_ID = #{userId,jdbcType=DECIMAL}
   </update>
@@ -178,7 +190,8 @@
       UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
       TOKEN = #{token,jdbcType=VARCHAR},
       GENDER = #{gender,jdbcType=CHAR},
-      LAST_IP = #{lastIp,jdbcType=VARCHAR}
+      LAST_IP = #{lastIp,jdbcType=VARCHAR},
+      ROLE = #{role,jdbcType=VARCHAR}
     where USER_ID = #{userId,jdbcType=DECIMAL}
   </update>
 </mapper>
