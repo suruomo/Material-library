@@ -10,10 +10,7 @@ import com.suruomo.material.utils.Md5;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -54,9 +51,14 @@ public class UserController {
             return "user/modifypwd";
     }
 
+    /**
+     * 增加用户信息
+     * @param user
+     * @param request
+     * @return
+     */
     @PostMapping(value ={"/user"})
     public String addUser(User user, HttpServletRequest request){
-        System.out.println(user.toString());
         String password=new Md5().endode(user.getPassword());
         user.setPassword(password);
         user.setLastIp(new GetIp().getIpAddr(request));
@@ -65,8 +67,45 @@ public class UserController {
         user.setUpdateBy(user.getUserName());
         user.setUpdateTime(new Date());
         userMapper.insert(user);
-        return "login";
+        return "redirect:/admin/user/list";
     }
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @param request
+     * @return
+     */
+    @PutMapping("/user")
+    public String modifyUser(User user, HttpServletRequest request){
+        User oldUser=userMapper.selectByPrimaryKey(user.getUserId());
+        oldUser.setLastIp(new GetIp().getIpAddr(request));
+        oldUser.setUpdateBy(user.getUserName());
+        oldUser.setUpdateTime(new Date());
+        oldUser.setUserName(user.getUserName());
+        oldUser.setEmail(user.getEmail());
+        oldUser.setPhone(user.getPhone());
+        oldUser.setRole(user.getRole());
+        oldUser.setGender(user.getGender());
+        userMapper.updateByPrimaryKey(oldUser);
+        return "redirect:/admin/user/list";
+    }
+
+    @DeleteMapping("/user/{id}")
+    @ResponseBody
+    public String deleteUser(@PathVariable("id") String userId) {
+        userMapper.deleteByPrimaryKey(Long.parseLong(userId));
+        return "success";
+    }
+    /**
+     * 修改密码
+     * @param request
+     * @param oldPassword
+     * @param newPassword
+     * @param reNewPassword
+     * @param model
+     * @return
+     */
     @PostMapping(value ={"/password"})
     public String modifyPassword(HttpServletRequest request,@RequestParam("oldPWD")String oldPassword,@RequestParam("newPWD")String newPassword,@RequestParam("reNewPWD")String reNewPassword
                                  ,Model model){
@@ -116,5 +155,50 @@ public class UserController {
         map.put("data", json);
         map.put("count", count);
         return map;
+    }
+
+    /**
+     * 跳转增加用户界面
+     * @return
+     */
+    @GetMapping("/user")
+    public String toAddPage(Model model) {
+        long userId=userMapper.findMaxUserId()+1;
+        model.addAttribute("newId",userId);
+        return "admin/user/add";
+    }
+
+    /**
+     * 跳转修改用户界面
+     * @param userId
+     * @param model
+     * @return
+     */
+    @GetMapping("/user/{id}")
+    public String toEditPage(@PathVariable("id") String userId, Model model) {
+        User user = userMapper.selectByPrimaryKey(Long.parseLong(userId));
+        model.addAttribute("user", user);
+        System.out.println(user);
+        //回到修改页面(add是一个修改添加二合一的页面);
+        return "admin/user/add";
+    }
+
+    /**
+     * 重置用户密码：重置后为用户ID
+     * @param userId
+     * @return 成功返回1，否则返回2
+     */
+    @PostMapping("/reset/{id}")
+    @ResponseBody
+    public String resetPassword(@PathVariable("id") String userId) {
+        User user=userMapper.selectByPrimaryKey(Long.parseLong(userId));
+        try {
+            user.setPassword(new Md5().endode(userId));
+            userMapper.updateByPrimaryKey(user);
+            return "1";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "2";
+        }
     }
 }

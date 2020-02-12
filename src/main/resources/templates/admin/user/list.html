@@ -27,20 +27,21 @@
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-bg-cyan layui-btn-xs" lay-event="sendMail">发送邮件</a>
+    <a class="layui-btn layui-bg-red layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-bg-orange layui-btn-xs" lay-event="reset">重置密码</a>
+<!--    <a class="layui-btn layui-bg-cyan layui-btn-xs" lay-event="sendMail">发送邮件</a>-->
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <a type="button" class="layui-btn  layui-btn-sm" th:href="@{/user}"><i class="layui-icon">&#xe608;</i> 添加用户
         </a>
-        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteAll"><i
-                class="layui-icon">&#xe640;</i> 批量删除
-        </button>
-        <button type="button" class="layui-btn layui-btn-sm" id="importFile"><i class="layui-icon">&#xe62f;</i> 批量导入
-        </button>
-        <a type="button" class="layui-btn layui-btn-sm" id="downloadTemplate" th:href="@{download/userTemplate}"><i
-                class="layui-icon">&#xe601;</i> 下载模板</a>
+<!--        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteAll"><i-->
+<!--                class="layui-icon">&#xe640;</i> 批量删除-->
+<!--        </button>-->
+<!--        <button type="button" class="layui-btn layui-btn-sm" id="importFile"><i class="layui-icon">&#xe62f;</i> 批量导入-->
+<!--        </button>-->
+<!--        <a type="button" class="layui-btn layui-btn-sm" id="downloadTemplate" th:href="@{download/userTemplate}"><i-->
+<!--                class="layui-icon">&#xe601;</i> 下载模板</a>-->
     </div>
 </script>
 <script>
@@ -62,8 +63,7 @@
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {type: 'checkbox', fixed: 'left'}
-                    , {field: 'userId', title: 'ID', sort: true}
+                    {field: 'userId', title: 'ID', sort: true}
                     , {field: 'userName',  title: '用户名'}
                     , {field: 'gender',  title: '性别', sort: true}
                     , {field: 'email',  title: '邮箱'}
@@ -74,7 +74,7 @@
                 ]
             ]
             , done: function (res, curr, count) {
-                $("[data-field = 'sex']").children().each(function () {
+                $("[data-field = 'gender']").children().each(function () {
                     if ($(this).text() == '0') {
                         $(this).text("男");
                     } else if ($(this).text() == '1') {
@@ -109,6 +109,25 @@
                     break;
                 case 'edit':
                     window.location.href = "/user/" + data.userId;
+                    break;
+                case 'reset':
+                    layer.confirm('确定要重置密码吗（重置后为用户ID)？', function (index) {
+                        layer.msg('重置中...', {icon: 16, shade: 0.3, time: 3000});
+                        $.ajax({
+                            url: '/reset/' + data.userId,
+                            method: 'post',
+                            dataType: 'text',
+                            success: function (data) {
+                                if(data=="1"){
+                                    layer.msg("重置成功");
+                                    layer.close(index); //再执行关闭
+                                }else{
+                                    layer.msg("重置失败");
+                                    layer.close(index); //再执行关闭
+                                }
+                            }
+                        });
+                    });
                     break;
                 case 'sendMail':
                     layer.confirm('确定发送通知邮件么？', function (index) {

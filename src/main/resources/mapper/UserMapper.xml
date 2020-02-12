@@ -51,7 +51,7 @@
     where USER_ID = #{userId,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.User" >
-    insert into USER (USER_ID, USER_NAME, EMAIL, 
+    insert into "METAL"."USER" (USER_ID, USER_NAME, EMAIL,
       PHONE, PASSWORD, CREATE_TIME, 
       UPDATE_TIME, CREATE_BY, UPDATE_BY, 
       TOKEN, GENDER, LAST_IP, 

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/admin-layui/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--引入topbar-->
+    <div th:replace="admin/bar::topbar"></div>
+    <!--引入sidebar-->
+    <div th:replace="admin/bar::sidebar"></div>
+    <div class="layui-body" style="padding: 35px;border:30px;">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+                <legend><h2>用户基本信息</h2></legend>
+            </fieldset>
+            <form class="layui-form" th:action="@{/user}" method="post" id="form">
+                <input type="hidden" name="_method" value="put" th:if="${user!=null}"/>
+                <input type="hidden" name="userId" th:value="${user.userId}" th:if="${user!=null}"/>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span style="color: red; ">*</span>登录账号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userId" lay-verify="required" ay-reqtext="登录账号是必填项，岂能为空？"
+                                   th:if="${user!=null}" th:value="${user.userId}" autocomplete="off"
+                                   class="layui-input" readonly>
+                            <input type="text" name="userId" lay-verify="required" ay-reqtext="登录账号是必填项，岂能为空？"
+                                   th:unless="${user!=null}" autocomplete="off" th:value="${newId}"
+                                   class="layui-input" readonly>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span style="color: red; ">*</span>用户名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="userName" lay-verify="required" ay-reqtext="用户名是必填项，岂能为空？"
+                                   th:value="${user!=null}?${user.userName}" autocomplete="off" placeholder="请输入昵称"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span style="color: red; ">*</span>手机号</label>
+                        <div class="layui-input-block">
+                            <input type="tel" name="phone" th:value="${user!=null}?${user.phone}"
+                                   lay-verify="phone" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label"><span style="color: red; ">*</span>邮箱</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" th:value="${user!=null}?${user.email}" lay-verify="email"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-block">
+                        <input  type="text" name="password" lay-verify="required"
+                               th:if="${user!=null}" th:value="${user.password}" autocomplete="off"
+                               class="layui-input" readonly>
+                        <input  type="text" name="password" lay-verify="required"
+                               th:unless="${user!=null}" autocomplete="off" th:value="${newId}"
+                               class="layui-input" readonly>
+                        <div class="layui-form-mid layui-word-aux">初始密码为用户ID</div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-block" th:if="${user!=null}?${user.gender=='0'}">
+                        <input type="radio" name="gender" value="0" title="男" checked="">
+                        <input type="radio" name="gender" value="1" title="女">
+                    </div>
+                    <div class="layui-input-block" th:unless="${user!=null}?${user.gender=='0'}">
+                        <input type="radio" name="gender" value="0" title="男">
+                        <input type="radio" name="gender" value="1" title="女" checked="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">角色</label>
+                    <div class="layui-input-block" th:if="${user!=null}?${user.role=='user'}">
+                        <input type="radio" name="role" value="user" title="普通用户" checked="">
+                        <input type="radio" name="role" value="admin" title="管理员">
+                    </div>
+                    <div class="layui-input-block" th:unless="${user!=null}?${user.role=='user'}">
+                        <input type="radio" name="role" value="user" title="普通用户">
+                        <input type="radio" name="role" value="admin" title="管理员" checked="">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" th:text="${user!=null}?'修改':'添加'" lay-filter="demo1">
+                            提交
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--引入footer-->
+    <div th:replace="admin/bar::footer"></div>
+
+</div>
+<script>
+    layui.use(['form', 'layedit', 'laydate', 'jquery', 'element'], function () {
+        var $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+        form.render();
+        var element = layui.element;
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 5) {
+                    return '标题至少得5个字符啊';
+                }
+            }
+            , pass: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
+            , content: function (value) {
+                layedit.sync(editIndex);
+            }
+        });
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+
+            form.submit();
+            return false;
+        });
+
+
+    });
+</script>
+</body>
+</html>
