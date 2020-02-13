@@ -66,6 +66,15 @@ public class MetalController {
         model.addAttribute("type","titanium");
         return "metal/list";
     }
+
+    /**
+     * 跳转管理员原始数据列表页面
+     * @return
+     */
+    @GetMapping("/admin/metal/original")
+    public String originalList() {
+        return "admin/metal/originalList";
+    }
     /**
      * 返回查询全部金属数据
      * @param page
@@ -142,6 +151,14 @@ public class MetalController {
         MetalInput metalInput=metalInputMapper.selectByPrimaryKey(new BigDecimal(id));
         model.addAttribute("metal",metalInput);
         return "metal/info";
+    }
+
+
+    @GetMapping("/metal/original/{id}")
+    public String originalInfo(@PathVariable String id, Model model) {
+        MetalInput metalInput=metalInputMapper.selectByPrimaryKey(new BigDecimal(id));
+        model.addAttribute("metal",metalInput);
+        return "admin/metal/originalInfo";
     }
     /**
      * 跳转至导出MAT1页面
