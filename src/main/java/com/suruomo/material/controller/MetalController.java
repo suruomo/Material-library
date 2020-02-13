@@ -57,6 +57,19 @@ public class MetalController {
         model.addAttribute("type","steel");
         return "metal/list";
     }
+
+    /**
+     * 删除原始数据
+     * @param id
+     * @param model
+     * @return
+     */
+    @DeleteMapping ("/metal/original/{id}")
+    @ResponseBody
+    public String deleteOriginal(@PathVariable String id, Model model) {
+        metalInputMapper.deleteByPrimaryKey(new BigDecimal(id));
+        return "success";
+    }
     /**
      * 跳转所有钛数据列表页面
      * @return

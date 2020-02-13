@@ -51,7 +51,7 @@
     select count (*) from "METAL"."METAL_INPUT"
 </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
-    delete from METAL_INPUT
+    delete from "METAL"."METAL_INPUT"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.MetalInput" >
