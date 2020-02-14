@@ -8,11 +8,14 @@ import com.suruomo.material.dao.MetalOutMapper;
 import com.suruomo.material.dto.Mat1;
 import com.suruomo.material.pojo.MetalInput;
 import com.suruomo.material.pojo.MetalOut;
+import com.suruomo.material.service.MetalService;
 import com.suruomo.material.utils.ExportMat1;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -31,6 +34,8 @@ public class MetalController {
     MetalOutMapper metalOutMapper;
     @Resource
     MetalInputMapper metalInputMapper;
+    @Resource
+    MetalService metalService;
     /**
      * 跳转原始数据列表页面
      * @return
@@ -235,5 +240,28 @@ public class MetalController {
         out.close();
     }
 
-
+    /**
+     * 原始金属批量导入
+     * @param file
+     * @return
+     */
+    @PostMapping("/metal/original/upload")
+    @ResponseBody
+    public int uploadPartMember(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file != null) {
+                //成功上传
+                String fileName=file.getOriginalFilename();
+                metalService.uploadOriginal(file,fileName);
+                return 1;
+            } else {
+                //文件为空
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //上传出现异常，请稍后重试
+            return 3;
+        }
+    }
 }
