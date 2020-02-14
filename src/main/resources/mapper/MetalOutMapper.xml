@@ -47,8 +47,19 @@
   <select id="getCount" resultType="java.lang.Integer">
     select count (*) from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{queryType}
 </select>
+    <select id="getAllData" resultType="com.suruomo.material.pojo.MetalOut">
+select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."METAL_OUTPUT") a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+    </select>
+  <select id="getAllCount" resultType="java.lang.Integer">
+      select count (*) from "METAL"."METAL_OUTPUT"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
-    delete from METAL_OUTPUT
+    delete from "METAL"."METAL_OUTPUT"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.MetalOut" >

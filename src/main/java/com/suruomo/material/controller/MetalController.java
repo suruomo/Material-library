@@ -76,6 +76,19 @@ public class MetalController {
         metalInputMapper.deleteByPrimaryKey(new BigDecimal(id));
         return "success";
     }
+
+    /**
+     * 删除材料卡数据
+     * @param id
+     * @param model
+     * @return
+     */
+    @DeleteMapping ("/metal/card/{id}")
+    @ResponseBody
+    public String deleteCard(@PathVariable String id, Model model) {
+        metalOutMapper.deleteByPrimaryKey(new BigDecimal(id));
+        return "success";
+    }
     /**
      * 跳转所有钛数据列表页面
      * @return
@@ -94,6 +107,15 @@ public class MetalController {
     public String originalList() {
         return "admin/metal/originalList";
     }
+
+    /**
+     * 跳转管理员材料卡数据列表页面
+     * @return
+     */
+    @GetMapping("/admin/metal/card")
+    public String cardList() {
+        return "admin/metal/cardList";
+    }
     /**
      * 返回查询全部金属数据
      * @param page
@@ -106,7 +128,7 @@ public class MetalController {
     public Map<String, Object> mentals(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
-        List<MetalOut> users = metalInputMapper.getAll(start, end);
+        List<MetalInput> users = metalInputMapper.getAll(start, end);
         int count = metalInputMapper.getCount();
         HashMap<String, Object> map = new HashMap();
         //返回Json
@@ -123,6 +145,33 @@ public class MetalController {
     }
 
     /**
+     * 返回金属材料卡数据
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/metal/cards")
+    public Map<String, Object> cards(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<MetalOut> users = metalOutMapper.getAllData(start, end);
+        int count = metalOutMapper.getAllCount();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(users);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
+    /**
      * 下载原始金属导入模板
      * @param response
      * @throws IOException
@@ -134,6 +183,33 @@ public class MetalController {
         InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
         //假如以中文名下载的话，设置下载文件名称
         String filename = "ISAP原始金属数据库.xlsx";
+        //转码，免得文件名中文乱码
+        filename = URLEncoder.encode(filename, "UTF-8");
+        //设置文件下载头
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        int len = 0;
+        while ((len = bis.read()) != -1) {
+            out.write(len);
+            out.flush();
+        }
+        out.close();
+    }
+
+    /**
+     * 下载材料卡导入模板
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/download/metal/card")
+    public void downloadCard(HttpServletResponse response) throws IOException {
+        //获取输入流，原始模板位置
+        String filePath = getClass().getResource("/download/MetalCardTemplate.xlsx").getPath();
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+        //假如以中文名下载的话，设置下载文件名称
+        String filename = "金属导出材料卡库.xlsx";
         //转码，免得文件名中文乱码
         filename = URLEncoder.encode(filename, "UTF-8");
         //设置文件下载头
@@ -204,6 +280,13 @@ public class MetalController {
         model.addAttribute("metal",metalInput);
         return "admin/metal/originalInfo";
     }
+
+    @GetMapping("/metal/card/{id}")
+    public String cardInfo(@PathVariable String id, Model model) {
+        MetalOut metalOut=metalOutMapper.selectByPrimaryKey(new BigDecimal(id));
+        model.addAttribute("metal",metalOut);
+        return "admin/metal/cardInfo";
+    }
     /**
      * 跳转至导出MAT1页面
      * @return
@@ -251,7 +334,7 @@ public class MetalController {
         //获取所有数据列表
         List<MetalInput> list=metalService.getAll();
         try{
-            Workbook wb=new ExcelUtil().fillMetalOriginal(list, "OutportMetalOriginal .xlsx");
+            Workbook wb=new ExcelUtil().fillMetalOriginal(list, "exportMetalOriginal .xlsx");
             String fileName="ISAP金属库.xlsx";
             response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"),"iso8859-1"));
             response.setContentType("application/ynd.ms-excel;charset=UTF-8");

@@ -21,7 +21,7 @@ public interface MetalInputMapper {
 
     int updateByPrimaryKey(MetalInput record);
 
-    List<MetalOut> getAll(int start, int end);
+    List<MetalInput> getAll(int start, int end);
 
     int getCount();
 

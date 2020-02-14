@@ -26,4 +26,8 @@ public interface MetalOutMapper {
     List<MetalOut> getAll(int start, int end, String queryType);
 
     int getCount(String queryType);
+
+    List<MetalOut> getAllData(int start, int end);
+
+    int getAllCount();
 }

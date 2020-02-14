@@ -39,7 +39,7 @@
     from "METAL"."METAL_INPUT"
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <select id="getAll" resultType="com.suruomo.material.pojo.MetalOut">
+  <select id="getAll" resultType="com.suruomo.material.pojo.MetalInput">
  select * from (
     <![CDATA[
     select rownum rn,a.* from (select * from "METAL"."METAL_INPUT") a where rownum <= #{end}
