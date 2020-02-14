@@ -9,8 +9,10 @@ import com.suruomo.material.dto.Mat1;
 import com.suruomo.material.pojo.MetalInput;
 import com.suruomo.material.pojo.MetalOut;
 import com.suruomo.material.service.MetalService;
+import com.suruomo.material.utils.ExcelUtil;
 import com.suruomo.material.utils.ExportMat1;
 import net.sf.json.JSONArray;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author 苏若墨
@@ -36,6 +36,7 @@ public class MetalController {
     MetalInputMapper metalInputMapper;
     @Resource
     MetalService metalService;
+
     /**
      * 跳转原始数据列表页面
      * @return
@@ -240,6 +241,28 @@ public class MetalController {
         out.close();
     }
 
+    /**
+     * 批量导出原始数据
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/export/metal/original")
+    public void exportOriginal(HttpServletResponse response) throws IOException {
+        //获取所有数据列表
+        List<MetalInput> list=metalService.getAll();
+        try{
+            Workbook wb=new ExcelUtil().fillMetalOriginal(list, "OutportMetalOriginal .xlsx");
+            String fileName="ISAP金属库.xlsx";
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"),"iso8859-1"));
+            response.setContentType("application/ynd.ms-excel;charset=UTF-8");
+            OutputStream out=response.getOutputStream();
+            wb.write(out);
+            out.flush();
+            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     /**
      * 原始金属批量导入
      * @param file

@@ -26,4 +26,6 @@ public interface MetalInputMapper {
     int getCount();
 
     BigDecimal getMaxId();
+
+    List<MetalInput> getList();
 }

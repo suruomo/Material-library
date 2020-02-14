@@ -15,11 +15,19 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class MetalServiceImpl implements MetalService {
    @Resource
   private MetalInputMapper metalInputMapper;
+
+    /**
+     * 批量导入金属原始数据
+     * @param file
+     * @param fileName
+     * @throws IOException
+     */
     @Override
     public void uploadOriginal(MultipartFile file, String fileName) throws IOException {
         boolean isExcel2003 = true;
@@ -128,4 +136,15 @@ public class MetalServiceImpl implements MetalService {
             metalInputMapper.insert(metalInput);
         }
     }
+
+    /**
+     * 获取原始金属数据
+     * @return
+     */
+    @Override
+    public List<MetalInput> getAll() {
+        return metalInputMapper.getList();
+    }
+
+
 }

@@ -53,6 +53,9 @@
   <select id="getMaxId" resultType="java.math.BigDecimal">
     select max(ID) from "METAL"."METAL_INPUT"
   </select>
+  <select id="getList" resultType="com.suruomo.material.pojo.MetalInput">
+    select * from "METAL"."METAL_INPUT"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."METAL_INPUT"
     where ID = #{id,jdbcType=DECIMAL}
