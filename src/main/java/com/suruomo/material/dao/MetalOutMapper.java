@@ -32,4 +32,6 @@ public interface MetalOutMapper {
     int getAllCount();
 
     Integer getMaxId();
+
+    List<MetalOut> getList();
 }

@@ -1,6 +1,7 @@
 package com.suruomo.material.service;
 
 import com.suruomo.material.pojo.MetalInput;
+import com.suruomo.material.pojo.MetalOut;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,4 +20,6 @@ public interface MetalService {
 
 
     void uploadCard(MultipartFile file, String fileName) throws IOException;
+
+    List<MetalOut> getAllOut();
 }

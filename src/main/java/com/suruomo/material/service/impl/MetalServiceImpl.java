@@ -210,8 +210,8 @@ public class MetalServiceImpl implements MetalService {
             System.out.println();
             //从excel第二行开始获取每个单元格的数据
 
-            String name = row.getCell(0).toString();
-            String typeName = row.getCell(1).toString();
+            String typeName = row.getCell(0).toString();
+            String name = row.getCell(1).toString();
             String family = row.getCell(2).toString();
             String specification = row.getCell(3).toString();
             String form = row.getCell(4).toString();
@@ -261,5 +261,10 @@ public class MetalServiceImpl implements MetalService {
             //插入数据
             metalOutMapper.insert(metalOut);
         }
+    }
+
+    @Override
+    public List<MetalOut> getAllOut() {
+        return metalOutMapper.getList();
     }
 }
