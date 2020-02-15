@@ -48,6 +48,27 @@ public class CompositeController {
     public String aluminumList() {
         return "composite/list";
     }
+
+    /**
+     * 删除原始复合
+     * @param id
+     * @param model
+     * @return
+     */
+    @DeleteMapping ("/composite/original/{id}")
+    @ResponseBody
+    public String deleteOriginal(@PathVariable String id, Model model) {
+        compositeInputMapper.deleteByPrimaryKey(new BigDecimal(id));
+        return "success";
+    }
+    /**
+     * 跳转管理员原始复合
+     * @return
+     */
+    @GetMapping("/admin/composite/original")
+    public String originalList() {
+        return "admin/composite/originalList";
+    }
     /**
      * 返回查询金全部复合数据
      * @param page
