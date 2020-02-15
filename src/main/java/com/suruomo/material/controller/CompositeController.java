@@ -8,11 +8,13 @@ import com.suruomo.material.dao.CompositeOutMapper;
 import com.suruomo.material.dto.Mat8;
 import com.suruomo.material.pojo.CompositeInput;
 import com.suruomo.material.pojo.CompositeOut;
+import com.suruomo.material.service.CompositeService;
 import com.suruomo.material.utils.ExportMat8;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +34,8 @@ public class CompositeController {
     CompositeOutMapper compositeOutMapper;
     @Resource
     CompositeInputMapper compositeInputMapper;
+    @Resource
+    CompositeService compositeService;
     /**
      * 跳转原始数据列表页面
      * @return
@@ -161,5 +165,57 @@ public class CompositeController {
             out.flush();
         }
         out.close();
+    }
+
+    /**
+     * 下载原始复合导入模板
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/download/composite/original")
+    public void downloadOriginal(HttpServletResponse response) throws IOException {
+        //获取输入流，原始模板位置
+        String filePath = getClass().getResource("/download/ISAPCompositeOriginal.xlsx").getPath();
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+        //假如以中文名下载的话，设置下载文件名称
+        String filename = "ISAP原始复合数据库.xlsx";
+        //转码，免得文件名中文乱码
+        filename = URLEncoder.encode(filename, "UTF-8");
+        //设置文件下载头
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        int len = 0;
+        while ((len = bis.read()) != -1) {
+            out.write(len);
+            out.flush();
+        }
+        out.close();
+    }
+
+    /**
+     * 原始复合批量导入
+     * @param file
+     * @return
+     */
+    @PostMapping("/composite/original/upload")
+    @ResponseBody
+    public int uploadOriginal(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file != null) {
+                //成功上传
+                String fileName=file.getOriginalFilename();
+                compositeService.uploadOriginal(file,fileName);
+                return 1;
+            } else {
+                //文件为空
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //上传出现异常，请稍后重试
+            return 3;
+        }
     }
 }

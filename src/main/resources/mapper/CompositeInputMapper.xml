@@ -28,12 +28,15 @@
   <select id="getCount" resultType="java.lang.Integer">
     select count (*) from "METAL"."COMPOSITE_INPUT"
 </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select max(ID) from "METAL"."COMPOSITE_INPUT"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."COMPOSITE_INPUT"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.CompositeInput" >
-    insert into COMPOSITE_INPUT (ID, NAME, PARAMETER, 
+    insert into "METAL"."COMPOSITE_INPUT" (ID, NAME, PARAMETER,
       CONDITION, VALUE)
     values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{parameter,jdbcType=VARCHAR}, 
       #{condition,jdbcType=VARCHAR}, #{value,jdbcType=DECIMAL})

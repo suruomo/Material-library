@@ -348,7 +348,7 @@ public class MetalController {
     }
 
     /**
-     * 批量导入材料卡
+     * 批量导出材料卡
      * @param response
      * @throws IOException
      */

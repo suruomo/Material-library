@@ -23,4 +23,6 @@ public interface CompositeInputMapper {
     List<CompositeInput> getAll(int start, int end);
 
     int getCount();
+
+    Integer getMaxId();
 }
