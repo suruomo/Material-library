@@ -209,7 +209,7 @@ public class MetalController {
         String filePath = getClass().getResource("/download/MetalCardTemplate.xlsx").getPath();
         InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
         //假如以中文名下载的话，设置下载文件名称
-        String filename = "金属导出材料卡库.xlsx";
+        String filename = "金属材料卡库导入模板.xlsx";
         //转码，免得文件名中文乱码
         filename = URLEncoder.encode(filename, "UTF-8");
         //设置文件下载头
@@ -353,12 +353,37 @@ public class MetalController {
      */
     @PostMapping("/metal/original/upload")
     @ResponseBody
-    public int uploadPartMember(@RequestParam("file") MultipartFile file) {
+    public int uploadOriginal(@RequestParam("file") MultipartFile file) {
         try {
             if (file != null) {
                 //成功上传
                 String fileName=file.getOriginalFilename();
                 metalService.uploadOriginal(file,fileName);
+                return 1;
+            } else {
+                //文件为空
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //上传出现异常，请稍后重试
+            return 3;
+        }
+    }
+
+    /**
+     * 材料卡数据批量导入
+     * @param file
+     * @return
+     */
+    @PostMapping("/metal/card/upload")
+    @ResponseBody
+    public int uploadCard(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file != null) {
+                //成功上传
+                String fileName=file.getOriginalFilename();
+                metalService.uploadCard(file,fileName);
                 return 1;
             } else {
                 //文件为空

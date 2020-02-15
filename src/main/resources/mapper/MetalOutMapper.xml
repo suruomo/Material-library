@@ -58,12 +58,15 @@ select * from (
   <select id="getAllCount" resultType="java.lang.Integer">
       select count (*) from "METAL"."METAL_OUTPUT"
   </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select max(ID) from "METAL"."METAL_OUTPUT"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."METAL_OUTPUT"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.MetalOut" >
-    insert into METAL_OUTPUT (ID, NAME, TYPE_NAME, 
+    insert into "METAL"."METAL_OUTPUT" (ID, NAME, TYPE_NAME,
       FAMILY, SPECIFICATION, FORM, 
       TEMPER, MAT_ID, RHO, 
       BOOKS, AIRCRAFT, F_BRU, 

@@ -18,4 +18,5 @@ public interface MetalService {
     List<MetalInput> getAll();
 
 
+    void uploadCard(MultipartFile file, String fileName) throws IOException;
 }
