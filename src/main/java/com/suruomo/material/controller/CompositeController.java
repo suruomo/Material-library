@@ -315,4 +315,27 @@ public class CompositeController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 批量导出复材材料卡
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/export/composite/card")
+    public void exportCard(HttpServletResponse response) throws IOException {
+        //获取所有数据列表
+        List<CompositeOut> list=compositeService.getCard();
+        try{
+            Workbook wb=new ExcelUtil().fillCompositeCard(list, "exportCompositeCard.xlsx");
+            String fileName="复材材料卡导出库.xlsx";
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"),"iso8859-1"));
+            response.setContentType("application/ynd.ms-excel;charset=UTF-8");
+            OutputStream out=response.getOutputStream();
+            wb.write(out);
+            out.flush();
+            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

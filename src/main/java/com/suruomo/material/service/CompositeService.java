@@ -1,6 +1,7 @@
 package com.suruomo.material.service;
 
 import com.suruomo.material.pojo.CompositeInput;
+import com.suruomo.material.pojo.CompositeOut;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,4 +18,6 @@ public interface CompositeService {
     List<CompositeInput> getOriginal();
 
     void uploadCard(MultipartFile file, String fileName) throws IOException;
+
+    List<CompositeOut> getCard();
 }

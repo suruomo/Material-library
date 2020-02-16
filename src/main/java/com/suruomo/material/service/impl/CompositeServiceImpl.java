@@ -203,4 +203,9 @@ public class CompositeServiceImpl implements CompositeService {
             compositeOutMapper.insert(compositeOut);
         }
     }
+
+    @Override
+    public List<CompositeOut> getCard() {
+        return compositeOutMapper.getList();
+    }
 }

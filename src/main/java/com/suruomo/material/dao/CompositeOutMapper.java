@@ -28,4 +28,6 @@ public interface CompositeOutMapper {
     int getCount();
 
     int getMaxId();
+
+    List<CompositeOut> getList();
 }

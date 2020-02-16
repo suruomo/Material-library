@@ -1,6 +1,7 @@
 package com.suruomo.material.utils;
 
 import com.suruomo.material.pojo.CompositeInput;
+import com.suruomo.material.pojo.CompositeOut;
 import com.suruomo.material.pojo.MetalInput;
 import com.suruomo.material.pojo.MetalOut;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -165,6 +166,54 @@ public class ExcelUtil {
             row.createCell(1).setCellValue(compositeInput.getParameter());
             row.createCell(2).setCellValue(compositeInput.getCondition());
             row.createCell(3).setCellValue(compositeInput.getValue()==null?null:compositeInput.getValue().toString());
+        }
+        return wb;
+    }
+
+    /**
+     * 填充复材材料卡
+     * @param list
+     * @param templateFileName
+     * @return
+     */
+    public Workbook fillCompositeCard(List<CompositeOut> list, String templateFileName) {
+        //首先:从本地磁盘读取模板excel文件,然后读取第一个sheet
+        InputStream inp=ExcelUtil.class.getResourceAsStream("/download/"+templateFileName);
+        //        POIFSFileSystem fs=new POIFSFileSystem(inp);
+        Workbook wb  = null;
+        try {
+            // 解析2007版本
+            wb  = new XSSFWorkbook(inp);
+        } catch (Exception ex) {
+            try {
+                // 解析2003版本
+                POIFSFileSystem pfs = new POIFSFileSystem(inp);
+                wb = new HSSFWorkbook(pfs);
+            } catch (IOException e) {
+            }
+        }
+        Sheet sheet=wb.getSheetAt(0);
+
+        //开始写入数据到模板中: 需要注意的是,因为行头以及设置好,故而需要跳过行头
+        int cellNums=sheet.getRow(0).getLastCellNum();
+        int rowIndex=1;
+        //循环将数据写入表中
+        for (CompositeOut compositeOut:list) {
+            Row row = sheet.createRow(rowIndex++);
+            row.createCell(0).setCellValue(compositeOut.getName());
+            row.createCell(1).setCellValue(compositeOut.getMatId());
+            row.createCell(2).setCellValue(compositeOut.getTemperature()==null?null:compositeOut.getTemperature().toString());
+            row.createCell(3).setCellValue(compositeOut.getThickness()==null?null:compositeOut.getThickness().toString());
+            row.createCell(4).setCellValue(compositeOut.getE1()==null?null:compositeOut.getE1().toString());
+            row.createCell(5).setCellValue(compositeOut.getE2()==null?null:compositeOut.getE2().toString());
+            row.createCell(6).setCellValue(compositeOut.getNu12()==null?null:compositeOut.getNu12().toString());
+            row.createCell(7).setCellValue(compositeOut.getG12()==null?null:compositeOut.getG12().toString());
+            row.createCell(8).setCellValue(compositeOut.getG1z()==null?null:compositeOut.getG1z().toString());
+            row.createCell(9).setCellValue(compositeOut.getG2z()==null?null:compositeOut.getG2z().toString());
+            row.createCell(10).setCellValue(compositeOut.getRho()==null?null:compositeOut.getRho().toString());
+            row.createCell(11).setCellValue(compositeOut.getA()==null?null:compositeOut.getA().toString());
+            row.createCell(12).setCellValue(compositeOut.getRemark());
+            row.createCell(13).setCellValue(compositeOut.getAircraft());
         }
         return wb;
     }
