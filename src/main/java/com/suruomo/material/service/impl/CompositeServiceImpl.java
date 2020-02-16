@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author 苏若墨
@@ -101,5 +102,10 @@ public class CompositeServiceImpl implements CompositeService {
             //插入数据
             compositeInputMapper.insert(compositeInput);
         }
+    }
+
+    @Override
+    public List<CompositeInput> getOriginal() {
+        return compositeInputMapper.getList();
     }
 }

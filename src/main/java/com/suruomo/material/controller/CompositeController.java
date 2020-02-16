@@ -9,8 +9,10 @@ import com.suruomo.material.dto.Mat8;
 import com.suruomo.material.pojo.CompositeInput;
 import com.suruomo.material.pojo.CompositeOut;
 import com.suruomo.material.service.CompositeService;
+import com.suruomo.material.utils.ExcelUtil;
 import com.suruomo.material.utils.ExportMat8;
 import net.sf.json.JSONArray;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -216,6 +218,29 @@ public class CompositeController {
             e.printStackTrace();
             //上传出现异常，请稍后重试
             return 3;
+        }
+    }
+
+    /**
+     * 批量导出原始复合
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/export/composite/original")
+    public void exportOriginal(HttpServletResponse response) throws IOException {
+        //获取所有数据列表
+        List<CompositeInput> list=compositeService.getOriginal();
+        try{
+            Workbook wb=new ExcelUtil().fillCompositeOriginal(list, "exportCompositeOriginal.xlsx");
+            String fileName="ISAP复合库.xlsx";
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"),"iso8859-1"));
+            response.setContentType("application/ynd.ms-excel;charset=UTF-8");
+            OutputStream out=response.getOutputStream();
+            wb.write(out);
+            out.flush();
+            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
