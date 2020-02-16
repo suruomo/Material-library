@@ -55,6 +55,19 @@ public class LayupController {
         model.addAttribute("layup",layup);
         return "admin/layup/info";
     }
+
+    /**
+     * 删除铺层数据
+     * @param name
+     * @param model
+     * @return
+     */
+    @DeleteMapping ("/admin/layup/{name}")
+    @ResponseBody
+    public String deleteCard(@PathVariable String name, Model model) {
+        layupMapper.deleteByPrimaryKey(name);
+        return "success";
+    }
     /**
      * 返回查询全部铺层数据
      * @param page

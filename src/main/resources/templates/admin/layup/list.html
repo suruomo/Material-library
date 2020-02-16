@@ -80,7 +80,7 @@
                     layer.confirm('真的删除行么', function (index) {
                         layer.msg('删除中...', {icon: 16, shade: 0.3, time: 3000});
                         $.ajax({
-                            url: '/composite/card/' + data.id,
+                            url: '/admin/layup/' + data.name,
                             method: 'delete',
                             dataType: 'text',
                             success: function (data) {
