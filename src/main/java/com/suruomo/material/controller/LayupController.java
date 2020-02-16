@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suruomo.material.dao.LayupMapper;
 import com.suruomo.material.dto.Pcomp;
 import com.suruomo.material.pojo.Layup;
+import com.suruomo.material.service.LayupService;
 import com.suruomo.material.utils.ExportPcomp;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +29,8 @@ import java.util.Map;
 public class LayupController {
     @Resource
     private LayupMapper layupMapper;
+    @Resource
+    private LayupService layupService;
     /**
      * 跳转数据列表页面
      * @return
@@ -159,5 +163,30 @@ public class LayupController {
             out.flush();
         }
         out.close();
+    }
+
+    /**
+     * 铺层库批量导入
+     * @param file
+     * @return
+     */
+    @PostMapping("/layup/upload")
+    @ResponseBody
+    public int upload(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file != null) {
+                //成功上传
+                String fileName=file.getOriginalFilename();
+                layupService.upload(file,fileName);
+                return 1;
+            } else {
+                //文件为空
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //上传出现异常，请稍后重试
+            return 3;
+        }
     }
 }

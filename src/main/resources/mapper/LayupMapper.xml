@@ -51,7 +51,7 @@
     where NAME = #{name,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.Layup" >
-    insert into LAYUP (NAME, MID, T, 
+    insert into "METAL"."LAYUP" (NAME, MID, T,
       PLY, SYMMETRY, BALANCE, 
       EXX, EYY, GXY, NUXY, 
       NUYX, A11, A22, A12, 
