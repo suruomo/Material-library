@@ -67,13 +67,34 @@ public class CompositeController {
         compositeInputMapper.deleteByPrimaryKey(new BigDecimal(id));
         return "success";
     }
+
+    /**
+     * 删除复材材料卡
+     * @param id
+     * @param model
+     * @return
+     */
+    @DeleteMapping ("/composite/card/{id}")
+    @ResponseBody
+    public String deleteCard(@PathVariable String id, Model model) {
+        compositeOutMapper.deleteByPrimaryKey(new BigDecimal(id));
+        return "success";
+    }
     /**
      * 跳转管理员原始复合
      * @return
-     */
-    @GetMapping("/admin/composite/original")
+     */ @GetMapping("/admin/composite/original")
     public String originalList() {
         return "admin/composite/originalList";
+    }
+
+    /**
+     * 跳转管理员材料卡复合
+     * @return
+     */
+    @GetMapping("/admin/composite/card")
+    public String cardList() {
+        return "admin/composite/cardList";
     }
     /**
      * 返回查询金全部复合数据
@@ -180,7 +201,34 @@ public class CompositeController {
         String filePath = getClass().getResource("/download/ISAPCompositeOriginal.xlsx").getPath();
         InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
         //假如以中文名下载的话，设置下载文件名称
-        String filename = "ISAP原始复合数据库.xlsx";
+        String filename = "ISAP复材数据库导入模板.xlsx";
+        //转码，免得文件名中文乱码
+        filename = URLEncoder.encode(filename, "UTF-8");
+        //设置文件下载头
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        int len = 0;
+        while ((len = bis.read()) != -1) {
+            out.write(len);
+            out.flush();
+        }
+        out.close();
+    }
+
+    /**
+     * 下载材料卡复材导入模板
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/download/composite/card")
+    public void downloadCardl(HttpServletResponse response) throws IOException {
+        //获取输入流，原始模板位置
+        String filePath = getClass().getResource("/download/CompositeCardTemplate.xlsx").getPath();
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+        //假如以中文名下载的话，设置下载文件名称
+        String filename = "复材材料卡库导入模板.xlsx";
         //转码，免得文件名中文乱码
         filename = URLEncoder.encode(filename, "UTF-8");
         //设置文件下载头
@@ -232,7 +280,7 @@ public class CompositeController {
         List<CompositeInput> list=compositeService.getOriginal();
         try{
             Workbook wb=new ExcelUtil().fillCompositeOriginal(list, "exportCompositeOriginal.xlsx");
-            String fileName="ISAP复合库.xlsx";
+            String fileName="ISAP复材库.xlsx";
             response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"),"iso8859-1"));
             response.setContentType("application/ynd.ms-excel;charset=UTF-8");
             OutputStream out=response.getOutputStream();

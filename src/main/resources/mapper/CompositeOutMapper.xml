@@ -40,7 +40,7 @@
     select count (*) from "METAL"."COMPOSITE_OUTPUT"
 </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
-    delete from COMPOSITE_OUTPUT
+    delete from "METAL"."COMPOSITE_OUTPUT"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.CompositeOut" >
