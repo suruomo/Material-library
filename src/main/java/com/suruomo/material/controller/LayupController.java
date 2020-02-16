@@ -37,6 +37,25 @@ public class LayupController {
     }
 
     /**
+     * 跳转管理员铺层页面
+     * @return
+     */
+    @GetMapping("/admin/layup")
+    public String layupList() {
+        return "admin/layup/list";
+    }
+
+    /**
+     * 跳转管理员铺层详情页面
+     * @return
+     */
+    @GetMapping("/admin/layup/{name}")
+    public String layupInfo(@PathVariable String name, Model model) {
+        Layup layup=layupMapper.selectByPrimaryKey(name);
+        model.addAttribute("layup",layup);
+        return "admin/layup/info";
+    }
+    /**
      * 返回查询全部铺层数据
      * @param page
      * @param limit
