@@ -32,7 +32,7 @@ public class CompositeOut implements Serializable {
 
     private BigDecimal a;
 
-    private BigDecimal remark;
+    private String remark;
 
     private static final long serialVersionUID = 1L;
 
@@ -148,11 +148,11 @@ public class CompositeOut implements Serializable {
         this.a = a;
     }
 
-    public BigDecimal getRemark() {
+    public String getRemark() {
         return remark;
     }
 
-    public void setRemark(BigDecimal remark) {
+    public void setRemark(String remark) {
         this.remark = remark;
     }
 

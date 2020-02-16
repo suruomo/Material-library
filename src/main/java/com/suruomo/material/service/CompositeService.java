@@ -15,4 +15,6 @@ public interface CompositeService {
     void uploadOriginal(MultipartFile file, String fileName) throws IOException;
 
     List<CompositeInput> getOriginal();
+
+    void uploadCard(MultipartFile file, String fileName) throws IOException;
 }

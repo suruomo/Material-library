@@ -16,7 +16,7 @@
     <result column="G1Z" property="g1z" jdbcType="DECIMAL" />
     <result column="G2Z" property="g2z" jdbcType="DECIMAL" />
     <result column="A" property="a" jdbcType="DECIMAL" />
-    <result column="REMARK" property="remark" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, NAME, MAT_ID, TEMPERATURE, THICKNESS, RHO, AIRCRAFT, E1, E2, NU12, G12, G1Z, 
@@ -39,12 +39,15 @@
   <select id="getCount" resultType="java.lang.Integer">
     select count (*) from "METAL"."COMPOSITE_OUTPUT"
 </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select max(ID) from "METAL"."COMPOSITE_OUTPUT"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."COMPOSITE_OUTPUT"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.CompositeOut" >
-    insert into COMPOSITE_OUTPUT (ID, NAME, MAT_ID, 
+    insert into  "METAL"."COMPOSITE_OUTPUT" (ID, NAME, MAT_ID,
       TEMPERATURE, THICKNESS, RHO, 
       AIRCRAFT, E1, E2, NU12, 
       G12, G1Z, G2Z, A, 
@@ -53,7 +56,7 @@
       #{temperature,jdbcType=DECIMAL}, #{thickness,jdbcType=DECIMAL}, #{rho,jdbcType=DECIMAL}, 
       #{aircraft,jdbcType=VARCHAR}, #{e1,jdbcType=DECIMAL}, #{e2,jdbcType=DECIMAL}, #{nu12,jdbcType=DECIMAL}, 
       #{g12,jdbcType=DECIMAL}, #{g1z,jdbcType=DECIMAL}, #{g2z,jdbcType=DECIMAL}, #{a,jdbcType=DECIMAL}, 
-      #{remark,jdbcType=DECIMAL})
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.CompositeOut" >
     insert into COMPOSITE_OUTPUT
@@ -148,7 +151,7 @@
         #{a,jdbcType=DECIMAL},
       </if>
       <if test="remark != null" >
-        #{remark,jdbcType=DECIMAL},
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -195,7 +198,7 @@
         A = #{a,jdbcType=DECIMAL},
       </if>
       <if test="remark != null" >
-        REMARK = #{remark,jdbcType=DECIMAL},
+        REMARK = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
@@ -215,7 +218,7 @@
       G1Z = #{g1z,jdbcType=DECIMAL},
       G2Z = #{g2z,jdbcType=DECIMAL},
       A = #{a,jdbcType=DECIMAL},
-      REMARK = #{remark,jdbcType=DECIMAL}
+      REMARK = #{remark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
 </mapper>

@@ -270,6 +270,30 @@ public class CompositeController {
     }
 
     /**
+     * 复材材料卡批量导入
+     * @param file
+     * @return
+     */
+    @PostMapping("/composite/card/upload")
+    @ResponseBody
+    public int uploadCard(@RequestParam("file") MultipartFile file) {
+        try {
+            if (file != null) {
+                //成功上传
+                String fileName=file.getOriginalFilename();
+                compositeService.uploadCard(file,fileName);
+                return 1;
+            } else {
+                //文件为空
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //上传出现异常，请稍后重试
+            return 3;
+        }
+    }
+    /**
      * 批量导出原始复合
      * @param response
      * @throws IOException
