@@ -133,4 +133,31 @@ public class LayupController {
         }
         out.close();
     }
+
+    /**
+     * 下载铺层库导入模板
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/download/template")
+    public void downloadCardl(HttpServletResponse response) throws IOException {
+        //获取输入流，原始模板位置
+        String filePath = getClass().getResource("/download/ISAPLayupTemplate.xlsx").getPath();
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+        //假如以中文名下载的话，设置下载文件名称
+        String filename = "ISAP铺层库导入模板.xlsx";
+        //转码，免得文件名中文乱码
+        filename = URLEncoder.encode(filename, "UTF-8");
+        //设置文件下载头
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        int len = 0;
+        while ((len = bis.read()) != -1) {
+            out.write(len);
+            out.flush();
+        }
+        out.close();
+    }
 }
