@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class LayupServiceImpl implements LayupService {
@@ -124,5 +125,10 @@ public class LayupServiceImpl implements LayupService {
             //插入数据
             layupMapper.insert(layup);
         }
+    }
+
+    @Override
+    public List<Layup> getCard() {
+        return layupMapper.getList();
     }
 }

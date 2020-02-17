@@ -22,4 +22,6 @@ public interface LayupMapper {
     List<Layup> getAll(int start, int end);
 
     int getCount();
+
+    List<Layup> getList();
 }

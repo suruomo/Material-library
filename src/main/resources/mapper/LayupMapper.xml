@@ -46,6 +46,9 @@
   <select id="getCount" resultType="java.lang.Integer">
     select count (*) from "METAL"."LAYUP"
 </select>
+  <select id="getList" resultType="com.suruomo.material.pojo.Layup">
+    select * from  "METAL"."LAYUP"
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from  "METAL"."LAYUP"
     where NAME = #{name,jdbcType=VARCHAR}

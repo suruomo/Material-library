@@ -7,8 +7,10 @@ import com.suruomo.material.dao.LayupMapper;
 import com.suruomo.material.dto.Pcomp;
 import com.suruomo.material.pojo.Layup;
 import com.suruomo.material.service.LayupService;
+import com.suruomo.material.utils.ExcelUtil;
 import com.suruomo.material.utils.ExportPcomp;
 import net.sf.json.JSONArray;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -187,6 +189,29 @@ public class LayupController {
             e.printStackTrace();
             //上传出现异常，请稍后重试
             return 3;
+        }
+    }
+
+    /**
+     * 批量导出铺层库
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/export/layups")
+    public void exportLayups(HttpServletResponse response) throws IOException {
+        //获取所有数据列表
+        List<Layup> list=layupService.getCard();
+        try{
+            Workbook wb=new ExcelUtil().fillLayup(list, "exportLayup.xlsx");
+            String fileName="ISAP铺层库.xlsx";
+            response.setHeader("Content-Disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"),"iso8859-1"));
+            response.setContentType("application/ynd.ms-excel;charset=UTF-8");
+            OutputStream out=response.getOutputStream();
+            wb.write(out);
+            out.flush();
+            out.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }
