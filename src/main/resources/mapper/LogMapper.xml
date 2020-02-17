@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.Log" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REQUEST_MODULE" property="requestModule" jdbcType="VARCHAR" />
+    <result column="REQUEST_METHOD" property="requestMethod" jdbcType="VARCHAR" />
+    <result column="REQUEST_DATE" property="requestDate" jdbcType="TIMESTAMP" />
+    <result column="PARAMETER" property="parameter" jdbcType="VARCHAR" />
+    <result column="RESPONSE_TIME" property="responseTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, USER_NAME, IP, STATUS, REQUEST_MODULE, REQUEST_METHOD, REQUEST_DATE, PARAMETER,
+    RESPONSE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from LOG
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.Log" >
+    insert into "METAL"."LOG" (ID, USER_ID, USER_NAME,
+      IP, STATUS, REQUEST_MODULE, 
+      REQUEST_METHOD, REQUEST_DATE, PARAMETER,
+      RESPONSE_TIME)
+    values (#{id,jdbcType=DECIMAL}, #{userId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR},
+      #{ip,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{requestModule,jdbcType=VARCHAR}, 
+      #{requestMethod,jdbcType=VARCHAR}, #{requestDate,jdbcType=TIMESTAMP}, #{parameter,jdbcType=VARCHAR},
+      #{responseTime,jdbcType=VARCHAR})
+  </insert>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    select max(ID) from "METAL"."LOG"
+  </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.Log">
+    select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."LOG") a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getAllCount" resultType="java.lang.Integer">
+      select count (*) from "METAL"."LOG"
+  </select>
+    <select id="getList" resultType="com.suruomo.material.pojo.Log">
+        select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."LOG" where REQUEST_DATE>=#{startTime} and REQUEST_DATE<=#{endTime}) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+    </select>
+    <insert id="insertSelective" parameterType="com.suruomo.material.pojo.Log" >
+    insert into LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="requestModule != null" >
+        REQUEST_MODULE,
+      </if>
+      <if test="requestMethod != null" >
+        REQUEST_METHOD,
+      </if>
+      <if test="requestDate != null" >
+        REQUEST_DATE,
+      </if>
+      <if test="parameter != null" >
+        PARAMETER,
+      </if>
+      <if test="responseTime != null" >
+        RESPONSE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null" >
+        #{uid,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="requestModule != null" >
+        #{requestModule,jdbcType=VARCHAR},
+      </if>
+      <if test="requestMethod != null" >
+        #{requestMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="requestDate != null" >
+        #{requestDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parameter != null" >
+        #{parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="responseTime != null" >
+        #{responseTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.Log" >
+    update LOG
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{uid,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="requestModule != null" >
+        REQUEST_MODULE = #{requestModule,jdbcType=VARCHAR},
+      </if>
+      <if test="requestMethod != null" >
+        REQUEST_METHOD = #{requestMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="requestDate != null" >
+        REQUEST_DATE = #{requestDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="parameter != null" >
+        PARAMETER = #{parameter,jdbcType=VARCHAR},
+      </if>
+      <if test="responseTime != null" >
+        RESPONSE_TIME = #{responseTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.Log" >
+    update LOG
+    set USER_ID = #{userId,jdbcType=DECIMAL},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      REQUEST_MODULE = #{requestModule,jdbcType=VARCHAR},
+      REQUEST_METHOD = #{requestMethod,jdbcType=VARCHAR},
+      REQUEST_DATE = #{requestDate,jdbcType=TIMESTAMP},
+      PARAMETER = #{parameter,jdbcType=VARCHAR},
+      RESPONSE_TIME = #{responseTime,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

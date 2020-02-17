@@ -3,6 +3,7 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.LayupMapper;
 import com.suruomo.material.dto.Pcomp;
 import com.suruomo.material.pojo.Layup;
@@ -172,6 +173,7 @@ public class LayupController {
      * @param file
      * @return
      */
+    @SystemLog(module = "操作：管理员上传数据")
     @PostMapping("/layup/upload")
     @ResponseBody
     public int upload(@RequestParam("file") MultipartFile file) {

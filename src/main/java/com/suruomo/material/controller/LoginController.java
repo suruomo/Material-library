@@ -2,6 +2,7 @@ package com.suruomo.material.controller;
 
 import java.util.UUID;
 
+import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.UserMapper;
 import com.suruomo.material.pojo.User;
 import com.suruomo.material.utils.Md5;
@@ -122,7 +123,7 @@ public class LoginController {
         userMapper.updateByPrimaryKey(user);
         Cookie cookie = new Cookie("token", userToken);
         // 设置cookie的过期时间，单位为秒，这里为一天
-        cookie.setMaxAge(86400);
+        cookie.setMaxAge(864000);
         response.addCookie(cookie);
         if(user.getRole().equals("user")){
             return "redirect:/main";

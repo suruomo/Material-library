@@ -3,6 +3,7 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.UserMapper;
 import com.suruomo.material.pojo.User;
 import com.suruomo.material.utils.GetIp;
@@ -57,6 +58,7 @@ public class UserController {
      * @param request
      * @return
      */
+    @SystemLog(module = "操作：管理员增加用户")
     @PostMapping(value ={"/user"})
     public String addUser(User user, HttpServletRequest request){
         String password=new Md5().endode(user.getPassword());
@@ -76,6 +78,7 @@ public class UserController {
      * @param request
      * @return
      */
+    @SystemLog(module = "操作：管理员修改用户")
     @PutMapping("/user")
     public String modifyUser(User user, HttpServletRequest request){
         User oldUser=userMapper.selectByPrimaryKey(user.getUserId());
@@ -90,7 +93,7 @@ public class UserController {
         userMapper.updateByPrimaryKey(oldUser);
         return "redirect:/admin/user/list";
     }
-
+    @SystemLog(module = "操作：管理员修删除用户")
     @DeleteMapping("/user/{id}")
     @ResponseBody
     public String deleteUser(@PathVariable("id") String userId) {
@@ -188,6 +191,7 @@ public class UserController {
      * @param userId
      * @return 成功返回1，否则返回2
      */
+    @SystemLog(module = "操作：管理员重置用户密码")
     @PostMapping("/reset/{id}")
     @ResponseBody
     public String resetPassword(@PathVariable("id") String userId) {

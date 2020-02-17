@@ -3,6 +3,7 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.CompositeInputMapper;
 import com.suruomo.material.dao.CompositeOutMapper;
 import com.suruomo.material.dto.Mat8;
@@ -61,6 +62,7 @@ public class CompositeController {
      * @param model
      * @return
      */
+    @SystemLog(module = "操作：管理员删除数据")
     @DeleteMapping ("/composite/original/{id}")
     @ResponseBody
     public String deleteOriginal(@PathVariable String id, Model model) {
@@ -74,6 +76,7 @@ public class CompositeController {
      * @param model
      * @return
      */
+    @SystemLog(module = "操作：管理员删除数据")
     @DeleteMapping ("/composite/card/{id}")
     @ResponseBody
     public String deleteCard(@PathVariable String id, Model model) {
@@ -249,6 +252,7 @@ public class CompositeController {
      * @param file
      * @return
      */
+    @SystemLog(module = "操作：管理员上传数据")
     @PostMapping("/composite/original/upload")
     @ResponseBody
     public int uploadOriginal(@RequestParam("file") MultipartFile file) {
@@ -274,6 +278,7 @@ public class CompositeController {
      * @param file
      * @return
      */
+    @SystemLog(module = "操作：管理员上传数据")
     @PostMapping("/composite/card/upload")
     @ResponseBody
     public int uploadCard(@RequestParam("file") MultipartFile file) {
