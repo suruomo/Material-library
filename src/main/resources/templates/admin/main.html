@@ -13,13 +13,21 @@
     <div th:replace="admin/bar::topbar"></div>
     <!--引入sidebar-->
     <div th:replace="admin/bar::sidebar"></div>
-    <div class="layui-body" style="padding: 35px;border:30px;">
+    <div class="layui-body" style="padding: 25px;border:20px;">
         <!-- 内容主体区域 -->
-        <div class="layui-btn-group demoTable" style="margin-top:30px;">
-
+        <div style="padding: 15px;">
+            使用须知：
+            <br><br>
+            <blockquote class="layui-elem-quote">
+                该平台为相对应民机结构强度材料性能数据库软件的后台管理系统
+            </blockquote>
+            <blockquote class="layui-elem-quote">
+               功能简介：
+                <br>1.用户管理：管理该平台的用户数据，包括对用户的增删改查等。
+                <br>2.材料库管理：管理该平台的材料库数据（金属，复材，铺层），包括对相关材料数据的数据库操作以及批量处理等等。
+                <br>3.日志查看：查看平台的日志信息。
+            </blockquote>
         </div>
-
-        </table>
     </div>
 
     <!--引入footer-->
@@ -27,9 +35,9 @@
 </div>
 <script>
     //JavaScript代码区域
-    layui.use('element', function () {
+    layui.use(['element','carousel'], function () {
         var element = layui.element;
-
+        var carousel = layui.carousel //轮播
     });
 </script>
 </body>
