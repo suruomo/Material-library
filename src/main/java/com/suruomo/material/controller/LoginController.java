@@ -153,10 +153,13 @@ public class LoginController {
                             //根据cookie去数据库拿到user对象
                             User user=userMapper.findByToken(token);
                             //当token和rememberMe都存在时说明处于登录状态
-                            if(user!=null){
+                            if(user!=null&&user.getRole().equals("user")){
                                 request.getSession().setAttribute("user",user);
                             }
-                            break;
+                            else{
+                                return "login";
+                            }
+//                            break;
                         }
                     }
                     break;
@@ -185,10 +188,13 @@ public class LoginController {
                             //根据cookie去数据库拿到user对象
                             User user=userMapper.findByToken(token);
                             //当token和rememberMe都存在时说明处于登录状态
-                            if(user!=null){
+                            if(user!=null&&user.getRole().equals("admin")){
                                 request.getSession().setAttribute("user",user);
                             }
-                            break;
+                            else{
+                                return "login";
+                            }
+//                            break;
                         }
                     }
                     break;
