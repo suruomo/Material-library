@@ -34,4 +34,12 @@ public interface MetalOutMapper {
     Integer getMaxId();
 
     List<MetalOut> getList();
+
+    List<String> getFamily(String typeName);
+
+    List<String> getTemper(String family);
+
+    List<MetalOut> getAllDataByCondition(int start, int end, String typeName, String family, String temper);
+
+    List<MetalOut> getAllDataByNT(int start, int end, String typeName, String family);
 }

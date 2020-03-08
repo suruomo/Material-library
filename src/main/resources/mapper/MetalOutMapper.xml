@@ -64,6 +64,28 @@ select * from (
   <select id="getList" resultType="com.suruomo.material.pojo.MetalOut">
     select * from "METAL"."METAL_OUTPUT"
   </select>
+    <select id="getFamily" resultType="java.lang.String">
+      select distinct FAMILY  from  "METAL"."METAL_OUTPUT" where TYPE_NAME=#{typeName} order by FAMILY
+    </select>
+  <select id="getTemper" resultType="java.lang.String">
+    select distinct TEMPER  from  "METAL"."METAL_OUTPUT" where FAMILY=#{family} order by TEMPER
+  </select>
+  <select id="getAllDataByCondition" resultType="com.suruomo.material.pojo.MetalOut">
+    select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family} and TEMPER=#{temper}) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getAllDataByNT" resultType="com.suruomo.material.pojo.MetalOut">
+      select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family} ) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."METAL_OUTPUT"
     where ID = #{id,jdbcType=DECIMAL}
