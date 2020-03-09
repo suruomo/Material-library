@@ -188,7 +188,7 @@ public class MetalController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalOut> lists;
-        if(!typeName.equals(" ")&&family.equals(" ")&&temper.equals(" ")){
+        if(!typeName.equals(" ")&&family.equals(" ")){
             lists = metalOutMapper.getAll(start, end,typeName);
         }
         else if(!typeName.equals(" ")&&!family.equals(" ")&&temper.equals(" ")){

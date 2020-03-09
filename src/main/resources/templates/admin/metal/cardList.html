@@ -100,13 +100,13 @@
                     {field: 'typeName',  title: '类型', sort: true}
                     ,{field: 'family',  title: '系列', sort: true}
                     , {field: 'specification', width: 100, title: '规格'}
+                    , {field: 'form', title: '构成', sort: true}
                     , {field: 'e',width: 150, title: '拉伸杨氏模量', sort: true}
                     , {field: 'eC',width: 150, title: '压缩杨氏模量', sort: true}
                     , {field: 'fSu',width: 150, title: '剪切应力极限', sort: true}
                     , {field: 'fCy', width: 150,title: '压缩屈服', sort: true}
                     , {field: 'fTu', width: 150,title: '拉伸应力极限', sort: true}
                     , {field: 'g', width: 150,title: '剪切模量', sort: true}
-                    , {field: 'nu', title: '泊松比', sort: true}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]
             ]
@@ -196,7 +196,6 @@
                 var type= $('#type').val();
                 var family= $('#family').val();
                 var temper= $('#temper').val();
-                alert(type+"-"+family+"-"+temper)
                 //执行重载
                 table.reload('list', {
                     method:'get'
