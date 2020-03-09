@@ -27,4 +27,10 @@ public interface CompositeInputMapper {
     Integer getMaxId();
 
     List<CompositeInput> getList();
+
+    List<String> getParameters(String name);
+
+    List<CompositeInput> getByName(int start, int end, String name);
+
+    List<CompositeInput> getByNameParameter(int start, int end, String name, String parameter);
 }

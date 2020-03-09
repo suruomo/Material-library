@@ -34,6 +34,25 @@
   <select id="getList" resultType="com.suruomo.material.pojo.CompositeInput">
     select * from  "METAL"."COMPOSITE_INPUT"
   </select>
+    <select id="getParameters" resultType="java.lang.String">
+        select distinct PARAMETER  from  "METAL"."COMPOSITE_INPUT" where NAME=#{name} order by PARAMETER
+    </select>
+  <select id="getByName" resultType="com.suruomo.material.pojo.CompositeInput">
+     select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."COMPOSITE_INPUT" where NAME=#{name} ) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getByNameParameter" resultType="com.suruomo.material.pojo.CompositeInput">
+     select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."COMPOSITE_INPUT" where NAME=#{name} and PARAMETER=#{parameter} ) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."COMPOSITE_INPUT"
     where ID = #{id,jdbcType=DECIMAL}

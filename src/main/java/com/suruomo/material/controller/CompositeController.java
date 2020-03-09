@@ -100,15 +100,15 @@ public class CompositeController {
         return "admin/composite/cardList";
     }
     /**
-     * 返回查询金全部复合数据
+     * 返回查询全部复合数据
      * @param page
      * @param limit
      * @return
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/compositerawdatas")
-    public Map<String, Object> composites(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
+    @GetMapping(value = "/compositerawdatas",params = {"page","limit"})
+    public Map<String, Object> composites(int page,  int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<CompositeInput> users = compositeInputMapper.getAll(start, end);
@@ -126,7 +126,35 @@ public class CompositeController {
         map.put("count", count);
         return map;
     }
-
+    /**
+     * 按条件筛选重载表格
+     */
+    @ResponseBody
+    @GetMapping(value = "/compositerawdatas",params = {"page","limit","name","parameter"})
+    public Map<String, Object> cardsReload(int page,  int limit,String name,String parameter) throws JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<CompositeInput> lists;
+        if(!name.equals(" ")&&parameter.equals(" ")){
+            lists = compositeInputMapper.getByName(start, end,name);
+        }
+        else{
+            lists = compositeInputMapper.getByNameParameter(start, end,name,parameter);
+        }
+        int count = lists.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(lists);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
     /**
      * 返回查询导出材料卡复合数据
      * @param page
@@ -218,6 +246,31 @@ public class CompositeController {
             out.flush();
         }
         out.close();
+    }
+
+    /**
+     * 按name找parameter
+     * @param name
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @RequestMapping(value = "admin/composite/query",params = "name")
+    public Map<String, Object> queryParameter(String name) throws JsonProcessingException {
+        List<String> lists = compositeInputMapper.getParameters(name);
+        int count =lists.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(lists);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
     }
 
     /**
