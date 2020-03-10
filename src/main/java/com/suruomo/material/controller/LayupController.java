@@ -83,8 +83,8 @@ public class LayupController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/layup")
-    public Map<String, Object> layup(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
+    @GetMapping(value = "/layup",params = {"page","limit"})
+    public Map<String, Object> layup(int page,  int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<Layup> users = layupMapper.getAll(start, end);
@@ -103,6 +103,33 @@ public class LayupController {
         return map;
     }
 
+    /**
+     * 按编号查找
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/layup",params = {"page","limit","name"})
+    public Map<String, Object> getByName(int page,  int limit,String name) throws JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<Layup> lists = layupMapper.getByName(start, end,name);
+        int count = lists.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(lists);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
     /**
      * 跳转至导出PCOMP页面
      * @return

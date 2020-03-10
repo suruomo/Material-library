@@ -272,7 +272,24 @@ public class CompositeController {
         map.put("count", count);
         return map;
     }
-
+    @ResponseBody
+    @RequestMapping(value = "/composite/query",params = "name")
+    public Map<String, Object> queryByName(String name) throws JsonProcessingException {
+        List<String> lists = compositeInputMapper.getParameters(name);
+        int count =lists.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(lists);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
     /**
      * 下载材料卡复材导入模板
      * @param response

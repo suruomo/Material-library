@@ -56,6 +56,36 @@
   <select id="getList" resultType="com.suruomo.material.pojo.MetalInput">
     select * from "METAL"."METAL_INPUT"
   </select>
+    <select id="getFamily" resultType="java.lang.String">
+      select distinct FAMILY  from  "METAL"."METAL_INPUT" where TYPE_NAME=#{typeName} order by FAMILY
+    </select>
+  <select id="getTemper" resultType="java.lang.String">
+     select distinct TEMPER  from  "METAL"."METAL_INPUT" where FAMILY=#{family} order by TEMPER
+  </select>
+  <select id="getAllByType" resultType="com.suruomo.material.pojo.MetalInput">
+     select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."METAL_INPUT" where TYPE_NAME=#{typeName}) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getAllDataByNT" resultType="com.suruomo.material.pojo.MetalInput">
+         select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."METAL_INPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family}) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
+  <select id="getAllDataByCondition" resultType="com.suruomo.material.pojo.MetalInput">
+           select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."METAL_INPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family} and TEMPER=#{temper}) a where rownum <= #{end}
+    ]]>
+    )
+    where rn >= #{start}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."METAL_INPUT"
     where ID = #{id,jdbcType=DECIMAL}

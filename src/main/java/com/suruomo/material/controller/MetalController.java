@@ -127,8 +127,8 @@ public class MetalController {
      * @throws JsonProcessingException
      */
        @ResponseBody
-    @GetMapping(value = "/metals")
-    public Map<String, Object> mentals(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
+    @GetMapping(value = "/metals",params = {"page","limit"})
+    public Map<String, Object> mentals( int page, int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalInput> users = metalInputMapper.getAll(start, end);
@@ -146,7 +146,42 @@ public class MetalController {
         map.put("count", count);
         return map;
     }
-
+    /**
+     * 筛选表格
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/metals",params = {"page","limit","typeName","family","temper"})
+    public Map<String, Object> mentalsReload( int page,  int limit,String typeName,String family,String temper) throws JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<MetalInput> lists;
+        if(!typeName.equals(" ")&&family.equals(" ")){
+            lists = metalInputMapper.getAllByType(start, end,typeName);
+        }
+        else if(!typeName.equals(" ")&&!family.equals(" ")&&temper.equals(" ")){
+            lists = metalInputMapper.getAllDataByNT(start, end,typeName,family);
+        }
+        else{
+            lists = metalInputMapper.getAllDataByCondition(start, end,typeName,family,temper);
+        }
+        int count = lists.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(lists);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
     /**
      * 返回金属材料卡数据
      * @param page
@@ -262,6 +297,29 @@ public class MetalController {
         return map;
     }
     /**
+     * 根据类型查family
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @RequestMapping(value = "/metal/query",params = "typeName")
+    public Map<String, Object> queryByFamily(String typeName) throws JsonProcessingException {
+        List<String> familys = metalInputMapper.getFamily(typeName);
+        int count =familys.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(familys);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
+    /**
      * 根据family查temper
      * @return
      * @throws JsonProcessingException
@@ -270,6 +328,29 @@ public class MetalController {
     @RequestMapping(value = "admin/metal/query",params = "family")
     public Map<String, Object> queryTemper(String family) throws JsonProcessingException {
         List<String> tempers = metalOutMapper.getTemper(family);
+        int count =tempers.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(tempers);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
+    /**
+     * 根据family查temper
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @RequestMapping(value = "/metal/query",params = "family")
+    public Map<String, Object> queryByTemper(String family) throws JsonProcessingException {
+        List<String> tempers = metalInputMapper.getTemper(family);
         int count =tempers.size();
         HashMap<String, Object> map = new HashMap();
         //返回Json
@@ -318,8 +399,37 @@ public class MetalController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/metals/{type}")
-    public Map<String, Object> list(@RequestParam("page") int page, @RequestParam("limit") int limit,@PathVariable("type") String type) throws JsonProcessingException {
+    @GetMapping(value = "/metals/{type}",params = {"page","limit","typeName","family","temper"})
+    public Map<String, Object> listByCondition(int page,  int limit,@PathVariable("type") String type,String typeName,String family,String temper) throws JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<MetalOut> lists;
+        if(!typeName.equals(" ")&&family.equals(" ")){
+            lists = metalOutMapper.getAll(start, end,typeName);
+        }
+        else if(!typeName.equals(" ")&&!family.equals(" ")&&temper.equals(" ")){
+            lists = metalOutMapper.getAllDataByNT(start, end,typeName,family);
+        }
+        else{
+            lists = metalOutMapper.getAllDataByCondition(start, end,typeName,family,temper);
+        }
+        int count = lists.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(lists);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
+    }
+    @ResponseBody
+    @GetMapping(value = "/metals/{type}",params = {"page","limit"})
+    public Map<String, Object> list(int page,  int limit,@PathVariable("type") String type) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
         String queryType = "";

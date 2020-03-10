@@ -24,4 +24,6 @@ public interface LayupMapper {
     int getCount();
 
     List<Layup> getList();
+
+    List<Layup> getByName(int start, int end, String name);
 }

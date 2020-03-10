@@ -28,4 +28,14 @@ public interface MetalInputMapper {
     BigDecimal getMaxId();
 
     List<MetalInput> getList();
+
+    List<String> getFamily(String typeName);
+
+    List<String> getTemper(String family);
+
+    List<MetalInput> getAllByType(int start, int end, String typeName);
+
+    List<MetalInput> getAllDataByNT(int start, int end, String typeName, String family);
+
+    List<MetalInput> getAllDataByCondition(int start, int end, String typeName, String family, String temper);
 }

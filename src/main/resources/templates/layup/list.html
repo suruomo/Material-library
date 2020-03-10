@@ -19,6 +19,23 @@
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
             <legend><h2>铺层数据信息</h2></legend>
         </fieldset>
+        <div class="layuimini-main">
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" >
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">按名称查找</label>
+                            <div class="layui-input-inline">
+                                <input  type="text"  class="layui-input" id="test1" name="test1" >
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn"  data-type="reload" id="search" name="search">搜索</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <table class="layui-hide" style="margin-top:15px;" id="idTest" lay-filter="demo">
         </table>
     </div>
@@ -30,7 +47,7 @@
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" id="importFile" type="file"><i class="layui-icon">&#xe62f;</i> 批量导出
+<!--        <button class="layui-btn layui-btn-sm" id="importFile" type="file"><i class="layui-icon">&#xe62f;</i> 批量导出-->
         </button>
     </div>
 </script>
@@ -60,6 +77,26 @@
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120}
                 ]
             ]
+        });
+        //搜索数据按钮
+        var $ = layui.$, active = {
+            reload: function(){
+                var name= $('#test1');
+                //执行重载
+                table.reload('list', {
+                    method:'get'
+                    ,page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        name:name.val()
+                    }
+                }, 'data');
+            }
+        };
+        $('#search').on('click', function(){	//search为搜索button中设置的id名
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
         });
         //监听表格复选框选择
         table.on('checkbox(demo)', function (obj) {
