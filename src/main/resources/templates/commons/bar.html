@@ -10,38 +10,26 @@
 <body>
 <!--topbar-->
 <div class="layui-header" th:fragment="topbar" >
-    <div class="layui-logo">结构强度材料性能库</div>
+    <div class="layui-logo">民机结构强度性能数据库</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
         <li class="layui-nav-item"><a th:href="@{/main}">首页</a></li>
         <li class="layui-nav-item">
-            <a href="javascript:;">金属材料</a>
+            <a href="javascript:;">ISAP材料数据库</a>
             <dl class="layui-nav-child">
-                <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
-                </dd>
-                <dd>
-                    <dl>
-                        <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出铝</a></dd>
-                        <dd><a th:href="@{/metal/steel}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出钢</a></dd>
-                        <dd><a th:href="@{/metal/titanium}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出钛</a></dd>
-                    </dl>
-                </dd>
+                <dd><a th:href="@{/metal/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>金属材料库</a></dd>
+                <dd><a th:href="@{/composite/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe857;</i>复合材料库</a></dd>
+                <dd><a th:href="@{/layup/isap}"><i class="layui-icon " style="font-size:18px;">&#xe6b1;</i>标准铺层库</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
-            <a href="javascript:;">复合材料</a>
+            <a href="javascript:;">导出材料卡</a>
             <dl class="layui-nav-child">
-                <dd><a th:href="@{/composite/rawdata}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>&nbsp;原始数据</a>
-                </dd>
-                <dd><a th:href="@{/composite}"><i class="layui-icon " style="font-size:18px;">&#xe681;</i>&nbsp;导出材料卡</a></dd>
+                <dd><a th:href="@{/metal/aluminum}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>导出金属材料卡</a></dd>
+                <dd><a th:href="@{/composite}"><i class="layui-icon " style="font-size:18px;">&#xe857;</i>导出复合材料卡</a></dd>
+                <dd><a th:href="@{/layups}"><i class="layui-icon " style="font-size:18px;">&#xe6b1;</i>导出铺层卡</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item">
-            <a th:href="@{/layups}">铺层</a>
-        </li>
-<!--        <li class="layui-nav-item">-->
-<!--            <a th:href="@{/users}">型材</a>-->
-<!--        </li>-->
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item" th:if="${session.user}!=null">

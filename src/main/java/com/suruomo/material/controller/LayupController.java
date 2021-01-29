@@ -35,7 +35,7 @@ public class LayupController {
     @Resource
     private LayupService layupService;
     /**
-     * 跳转数据列表页面
+     * 跳转材料卡数据列表页面
      * @return
      */
     @GetMapping("/layups")
@@ -63,6 +63,14 @@ public class LayupController {
         return "admin/layup/info";
     }
 
+    /**
+     * 跳转ISAP铺层列表页面
+     * @return
+     */
+    @GetMapping("/layup/isap")
+    public String layupIsapList() {
+        return "layup/isap_list";
+    }
     /**
      * 删除铺层数据
      * @param name
@@ -142,6 +150,17 @@ public class LayupController {
         return "layup/pcomp";
     }
 
+    /**
+     * 跳转至ISAP铺层数据详情页面
+     * @return
+     */
+
+    @GetMapping("/layup/isap_info/{name}")
+    public String isapInfo(@PathVariable String name, Model model) {
+        Layup layup=layupMapper.selectByPrimaryKey(name);
+        model.addAttribute("layup",layup);
+        return "layup/isap_info";
+    }
     /**
      * 导出PCOMP卡片.bdf文件下载
      */
