@@ -144,22 +144,10 @@
     <div th:replace="commons/bar::footer"></div>
 </div>
 <script>
-    layui.use(['form', 'layedit', 'laydate', 'jquery', 'element'], function () {
+    layui.use(['form', 'jquery', 'element'], function () {
         var $ = layui.jquery;
-        var form = layui.form
-            , layer = layui.layer
-            , layedit = layui.layedit
-            , laydate = layui.laydate;
+        var form = layui.form;
         form.render();
-        //监听提交
-        form.on('submit(demo1)', function (data) {
-            // layer.alert(JSON.stringify(data.field), {
-            //     title: '最终的提交信息'
-            // })
-            form.submit();
-            return false;
-        });
-
 
     });
 </script>

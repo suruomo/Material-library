@@ -65,12 +65,6 @@
                                     <input type="text" name="MID" class="layui-input" th:value="${metal.matId}" readOnly>
                                 </div>
                             </div>
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>标识号MCSID</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="MCSID" class="layui-input" th:value="不定义此数据" readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="layui-inline">
                                 <label class="layui-form-label"><span style="color: red; "></span>剪切模量G</label>
                                 <div class="layui-input-block">
@@ -96,31 +90,12 @@
                                     <input type="text" name="A" class="layui-input" th:value="${metal.a}" readOnly>
                                 </div>
                             </div>
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>参考温度TREF</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="TREF" class="layui-input" th:value="缺省值0.0"-->
-<!--                                           readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>结构单元阻尼系数GE</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="GE" class="layui-input" th:value="不定义此数据" readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="layui-inline">
                                 <label class="layui-form-label"><span style="color: red; "></span>拉伸应力极限ST</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="ST" class="layui-input" th:value="${metal.fTu}" readOnly>
                                 </div>
                             </div>
-<!--                            <div class="layui-inline">-->
-<!--                                <label class="layui-form-label"><span style="color: red; "></span>压缩应力极限SC</label>-->
-<!--                                <div class="layui-input-block">-->
-<!--                                    <input type="text" name="SC" class="layui-input" th:value="暂无此数据" readOnly>-->
-<!--                                </div>-->
-<!--                            </div>-->
                             <div class="layui-inline">
                                 <label class="layui-form-label"><span style="color: red; "></span>剪切应力极限SS</label>
                                 <div class="layui-input-block">
@@ -155,23 +130,10 @@
     <div th:replace="commons/bar::footer"></div>
 </div>
 <script>
-    layui.use(['form', 'layedit', 'laydate', 'jquery', 'element'], function () {
+    layui.use(['form', 'jquery', 'element'], function () {
         var $ = layui.jquery;
-        var form = layui.form
-            , layer = layui.layer
-            , layedit = layui.layedit
-            , laydate = layui.laydate;
+        var form = layui.form;
         form.render();
-        //监听提交
-        form.on('submit(demo1)', function (data) {
-            // layer.alert(JSON.stringify(data.field), {
-            //     title: '最终的提交信息'
-            // })
-            form.submit();
-            return false;
-        });
-
-
     });
 </script>
 </body>
