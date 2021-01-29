@@ -43,17 +43,17 @@ public class CompositeController {
      * 跳转原始数据列表页面
      * @return
      */
-    @GetMapping("/composite/rawdata")
+    @GetMapping("/composites/isap/list")
     public String rawDatas() {
-        return "composite/all";
+        return "composite/isap_list";
     }
     /**
-     * 跳转所有复合数据列表页面
+     * 跳转所有材料卡列表页面
      * @return
      */
-    @GetMapping("/composite")
+    @GetMapping("/composites/card/list")
     public String aluminumList() {
-        return "composite/list";
+        return "composite/card_list";
     }
 
     /**
@@ -100,14 +100,14 @@ public class CompositeController {
         return "admin/composite/cardList";
     }
     /**
-     * 返回查询全部复合数据
+     * 返回查询全部ISAP复合数据
      * @param page
      * @param limit
      * @return
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/compositerawdatas",params = {"page","limit"})
+    @GetMapping(value = "/composites/isap/data",params = {"page","limit"})
     public Map<String, Object> composites(int page,  int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
@@ -127,10 +127,10 @@ public class CompositeController {
         return map;
     }
     /**
-     * 按条件筛选重载表格
+     * 按条件筛选重载ISAP表格
      */
     @ResponseBody
-    @GetMapping(value = "/compositerawdatas",params = {"page","limit","name","parameter"})
+    @GetMapping(value = "/composites/isap/data",params = {"page","limit","name","parameter"})
     public Map<String, Object> cardsReload(int page,  int limit,String name,String parameter) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
@@ -163,7 +163,7 @@ public class CompositeController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/composites")
+    @GetMapping(value = "/composites/card/data")
     public Map<String, Object> list(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
@@ -272,8 +272,15 @@ public class CompositeController {
         map.put("count", count);
         return map;
     }
+
+    /**
+     * ISAP表格筛选条件
+     * @param name
+     * @return
+     * @throws JsonProcessingException
+     */
     @ResponseBody
-    @RequestMapping(value = "/composite/query",params = "name")
+    @RequestMapping(value = "/composites/isap/query",params = "name")
     public Map<String, Object> queryByName(String name) throws JsonProcessingException {
         List<String> lists = compositeInputMapper.getParameters(name);
         int count =lists.size();

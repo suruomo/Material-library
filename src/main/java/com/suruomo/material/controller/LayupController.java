@@ -38,9 +38,9 @@ public class LayupController {
      * 跳转材料卡数据列表页面
      * @return
      */
-    @GetMapping("/layups")
+    @GetMapping("/layups/card/list")
     public String layups() {
-        return "layup/list";
+        return "layup/card_list";
     }
 
     /**
@@ -67,7 +67,7 @@ public class LayupController {
      * 跳转ISAP铺层列表页面
      * @return
      */
-    @GetMapping("/layup/isap")
+    @GetMapping("/layups/isap/list")
     public String layupIsapList() {
         return "layup/isap_list";
     }
@@ -84,14 +84,14 @@ public class LayupController {
         return "success";
     }
     /**
-     * 返回查询全部铺层数据
+     * 返回ISAP铺层数据
      * @param page
      * @param limit
      * @return
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/layup",params = {"page","limit"})
+    @GetMapping(value = "/layups/isap/data",params = {"page","limit"})
     public Map<String, Object> layup(int page,  int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
@@ -112,14 +112,14 @@ public class LayupController {
     }
 
     /**
-     * 按编号查找
+     * ISAP数据按名称查找
      * @param page
      * @param limit
      * @return
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/layup",params = {"page","limit","name"})
+    @GetMapping(value = "/layups/isap/data",params = {"page","limit","name"})
     public Map<String, Object> getByName(int page,  int limit,String name) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
@@ -155,7 +155,7 @@ public class LayupController {
      * @return
      */
 
-    @GetMapping("/layup/isap_info/{name}")
+    @GetMapping("/layups/isap/{name}")
     public String isapInfo(@PathVariable String name, Model model) {
         Layup layup=layupMapper.selectByPrimaryKey(name);
         model.addAttribute("layup",layup);

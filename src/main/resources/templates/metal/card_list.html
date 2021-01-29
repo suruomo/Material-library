@@ -11,22 +11,43 @@
     <!--引入topbar-->
     <div th:replace="commons/bar::topbar"></div>
     <!--引入sidebar-->
-    <!--    <div th:replace="commons/bar::sidebar"></div>-->
-    <div class="layui-body" style="padding: 25px;border:20px;">
+<!--    <div th:replace="commons/bar::sidebar"></div>-->
+    <div class="layui-body" style="padding: 25px;border:20px;" >
         <!-- 内容主体区域 -->
-        <div class="layui-btn-group demoTable" style="margin-top:20px;">
+        <div class="layui-btn-group demoTable" >
         </div>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-            <legend><h2>ISAP铺层数据</h2></legend>
+            <legend><h2>金属材料卡数据</h2></legend>
         </fieldset>
         <div class="layuimini-main">
             <div style="margin: 10px 10px 10px 10px">
                 <form class="layui-form layui-form-pane" >
                     <div class="layui-form-item">
                         <div class="layui-inline">
-                            <label class="layui-form-label">按名称查找</label>
+                            <label class="layui-form-label">Type</label>
                             <div class="layui-input-inline">
-                                <input  type="text"  class="layui-input" id="test1" name="test1" >
+                                <select name="typeName" id="typeName" lay-filter="typeName">
+                                    <option value="">请选择</option>
+                                    <option value="EO_Material_Aluminium">铝</option>
+                                    <option value="EO_Material_Steel">钢</option>
+                                    <option value="EO_Material_Titanium">钛</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">Family</label>
+                            <div class="layui-input-inline">
+                                <select name="family" id="family" lay-filter="family">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">Temper</label>
+                            <div class="layui-input-inline">
+                                <select name="temper" id="temper" lay-filter="temper">
+                                    <option value="">请选择</option>
+                                </select>
                             </div>
                         </div>
                         <div class="layui-inline">
@@ -39,49 +60,98 @@
         <table class="layui-hide" style="margin-top:15px;" id="idTest" lay-filter="demo">
         </table>
     </div>
+    <input type="hidden" id="type" name="type" th:value="${type} "/>
     <!--引入footer-->
     <div th:replace="commons/bar::footer"></div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="export">查看数据</a>
+    <a class="layui-btn layui-btn-xs" lay-event="export">导出MAT1</a>
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <!--        <button class="layui-btn layui-btn-sm" id="importFile" type="file"><i class="layui-icon">&#xe62f;</i> 批量导出-->
+<!--        <button class="layui-btn layui-btn-sm" id="importFile" type="file"><i class="layui-icon">&#xe62f;</i> 批量导出-->
         </button>
     </div>
 </script>
 <script>
-    layui.use(['table', 'jquery', 'element'], function () {
+    layui.use(['table', 'jquery', 'element','form'], function () {
         var $ = layui.jquery;
         var table = layui.table;
         var element = layui.element;
+        var form=layui.form;
+        var type =$("#type").val()
         //初始化
         table.render({
             elem: '#idTest'
-            , url: '/layups/isap/data'
+            , url: '/metals/card/'+type
             , method: "get"
             , page: true    //true表示分页
-            , title: '铺层信息'
+            , title: '金属信息'
             , id: 'list'
             , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {field: 'name',width: 80, title: '名称', sort: true}
-                    , {field: 'mid',width: 110,title: '材料标识号'}
-                    , {field: 't', width: 80,title: '总厚度'}
-                    , {field: 'symmetry',width: 90, title: '对称？'}
-                    , {field: 'balance', width: 90,title: '平衡？'}
-                    , {field: 'ply', title: '铺层信息', sort: true}
-                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 120}
+                   {field: 'family',  title: '材料系列', sort: true}
+                    , {field: 'specification', width: 220, title: '规格'}
+                    , {field: 'aircraft', width: 100, title: '飞机'}
+                    , {field: 'e',width: 80, title: 'E', sort: true}
+                    , {field: 'eC',width: 80, title: 'EC', sort: true}
+                    , {field: 'fSu',width: 100, title: 'F_SU', sort: true}
+                    , {field: 'fCy', width: 100,title: 'F_CY', sort: true}
+                    , {field: 'fTu', width: 80,title: 'F_TU', sort: true}
+                    , {field: 'fTy', width: 80,title: 'F_TY', sort: true}
+                    , {field: 'g', width: 80,title: 'G', sort: true}
+                    , {field: 'nu',width: 100, title: 'NU', sort: true}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]
             ]
         });
-        //搜索数据按钮
+        // 表单初始化
+        form.render();
+        //多级下拉框联动
+        form.on('select(typeName)', function (data) { //type是那个lay-filter的值
+            var type = $("#typeName option:selected").val();//获得选中的option的值
+            $.ajax({
+                url: 'query?typeName=' + type,   //带参数将这个传到后台条件查询方法里面
+                type: "Get",
+                contentType: "application/json",
+                async: false,//同步
+                success: function (result) {
+                    var data = result.data;
+                    var str = '<option value = " ">' +  '</option>';
+                    for (var x in data) {
+                        str += '<option value = "' + data[x] + '">' + data[x] + '</option>';
+                    }
+                    $("#family").html(str);
+                }
+            });
+            form.render('select');//最后记得渲染
+        });
+        form.on('select(family)', function (data) { //type是那个lay-filter的值
+            var family = $("#family option:selected").val();//获得选中的option的值
+            $.ajax({
+                url: 'query?family=' + family,   //带参数将这个传到后台条件查询方法里面
+                type: "Get",
+                contentType: "application/json",
+                async: false,//同步
+                success: function (result) {
+                    var data = result.data;
+                    var str = '<option value = " ">' +  '</option>';
+                    for (var x in data) {
+                        str += '<option value = "' + data[x] + '">' + data[x] + '</option>';
+                    }
+                    $("#temper").html(str);
+                }
+            });
+            form.render('select');//最后记得渲染
+        });
+        //表格搜索重载
         var $ = layui.$, active = {
             reload: function(){
-                var name= $('#test1');
+                var type= $('#typeName').val();
+                var family= $('#family').val();
+                var temper= $('#temper').val();
                 //执行重载
                 table.reload('list', {
                     method:'get'
@@ -89,11 +159,14 @@
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
-                        name:name.val()
+                        typeName:type,
+                        family:family,
+                        temper:temper
                     }
                 }, 'data');
             }
         };
+        //按条件搜索按钮
         $('#search').on('click', function(){	//search为搜索button中设置的id名
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
@@ -124,7 +197,7 @@
                 });
             } else {
                 // layer.alert('编辑行：<br>' + JSON.stringify(data));
-                window.location.href = "/layups/isap/" + data.name;
+                window.location.href = "/metal/export/" + data.id;
             }
         });
         //监听顶部操作工具条
@@ -163,23 +236,6 @@
         $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
-        });
-        upload.render({       //文件上传
-            elem: '#test3'
-            , url: '/aluminum/upload'
-            , accept: 'file' //普通文件
-            , exts: 'xls' //允许上传的文件后缀
-            , done: function (res) {//返回值接收
-                if (res == "1") {
-                    layer.msg('导入成功！', {}, function () {
-                        location.reload();
-                    });
-                } else {
-                    layer.msg('导入失败！', {}, function () {
-                        location.reload();
-                    });
-                }
-            }
         });
     });
 </script>

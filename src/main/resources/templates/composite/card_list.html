@@ -17,38 +17,8 @@
         <div class="layui-btn-group demoTable" style="margin-top:20px;">
         </div>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
-            <legend><h2>ISAP复合数据</h2></legend>
+            <legend><h2>复合材料卡数据</h2></legend>
         </fieldset>
-        <div class="layuimini-main">
-            <div style="margin: 10px 10px 10px 10px">
-                <form class="layui-form layui-form-pane" >
-                    <div class="layui-form-item">
-                        <div class="layui-inline">
-                            <label class="layui-form-label">名称</label>
-                            <div class="layui-input-inline">
-                                <select name="name" id="name" lay-filter="name">
-                                    <option value="">请选择</option>
-                                    <option value="CMS-CP-301">CMS-CP-301</option>
-                                    <option value="CMS-CP-308">CMS-CP-308</option>
-                                    <option value="CMS-CP-309">CMS-CP-309</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <label class="layui-form-label">变量</label>
-                            <div class="layui-input-inline">
-                                <select name="parameter" id="parameter" lay-filter="parameter">
-                                    <option value="">请选择</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-inline">
-                            <a class="layui-btn"  data-type="reload" id="search" name="search">搜索</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
         <table class="layui-hide" style="margin-top:15px;" id="idTest" lay-filter="demo">
         </table>
     </div>
@@ -56,7 +26,7 @@
     <div th:replace="commons/bar::footer"></div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="export">查看数据</a>
+    <a class="layui-btn layui-btn-xs" lay-event="export">导出MAT8</a>
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -65,73 +35,37 @@
     </div>
 </script>
 <script>
-    layui.use(['table', 'jquery', 'element','form'], function () {
+    layui.use(['table', 'jquery', 'element'], function () {
         var $ = layui.jquery;
-        var form=layui.form;
         var table = layui.table;
+        var element = layui.element;
         //初始化
         table.render({
             elem: '#idTest'
-            , url: '/compositerawdatas'
+            , url: '/composites/card/data'
             , method: "get"
             , page: true    //true表示分页
-            , title: '原始复合数据信息'
+            , title: '复合信息'
             , id: 'list'
             , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {field: 'name', title: '名称', sort: true}
-                    , {field: 'parameter', title: '变量'}
-                    , {field: 'condition',title: '条件'}
-                    , {field: 'value',  title: '值'}
-
+                   {field: 'name', width: 120, title: '名称', sort: true}
+                    , {field: 'matId', width: 100, title: '材料卡编号'}
+                    , {field: 'aircraft', width: 70, title: '机型'}
+                    , {field: 'rho',width: 100, title: '密度', sort: true}
+                    , {field: 'thickness',width: 80, title: '厚度', sort: true}
+                    , {field: 'a',width: 120, title: '热膨胀系数', sort: true}
+                    , {field: 'e1',width: 80, title: 'E1', sort: true}
+                    , {field: 'e2', width: 80,title: 'E2', sort: true}
+                    , {field: 'nu12', width: 100,title: 'NU12', sort: true}
+                    , {field: 'g12', width: 100,title: 'G12', sort: true}
+                    , {field: 'g1z', width: 100,title: 'G1Z', sort: true}
+                    , {field: 'g2z', width: 100,title: 'G2Z', sort: true}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]
             ]
-        });
-        // 表单初始化
-        form.render();
-        //多级下拉框联动
-        form.on('select(name)', function (data) {
-            var name = $("#name option:selected").val();//获得选中的option的值
-            $.ajax({
-                url: 'query?name=' + name,   //带参数将这个传到后台条件查询方法里面
-                type: "Get",
-                contentType: "application/json",
-                async: false,//同步
-                success: function (result) {
-                    var data = result.data;
-                    var str = '<option value = " ">' +  '</option>';
-                    for (var x in data) {
-                        str += '<option value = "' + data[x] + '">' + data[x] + '</option>';
-                    }
-                    $("#parameter").html(str);
-                }
-            });
-            form.render('select');//最后记得渲染
-        });
-        //表格搜索重载
-        var $ = layui.$, active = {
-            reload: function(){
-                var name= $('#name').val();
-                var parameter= $('#parameter').val();
-                //执行重载
-                table.reload('list', {
-                    method:'get'
-                    ,page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    ,where: {
-                        name:name,
-                        parameter:parameter
-                    }
-                }, 'data');
-            }
-        };
-        //按条件搜索按钮
-        $('#search').on('click', function(){	//search为搜索button中设置的id名
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
         });
         //监听表格复选框选择
         table.on('checkbox(demo)', function (obj) {
@@ -159,7 +93,7 @@
                 });
             } else {
                 // layer.alert('编辑行：<br>' + JSON.stringify(data));
-                window.location.href = "/metal/" + data.id;
+                window.location.href = "/composite/export/" + data.id;
             }
         });
         //监听顶部操作工具条
@@ -195,6 +129,27 @@
             ;
         });
 
+        $('.demoTable .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        upload.render({       //文件上传
+            elem: '#test3'
+            , url: '/aluminum/upload'
+            , accept: 'file' //普通文件
+            , exts: 'xls' //允许上传的文件后缀
+            , done: function (res) {//返回值接收
+                if (res == "1") {
+                    layer.msg('导入成功！', {}, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.msg('导入失败！', {}, function () {
+                        location.reload();
+                    });
+                }
+            }
+        });
     });
 </script>
 </body>
