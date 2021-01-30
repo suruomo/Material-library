@@ -33,15 +33,7 @@
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <a type="button" class="layui-btn  layui-btn-sm" th:href="@{/user}"><i class="layui-icon">&#xe608;</i> 添加用户
-        </a>
-<!--        <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" lay-event="deleteAll"><i-->
-<!--                class="layui-icon">&#xe640;</i> 批量删除-->
-<!--        </button>-->
-<!--        <button type="button" class="layui-btn layui-btn-sm" id="importFile"><i class="layui-icon">&#xe62f;</i> 批量导入-->
-<!--        </button>-->
-<!--        <a type="button" class="layui-btn layui-btn-sm" id="downloadTemplate" th:href="@{download/userTemplate}"><i-->
-<!--                class="layui-icon">&#xe601;</i> 下载模板</a>-->
+        <a type="button" class="layui-btn  layui-btn-sm" th:href="@{/user}"><i class="layui-icon">&#xe608;</i> 添加用户</a>
     </div>
 </script>
 <script>
@@ -187,28 +179,6 @@
         $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
-        });
-        upload.render({       //文件上传
-            elem: '#importFile'
-            , url: '/user/upload'
-            , accept: 'file' //普通文件
-            , exts: 'xlsx' //允许上传的文件后缀
-            , done: function (res) {//返回值接收
-                if (res == "1") {
-                    layer.msg('导入成功！', {}, function () {
-                        location.reload();
-                    });
-                } else if (res == "0") {
-                    layer.msg('文件未选择，导入失败！', {}, function () {
-                        location.reload();
-                    });
-                } else {
-                    layer.msg('文件上传出现异常，请稍后重试！', {}, function () {
-                        location.reload();
-                    });
-                }
-
-            }
         });
     });
 </script>
