@@ -1,8 +1,6 @@
 package com.suruomo.material.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.MetalInputMapper;
 import com.suruomo.material.dao.MetalOutMapper;
@@ -12,7 +10,7 @@ import com.suruomo.material.pojo.MetalOut;
 import com.suruomo.material.service.MetalService;
 import com.suruomo.material.utils.ExcelUtil;
 import com.suruomo.material.utils.ExportMat1;
-import net.sf.json.JSONArray;
+import com.suruomo.material.utils.Result;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 苏若墨
@@ -37,6 +36,8 @@ public class MetalController {
     MetalInputMapper metalInputMapper;
     @Resource
     MetalService metalService;
+    @Resource
+    Result result;
 
     /**
      * 跳转ISAP数据列表页面
@@ -127,25 +128,13 @@ public class MetalController {
      * @return
      * @throws JsonProcessingException
      */
-       @ResponseBody
+    @ResponseBody
     @GetMapping(value = "/metals/isap/data",params = {"page","limit"})
     public Map<String, Object> mentals( int page, int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
-        List<MetalInput> users = metalInputMapper.getAll(start, end);
-        int count = metalInputMapper.getCount();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(users);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<MetalInput> lists = metalInputMapper.getAll(start, end);
+        return result.getResult(lists);
     }
     /**
      * 根据条件筛选ISAP金属列表
@@ -169,19 +158,7 @@ public class MetalController {
         else{
             lists = metalInputMapper.getAllDataByCondition(start, end,typeName,family,temper);
         }
-        int count = lists.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(lists);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        return result.getResult(lists);
     }
     /**
      * 返回金属材料卡数据
@@ -195,20 +172,8 @@ public class MetalController {
     public Map<String, Object> cards( int page,  int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
-        List<MetalOut> users = metalOutMapper.getAllData(start, end);
-        int count = metalOutMapper.getAllCount();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(users);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<MetalOut> lists = metalOutMapper.getAllData(start, end);
+        return result.getResult(lists);
     }
 
     /**
@@ -233,19 +198,7 @@ public class MetalController {
         else{
             lists = metalOutMapper.getAllDataByCondition(start, end,typeName,family,temper);
         }
-        int count = lists.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(lists);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        return result.getResult(lists);
     }
     /**
      * 下载原始金属导入模板
@@ -282,20 +235,8 @@ public class MetalController {
     @ResponseBody
     @RequestMapping(value = "admin/metal/query",params = "typeName")
     public Map<String, Object> queryFamily(String typeName) throws JsonProcessingException {
-        List<String> familys = metalOutMapper.getFamily(typeName);
-        int count =familys.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(familys);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<String> lists = metalOutMapper.getFamily(typeName);
+        return result.getResult(lists);
     }
     /**
      * ISAP根据类型查family
@@ -305,20 +246,8 @@ public class MetalController {
     @ResponseBody
     @RequestMapping(value = "/metals/isap/query",params = "typeName")
     public Map<String, Object> queryByFamily(String typeName) throws JsonProcessingException {
-        List<String> familys = metalInputMapper.getFamily(typeName);
-        int count =familys.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(familys);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<String> lists = metalInputMapper.getFamily(typeName);
+        return result.getResult(lists);
     }
     /**
      * 材料卡根据类型查family
@@ -328,20 +257,8 @@ public class MetalController {
     @ResponseBody
     @RequestMapping(value = "/metals/card/query",params = "typeName")
     public Map<String, Object> queryCardByTypeName(String typeName) throws JsonProcessingException {
-        List<String> familys = metalOutMapper.getFamily(typeName);
-        int count =familys.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(familys);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<String> lists = metalOutMapper.getFamily(typeName);
+        return result.getResult(lists);
     }
     /**
      * 根据family查temper
@@ -351,20 +268,8 @@ public class MetalController {
     @ResponseBody
     @RequestMapping(value = "/metals/card/query",params = "family")
     public Map<String, Object> queryCardByFamily(String family) throws JsonProcessingException {
-        List<String> tempers = metalOutMapper.getTemper(family);
-        int count =tempers.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(tempers);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<String> lists = metalOutMapper.getTemper(family);
+        return result.getResult(lists);
     }
     /**
      * 根据family查temper
@@ -374,20 +279,8 @@ public class MetalController {
     @ResponseBody
     @RequestMapping(value = "admin/metal/query",params = "family")
     public Map<String, Object> queryTemper(String family) throws JsonProcessingException {
-        List<String> tempers = metalOutMapper.getTemper(family);
-        int count =tempers.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(tempers);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<String> lists = metalOutMapper.getTemper(family);
+        return result.getResult(lists);
     }
     /**
      * 根据family查temper
@@ -397,20 +290,8 @@ public class MetalController {
     @ResponseBody
     @RequestMapping(value = "/metals/isap/query",params = "family")
     public Map<String, Object> queryByTemper(String family) throws JsonProcessingException {
-        List<String> tempers = metalInputMapper.getTemper(family);
-        int count =tempers.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(tempers);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<String> lists = metalInputMapper.getTemper(family);
+        return result.getResult(lists);
     }
     /**
      * 下载材料卡导入模板
@@ -460,19 +341,7 @@ public class MetalController {
         else{
             lists = metalOutMapper.getAllDataByCondition(start, end,typeName,family,temper);
         }
-        int count = lists.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(lists);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        return result.getResult(lists);
     }
     @ResponseBody
     @GetMapping(value = "/metals/card/{type}",params = {"page","limit"})
@@ -489,20 +358,8 @@ public class MetalController {
                 queryType = "EO_Material_Titanium";
             }
         }
-        List<MetalOut> users = metalOutMapper.getAll(start, end,queryType);
-        int count = metalOutMapper.getCount(queryType);
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(users);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<MetalOut> lists = metalOutMapper.getAll(start, end,queryType);
+        return result.getResult(lists);
     }
     /**
      * 跳转至ISAP金属详细信息页面
