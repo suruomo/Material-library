@@ -1,8 +1,6 @@
 package com.suruomo.material.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.CompositeInputMapper;
 import com.suruomo.material.dao.CompositeOutMapper;
@@ -12,7 +10,7 @@ import com.suruomo.material.pojo.CompositeOut;
 import com.suruomo.material.service.CompositeService;
 import com.suruomo.material.utils.ExcelUtil;
 import com.suruomo.material.utils.ExportMat8;
-import net.sf.json.JSONArray;
+import com.suruomo.material.utils.Result;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,11 +31,13 @@ import java.util.Map;
 @Controller
 public class CompositeController {
     @Resource
-    CompositeOutMapper compositeOutMapper;
+    private CompositeOutMapper compositeOutMapper;
     @Resource
-    CompositeInputMapper compositeInputMapper;
+    private CompositeInputMapper compositeInputMapper;
     @Resource
-    CompositeService compositeService;
+    private CompositeService compositeService;
+    @Resource
+    private Result result;
     /**
      * 跳转原始数据列表页面
      * @return
@@ -111,20 +110,8 @@ public class CompositeController {
     public Map<String, Object> composites(int page,  int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
-        List<CompositeInput> users = compositeInputMapper.getAll(start, end);
-        int count = compositeInputMapper.getCount();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(users);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<CompositeInput> lists = compositeInputMapper.getAll(start, end);
+        return result.getResult(lists);
     }
     /**
      * 按条件筛选重载ISAP表格
@@ -141,19 +128,7 @@ public class CompositeController {
         else{
             lists = compositeInputMapper.getByNameParameter(start, end,name,parameter);
         }
-        int count = lists.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(lists);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        return result.getResult(lists);
     }
     /**
      * 返回查询导出材料卡复合数据
@@ -167,20 +142,8 @@ public class CompositeController {
     public Map<String, Object> list(@RequestParam("page") int page, @RequestParam("limit") int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
-        List<CompositeOut> users = compositeOutMapper.getAll(start, end);
-        int count = compositeOutMapper.getCount();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(users);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<CompositeOut> lists = compositeOutMapper.getAll(start, end);
+        return result.getResult(lists);
     }
 
     /**
@@ -258,19 +221,7 @@ public class CompositeController {
     @RequestMapping(value = "admin/composite/query",params = "name")
     public Map<String, Object> queryParameter(String name) throws JsonProcessingException {
         List<String> lists = compositeInputMapper.getParameters(name);
-        int count =lists.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(lists);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        return result.getResult(lists);
     }
 
     /**
@@ -283,19 +234,7 @@ public class CompositeController {
     @RequestMapping(value = "/composites/isap/query",params = "name")
     public Map<String, Object> queryByName(String name) throws JsonProcessingException {
         List<String> lists = compositeInputMapper.getParameters(name);
-        int count =lists.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(lists);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        return result.getResult(lists);
     }
     /**
      * 下载材料卡复材导入模板

@@ -31,13 +31,13 @@ import java.util.Map;
 @Controller
 public class MetalController {
     @Resource
-    MetalOutMapper metalOutMapper;
+    private MetalOutMapper metalOutMapper;
     @Resource
-    MetalInputMapper metalInputMapper;
+    private MetalInputMapper metalInputMapper;
     @Resource
-    MetalService metalService;
+    private MetalService metalService;
     @Resource
-    Result result;
+    private Result result;
 
     /**
      * 跳转ISAP数据列表页面

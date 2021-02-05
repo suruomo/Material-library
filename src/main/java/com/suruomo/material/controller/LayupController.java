@@ -1,8 +1,6 @@
 package com.suruomo.material.controller;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.LayupMapper;
 import com.suruomo.material.dto.Pcomp;
@@ -10,7 +8,7 @@ import com.suruomo.material.pojo.Layup;
 import com.suruomo.material.service.LayupService;
 import com.suruomo.material.utils.ExcelUtil;
 import com.suruomo.material.utils.ExportPcomp;
-import net.sf.json.JSONArray;
+import com.suruomo.material.utils.Result;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +19,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +31,9 @@ public class LayupController {
     private LayupMapper layupMapper;
     @Resource
     private LayupService layupService;
+    @Resource
+    private Result result;
+
     /**
      * 跳转材料卡数据列表页面
      * @return
@@ -95,20 +95,8 @@ public class LayupController {
     public Map<String, Object> layup(int page,  int limit) throws JsonProcessingException {
         int start=(page-1)*limit+1;
         int end =page*limit;
-        List<Layup> users = layupMapper.getAll(start, end);
-        int count = layupMapper.getCount();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(users);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        List<Layup> lists = layupMapper.getAll(start, end);
+        return result.getResult(lists);
     }
 
     /**
@@ -124,19 +112,7 @@ public class LayupController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<Layup> lists = layupMapper.getByName(start, end,name);
-        int count = lists.size();
-        HashMap<String, Object> map = new HashMap();
-        //返回Json
-        ObjectMapper mapper = new ObjectMapper();
-        //json内对象不为空
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(lists);
-        JSONArray json = JSONArray.fromObject(data);
-        map.put("code", 0);
-        map.put("msg", "");
-        map.put("data", json);
-        map.put("count", count);
-        return map;
+        return result.getResult(lists);
     }
     /**
      * 跳转至导出PCOMP页面
