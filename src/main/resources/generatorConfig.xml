@@ -43,6 +43,6 @@
         </javaClientGenerator>
 
         <!-- 要生成哪些表 -->
-        <table tableName="LOG" domainObjectName="Log" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="MODEL_TASK" domainObjectName="ModelTask" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

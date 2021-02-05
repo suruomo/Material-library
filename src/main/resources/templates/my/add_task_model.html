@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--引入topbar-->
+    <div th:replace="commons/bar::topbar"></div>
+    <div class="layui-body" style="padding: 25px;border:20px;">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+                <legend><h2>创建新任务</h2></legend>
+            </fieldset>
+            <form class="layui-form" th:action="@{/task/model}" method="post" id="form">
+                <input type="hidden" name="id"/>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red; ">*</span>任务名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" lay-verify="required" ay-reqtext="任务名称是必填项！"
+                               autocomplete="off" class="layui-input" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span style="color: red; ">*</span>任务描述</label>
+                    <div class="layui-form-item layui-form-text">
+                        <div class="layui-input-block">
+                            <textarea name="description" placeholder="请输入内容" class="layui-textarea" ay-reqtext="任务描述是必填项！"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传几何模型</label>
+                    <div class="layui-upload-drag" id="geometricModel">
+                        <i class="layui-icon">&#xe67c;</i>
+                        <p>点击上传，或将文件拖拽到此处</p>
+                        <div class="layui-hide" id="geometricView">
+                            <hr>
+                            <img src="../static/images/aircraft-1813731.jpg" alt="上传成功后渲染" style="max-width: 196px">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传有限元模型</label>
+                    <div class="layui-upload-drag" id="finiteElementModel">
+                        <i class="layui-icon">&#xe67c;</i>
+                        <p>点击上传，或将文件拖拽到此处</p>
+                        <div class="layui-hide" id="finiteElementView">
+                            <hr>
+                            <img src="../static/images/aircraft-1813731.jpg" alt="上传成功后渲染" style="max-width: 196px">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" th:text="创建" lay-filter="demo1">
+                            提交
+                        </button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--引入footer-->
+    <div th:replace="commons/bar::footer"></div>
+</div>
+<script>
+    layui.use(['form', 'upload', 'jquery', 'element'], function () {
+        var $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer
+            ,upload = layui.upload;
+        form.render();
+        var element = layui.element;
+        //拖拽上传
+        upload.render({
+            elem: '#geometricModel'
+            ,url: '' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('#geometricView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+                console.log(res)
+            }
+        });
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // })
+            form.submit();
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
