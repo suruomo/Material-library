@@ -3,7 +3,9 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.suruomo.material.dao.AnalysisTaskMapper;
 import com.suruomo.material.dao.ModelTaskMapper;
+import com.suruomo.material.pojo.AnalysisTask;
 import com.suruomo.material.pojo.ModelTask;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,9 @@ public class MyController {
 
     @Resource
     private ModelTaskMapper modelTaskMapper;
+
+    @Resource
+    private AnalysisTaskMapper analysisTaskMapper;
 
     @GetMapping(value = {"/my"})
     public String myData() {
@@ -81,5 +86,32 @@ public class MyController {
         ModelTask modelTask=modelTaskMapper.selectByPrimaryKey(new BigDecimal(id));
         model.addAttribute("model",modelTask);
         return "my/task_model_info";
+    }
+    /**
+     * 返回分析任务数据
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/task/analysis",params = {"page","limit"})
+    public Map<String, Object> analysisList(int page, int limit) throws  JsonProcessingException {
+        int start=(page-1)*limit+1;
+        int end =page*limit;
+        List<AnalysisTask> tasks = analysisTaskMapper.getAll(start, end);
+        int count = tasks.size();
+        HashMap<String, Object> map = new HashMap();
+        //返回Json
+        ObjectMapper mapper = new ObjectMapper();
+        //json内对象不为空
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String data = mapper.writeValueAsString(tasks);
+        JSONArray json = JSONArray.fromObject(data);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("data", json);
+        map.put("count", count);
+        return map;
     }
 }

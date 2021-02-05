@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.AnalysisTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.AnalysisTask" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="MODEL_ID" property="modelId" jdbcType="DECIMAL" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="BEFORE_PATH" property="beforePath" jdbcType="VARCHAR" />
+    <result column="RESULT_PATH" property="resultPath" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="CREATE_BY" property="createBy" jdbcType="DECIMAL" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="DATE" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MODEL_ID, TYPE, DESCRIPTION, BEFORE_PATH, RESULT_PATH, CREATE_TIME, CREATE_BY, 
+    UPDATE_TIME, UPDATE_BY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAL"."ANALYSIS_TASK"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.AnalysisTask">
+     select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."ANALYSIS_TASK") a where rownum <= #{end}
+    ]]>
+    )
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAL"."ANALYSIS_TASK"
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.AnalysisTask" >
+    insert into "METAL"."ANALYSIS_TASK" (ID, MODEL_ID, TYPE, 
+      DESCRIPTION, BEFORE_PATH, RESULT_PATH, 
+      CREATE_TIME, CREATE_BY, UPDATE_TIME, 
+      UPDATE_BY)
+    values (#{id,jdbcType=DECIMAL}, #{modelId,jdbcType=DECIMAL}, #{type,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{beforePath,jdbcType=VARCHAR}, #{resultPath,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE}, #{createBy,jdbcType=DECIMAL}, #{updateTime,jdbcType=DATE}, 
+      #{updateBy,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.AnalysisTask" >
+    insert into "METAL"."ANALYSIS_TASK"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="modelId != null" >
+        MODEL_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="beforePath != null" >
+        BEFORE_PATH,
+      </if>
+      <if test="resultPath != null" >
+        RESULT_PATH,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="beforePath != null" >
+        #{beforePath,jdbcType=VARCHAR},
+      </if>
+      <if test="resultPath != null" >
+        #{resultPath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.AnalysisTask" >
+    update "METAL"."ANALYSIS_TASK"
+    <set >
+      <if test="modelId != null" >
+        MODEL_ID = #{modelId,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="beforePath != null" >
+        BEFORE_PATH = #{beforePath,jdbcType=VARCHAR},
+      </if>
+      <if test="resultPath != null" >
+        RESULT_PATH = #{resultPath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createBy != null" >
+        CREATE_BY = #{createBy,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      </if>
+      <if test="updateBy != null" >
+        UPDATE_BY = #{updateBy,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.AnalysisTask" >
+    update "METAL"."ANALYSIS_TASK"
+    set MODEL_ID = #{modelId,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      BEFORE_PATH = #{beforePath,jdbcType=VARCHAR},
+      RESULT_PATH = #{resultPath,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      CREATE_BY = #{createBy,jdbcType=DECIMAL},
+      UPDATE_TIME = #{updateTime,jdbcType=DATE},
+      UPDATE_BY = #{updateBy,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

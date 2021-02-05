@@ -78,11 +78,12 @@
     </div>
 </script>
 <script>
-    layui.use(['form', 'upload','table', 'jquery', 'element'], function () {
+    layui.use(['form','util', 'upload','table', 'jquery', 'element'], function () {
         var $ = layui.jquery;
         var form = layui.form;
         var upload=layui.upload;
         var table=layui.table;
+        var util=layui.util;
         // 表格初始化
         table.render({
             elem: '#task'
