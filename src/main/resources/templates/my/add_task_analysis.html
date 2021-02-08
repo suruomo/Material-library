@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding:5px;">
+        <form class="layui-form" th:action="@{/task/analysis}" method="post" id="form">
+            <input type="hidden" name="id"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red; ">*</span>分析类型</label>
+                <div class="layui-input-inline">
+                    <select name="type" id="type" lay-filter="type">
+                        <option value="静力分析">静力分析</option>
+                        <option value="正向模态">正向模态</option>
+                        <option value="气动颤振">气动颤振</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span style="color: red; ">*</span>任务描述</label>
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-input-block">
+                        <textarea name="description" placeholder="请输入内容" class="layui-textarea"
+                                  ay-reqtext="任务描述是必填项！"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">上传前处理文件</label>
+                <div class="layui-upload-drag" id="beforePath">
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传，或将文件拖拽到此处</p>
+                    <div class="layui-hide" id="beforeView">
+                        <hr>
+                        <img src="../static/images/aircraft-1813731.jpg" alt="上传成功后渲染" style="max-width: 196px">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">上传结果文件</label>
+                <div class="layui-upload-drag" id="resultPath">
+                    <i class="layui-icon">&#xe67c;</i>
+                    <p>点击上传，或将文件拖拽到此处</p>
+                    <div class="layui-hide" id="resultView">
+                        <hr>
+                        <img src="../static/images/aircraft-1813731.jpg" alt="上传成功后渲染" style="max-width: 196px">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" th:text="创建" lay-filter="demo1">
+                        提交
+                    </button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    layui.use(['form', 'upload', 'jquery', 'element'], function () {
+        var $ = layui.jquery;
+        var form = layui.form
+            , layer = layui.layer
+            , upload = layui.upload;
+        form.render();
+        var element = layui.element;
+        // 前处理文件上传
+        upload.render({
+            elem: '#beforePath'
+            , url: '' //改成您自己的上传接口
+            , done: function (res) {
+                layer.msg('上传成功');
+                layui.$('#beforeView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+                console.log(res)
+            }
+        });
+        // 前结果文件上传
+        upload.render({
+            elem: '#resultPath'
+            , url: '' //改成您自己的上传接口
+            , done: function (res) {
+                layer.msg('上传成功');
+                layui.$('#resultView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+                console.log(res)
+            }
+        });
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // })
+            form.submit();
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

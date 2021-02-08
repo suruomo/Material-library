@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -93,5 +94,22 @@ public class MyController {
         int end =page*limit;
         List<AnalysisTask> lists = analysisTaskMapper.getAll(start, end);
         return result.getResult(lists);
+    }
+    /**
+     * 跳转创建新分析任务表单页面
+     */
+    @ResponseBody
+    @PostMapping(value = "/task/analysis",params = {"modelId"})
+    public String analysisForm(String modelId){
+        return "1";
+    }
+
+    /**
+     * 跳转创建新分析任务页面
+     * @return
+     */
+    @GetMapping(value = {"/task/analysis"})
+    public String myTaskAnalysis() {
+        return "my/add_task_analysis";
     }
 }

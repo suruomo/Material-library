@@ -19,7 +19,7 @@
                 <legend><h3>模型任务基本信息</h3></legend>
             </fieldset>
             <form class="layui-form" th:action="@{/task/model}" method="post" id="form1">
-                <input type="hidden" name="id"/>
+                <input type="hidden" name="id" id="id" th:value="${model.id}"/>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red; ">*</span>任务名称</label>
                     <div class="layui-input-inline">
@@ -31,7 +31,8 @@
                     <label class="layui-form-label"><span style="color: red; ">*</span>任务描述</label>
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <textarea name="description"th:text="${model.description}" placeholder="请输入内容" class="layui-textarea" ay-reqtext="任务描述是必填项！"></textarea>
+                            <textarea name="description" th:text="${model.description}" placeholder="请输入内容"
+                                      class="layui-textarea" ay-reqtext="任务描述是必填项！"></textarea>
                         </div>
                     </div>
                 </div>
@@ -61,7 +62,7 @@
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
                 <legend><h3>分析任务</h3></legend>
             </fieldset>
-            <table class="layui-hide" style="margin-top:15px;" id="task" lay-filter="demo"> </table>
+            <table class="layui-hide" style="margin-top:15px;" id="task" lay-filter="demo"></table>
         </div>
     </div>
 
@@ -74,16 +75,17 @@
 </script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <a type="button" class="layui-btn  layui-btn-sm" th:href="@{/task/analysis}"><i class="layui-icon">&#xe608;</i>创建新分析任务</a>
+        <a type="button" class="layui-btn  layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe608;</i>创建新分析任务</a>
     </div>
 </script>
 <script>
-    layui.use(['form','util', 'upload','table', 'jquery', 'element'], function () {
+    layui.use(['form', 'util', 'layer', 'upload', 'table', 'jquery', 'element'], function () {
         var $ = layui.jquery;
         var form = layui.form;
-        var upload=layui.upload;
-        var table=layui.table;
-        var util=layui.util;
+        var upload = layui.upload;
+        var table = layui.table;
+        var util = layui.util;
+        var layer = layui.layer;
         // 表格初始化
         table.render({
             elem: '#task'
@@ -97,29 +99,75 @@
             , cols: [
                 [
                     {field: 'type', width: 150, title: '分析类型', sort: true}
-                    , {field: 'description',width: 300, title: '分析任务描述'}
+                    , {field: 'description', width: 300, title: '分析任务描述'}
                     , {field: 'beforePath', width: 200, title: '前处理文件'}
                     , {field: 'resultPath', width: 200, title: '分析结果文件'}
-                    , {field: 'createTime',width: 200, title: '创建时间', sort: true,templet:function(d){return util.toDateString(d.requestDate, "yyyy-MM-dd HH:mm:ss");}}
-                    , {field: 'createBy',width: 100, title: '创建者ID', sort: true}
-                    , {field: 'updateTime',width: 200, title: '修改时间', sort: true,templet:function(d){return util.toDateString(d.requestDate, "yyyy-MM-dd HH:mm:ss");}}
-                    , {field: 'updateBy',width: 100, title: '修改者ID', sort: true}
+                    , {
+                    field: 'createTime', width: 200, title: '创建时间', sort: true, templet: function (d) {
+                        return util.toDateString(d.requestDate, "yyyy-MM-dd HH:mm:ss");
+                    }
+                }
+                    , {field: 'createBy', width: 100, title: '创建者ID', sort: true}
+                    , {
+                    field: 'updateTime', width: 200, title: '修改时间', sort: true, templet: function (d) {
+                        return util.toDateString(d.requestDate, "yyyy-MM-dd HH:mm:ss");
+                    }
+                }
+                    , {field: 'updateBy', width: 100, title: '修改者ID', sort: true}
                     , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]
             ]
             , done: function (res, curr, count) {
+            }
+        });
+        //监听右部操作工具条
+        table.on('tool(demo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'detail') {
+                // window.location.href = "/metals/isap/" + data.id;
+            } else if (obj.event == 'delete') {
 
             }
+        });
+        //监听顶部操作工具条
+        table.on('toolbar(demo)', function (obj) {  //注：toolbar是工具条事件名，demo是table原始容器的属性 lay-filter="对应的值"
+            var modelId = $('#id').val();
+            switch (obj.event) {
+                case 'add':
+                    $.ajax({
+                        url: '/task/analysis',
+                        method: 'post',
+                        dataType: 'text',
+                        data: "modelId=" + modelId,
+                        success: function (data) {
+                            if (data == "1") {
+                                layer.open({
+                                    type: 2,
+                                    title: '新建分析任务',
+                                    shadeClose: true,
+                                    //弹出框之外的地方是否可以点击
+                                    offset: '10%',
+                                    area: ['40%', '70%'],
+                                    content: '/task/analysis'
+                                });
+                            } else {
+                                layer.msg("创建失败")
+                            }
+                        }
+                    });
+                    break;
+            }
+            ;
         });
         form.render();
         //几何模型上传
         upload.render({
             elem: '#choose1'
-            ,url: 'https://httpbin.org/post' //改成您自己的上传接口
-            ,auto: false
+            , url: 'https://httpbin.org/post' //改成您自己的上传接口
+            , auto: false
             //,multiple: true
-            ,bindAction: '#upload1'
-            ,done: function(res){
+            , bindAction: '#upload1'
+            , done: function (res) {
                 layer.msg('上传成功');
                 console.log(res)
             }
@@ -127,11 +175,11 @@
         // 有限元模型上传
         upload.render({
             elem: '#choose2'
-            ,url: 'https://httpbin.org/post' //改成您自己的上传接口
-            ,auto: false
+            , url: 'https://httpbin.org/post' //改成您自己的上传接口
+            , auto: false
             //,multiple: true
-            ,bindAction: '#upload2'
-            ,done: function(res){
+            , bindAction: '#upload2'
+            , done: function (res) {
                 layer.msg('上传成功');
                 console.log(res)
             }

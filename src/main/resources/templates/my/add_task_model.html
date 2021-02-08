@@ -78,13 +78,23 @@
             ,upload = layui.upload;
         form.render();
         var element = layui.element;
-        //拖拽上传
+        // 几何模型上传
         upload.render({
             elem: '#geometricModel'
             ,url: '' //改成您自己的上传接口
             ,done: function(res){
                 layer.msg('上传成功');
                 layui.$('#geometricView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+                console.log(res)
+            }
+        });
+        //有限元模型上传
+        upload.render({
+            elem: '#finiteElementModel'
+            ,url: '' //改成您自己的上传接口
+            ,done: function(res){
+                layer.msg('上传成功');
+                layui.$('#finiteElementView').removeClass('layui-hide').find('img').attr('src', res.files.file);
                 console.log(res)
             }
         });
