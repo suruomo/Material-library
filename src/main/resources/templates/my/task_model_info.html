@@ -124,18 +124,7 @@
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
-                switch (data.type){
-                    case '静力分析':
-                        window.location.href = "/analysis/result/" + data.id+"/"+data.type;
-                        break;
-                    case '正向模态':
-                        window.location.href = "/metals/isap/" + data.id;
-                        break;
-                    case '气动颤振':
-                        window.location.href = "/metals/isap/" + data.id;
-                        break;
-                }
-                // window.location.href = "/metals/isap/" + data.id;
+                window.location.href = "/analysis/result/" + data.id+"/"+data.type;
             } else if (obj.event == 'delete') {
 
             }

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.ModeFrequencyResultMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.ModeFrequencyResult" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ANALYSIS_ID" property="analysisId" jdbcType="DECIMAL" />
+    <result column="MODE_NO" property="modeNo" jdbcType="DECIMAL" />
+    <result column="MODE_ORDER" property="modeOrder" jdbcType="DECIMAL" />
+    <result column="E" property="e" jdbcType="VARCHAR" />
+    <result column="R" property="r" jdbcType="VARCHAR" />
+    <result column="C" property="c" jdbcType="VARCHAR" />
+    <result column="MASS" property="mass" jdbcType="VARCHAR" />
+    <result column="STIFFNESS" property="stiffness" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ANALYSIS_ID, MODE_NO, MODE_ORDER, E, R, C, MASS, STIFFNESS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAI"."MODE_FREQUENCY_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.ModeFrequencyResult">
+   select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."MODE_FREQUENCY_RESULT") a where rownum <= #{end}
+    ]]>
+    )
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAI"."MODE_FREQUENCY_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
+    insert into "METAI"."MODE_FREQUENCY_RESULT" (ID, ANALYSIS_ID, MODE_NO, 
+      MODE_ORDER, E, R, C, 
+      MASS, STIFFNESS)
+    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{modeNo,jdbcType=DECIMAL}, 
+      #{modeOrder,jdbcType=DECIMAL}, #{e,jdbcType=VARCHAR}, #{r,jdbcType=VARCHAR}, #{c,jdbcType=VARCHAR}, 
+      #{mass,jdbcType=VARCHAR}, #{stiffness,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
+    insert into "METAI"."MODE_FREQUENCY_RESULT"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="analysisId != null" >
+        ANALYSIS_ID,
+      </if>
+      <if test="modeNo != null" >
+        MODE_NO,
+      </if>
+      <if test="modeOrder != null" >
+        MODE_ORDER,
+      </if>
+      <if test="e != null" >
+        E,
+      </if>
+      <if test="r != null" >
+        R,
+      </if>
+      <if test="c != null" >
+        C,
+      </if>
+      <if test="mass != null" >
+        MASS,
+      </if>
+      <if test="stiffness != null" >
+        STIFFNESS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="analysisId != null" >
+        #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="modeNo != null" >
+        #{modeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="modeOrder != null" >
+        #{modeOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="e != null" >
+        #{e,jdbcType=VARCHAR},
+      </if>
+      <if test="r != null" >
+        #{r,jdbcType=VARCHAR},
+      </if>
+      <if test="c != null" >
+        #{c,jdbcType=VARCHAR},
+      </if>
+      <if test="mass != null" >
+        #{mass,jdbcType=VARCHAR},
+      </if>
+      <if test="stiffness != null" >
+        #{stiffness,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
+    update "METAI"."MODE_FREQUENCY_RESULT"
+    <set >
+      <if test="analysisId != null" >
+        ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="modeNo != null" >
+        MODE_NO = #{modeNo,jdbcType=DECIMAL},
+      </if>
+      <if test="modeOrder != null" >
+        MODE_ORDER = #{modeOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="e != null" >
+        E = #{e,jdbcType=VARCHAR},
+      </if>
+      <if test="r != null" >
+        R = #{r,jdbcType=VARCHAR},
+      </if>
+      <if test="c != null" >
+        C = #{c,jdbcType=VARCHAR},
+      </if>
+      <if test="mass != null" >
+        MASS = #{mass,jdbcType=VARCHAR},
+      </if>
+      <if test="stiffness != null" >
+        STIFFNESS = #{stiffness,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
+    update "METAI"."MODE_FREQUENCY_RESULT"
+    set ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      MODE_NO = #{modeNo,jdbcType=DECIMAL},
+      MODE_ORDER = #{modeOrder,jdbcType=DECIMAL},
+      E = #{e,jdbcType=VARCHAR},
+      R = #{r,jdbcType=VARCHAR},
+      C = #{c,jdbcType=VARCHAR},
+      MASS = #{mass,jdbcType=VARCHAR},
+      STIFFNESS = #{stiffness,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

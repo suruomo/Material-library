@@ -45,6 +45,12 @@ public class MyController {
     @Resource
     private GridStressResultMapper gridStressResultMapper;
 
+    @Resource
+    private ModeFrequencyResultMapper modeFrequencyResultMapper;
+
+    @Resource
+    private ModeShapeResultMapper modeShapeResultMapper;
+
     /**
      * 我的数据主页面
      *
@@ -143,12 +149,18 @@ public class MyController {
     @GetMapping("/analysis/result/{id}/{type}")
     public String analysisResultInfo(@PathVariable String id, @PathVariable String type, Model model) {
         AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
-//        if ("静力分析".equals(type)){
-//            StaticAnalysis staticAnalysis=new StaticAnalysis();
-//            staticAnalysis.getStaticDataLists(id,model);
-//        }
         model.addAttribute("analysisTask",analysisTask);
-        return "my/static_results";
+        switch (type){
+            case "静力分析":
+                return "my/static_results";
+            case "正向模态":
+                return "my/mode_results";
+//            case "气动颤振":
+//                return "my/flutter_results";
+//                break;
+            default:
+                return "出错啦";
+        }
     }
 
     /**
@@ -211,6 +223,37 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<GridStrainResult> lists = gridStrainResultMapper.getAll(start, end);
+        return result.getResult(lists);
+    }
+    /**
+     * 返回正向模态的模态频率表
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/mode/results/frequency", params = {"page", "limit"})
+    public Map<String, Object> modeFrequencyList(int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        List<ModeFrequencyResult> lists = modeFrequencyResultMapper.getAll(start, end);
+        return result.getResult(lists);
+    }
+
+    /**
+     * 返回正向模态的模态振型表
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/mode/results/shape", params = {"page", "limit"})
+    public Map<String, Object> modeShapeList(int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        List<ModeShapeResult> lists = modeShapeResultMapper.getAll(start, end);
         return result.getResult(lists);
     }
 }
