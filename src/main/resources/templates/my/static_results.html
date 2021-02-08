@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--引入topbar-->
+    <div th:replace="commons/bar::topbar"></div>
+    <!--引入sidebar-->
+    <!--    <div th:replace="commons/bar::sidebar"></div>-->
+    <div class="layui-body" style="padding: 25px;border:20px;">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <div class="layui-collapse">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">分析任务基本信息</h2>
+                    <div class="layui-colla-content layui-show">
+                        <form class="layui-form" th:action="@{/}" method="post" id="form1">
+                            <input type="hidden" name="id" id="id" th:value="${analysisTask.id}"/>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span style="color: red; ">*</span>分析类型</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="name" lay-verify="required"
+                                           autocomplete="off" class="layui-input" th:value="${analysisTask.type}"
+                                           readonly>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span style="color: red; ">*</span>任务描述</label>
+                                <div class="layui-form-item layui-form-text">
+                                    <div class="layui-input-block">
+                            <textarea name="description" th:text="${analysisTask.description}" placeholder="请输入内容"
+                                      class="layui-textarea" ay-reqtext="任务描述是必填项！" readonly></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">前处理文件</label>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="beforeFile">
+                                    下载文件
+                                </button>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">分析结果文件</label>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="resultFile">
+                                    下载文件
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">位移结果</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="distance" lay-filter="distance"></table>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">约束反力</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="constrainForce" lay-filter="constrainForce"></table>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">节点应力</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="gridStress" lay-filter="gridStress"></table>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">节点应变</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="gridStrain" lay-filter="gridStrain"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--引入footer-->
+    <div th:replace="commons/bar::footer"></div>
+</div>
+<script>
+    layui.use(['form', 'util', 'layer', 'table', 'jquery', 'element'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var layer = layui.layer;
+        // 表单初始化
+        form.render();
+        // 位移结果初始化
+        table.render({
+            elem: '#distance'
+            , url: '/static/results/distance'
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '位移结果信息'
+            , id: 'distanceList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'pointId', width: "10%", title: '节点编号',align:'center'}
+                    , {field: 't1', width: "15%", title: '沿X方向平动位移',align:'center'}
+                    , {field: 't2', width: "15%", title: '沿Y方向平动位移',align:'center'}
+                    , {field: 't3', width: "15%", title: '沿Z方向平动位移',align:'center'}
+                    , {field: 'r1', width: "15%", title: '沿X方向转动位移',align:'center'}
+                    , {field: 'r2', width: "15%", title: '沿Y方向转动位移',align:'center'}
+                    , {field: 'r3', width: "15%", title: '沿Z方向转动位移',align:'center'}
+                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 约束反力结果初始化
+        table.render({
+            elem: '#constrainForce'
+            , url: '/static/results/constrainForce'
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '约束反力结果信息'
+            , id: 'constrainForceList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'pointId', width: "10%", title: '节点编号',align:'center'}
+                    , {field: 't1', width: "15%", title: '在X方向上约束反力',align:'center'}
+                    , {field: 't2', width: "15%", title: '在Y方向上约束反力',align:'center'}
+                    , {field: 't3', width: "15%", title: '在Z方向上约束反力',align:'center'}
+                    , {field: 'r1', width: "15%", title: '在X转动方向上约束反力',align:'center'}
+                    , {field: 'r2', width: "15%", title: '在Y转动方向上约束反力',align:'center'}
+                    , {field: 'r3', width: "15%", title: '在Z转动方向上约束反力',align:'center'}
+                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 节点应力结果初始化
+        table.render({
+            elem: '#gridStress'
+            , url: '/static/results/gridStress'
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '节点应力结果信息'
+            , id: 'gridStressList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'elementId', width: "7%", title: '单元编号',align:'center'}
+                    ,{field: 'pointId', width: "7%", title: '节点编号',align:'center'}
+                    ,{field: 'elementCenter', width: "7%", title: '单元中心',align:'center'}
+                    , {field: 'x', width: "10%", title: '在X方向上正应力',align:'center'}
+                    , {field: 'y', width: "10%", title: '在Y方向上正应力',align:'center'}
+                    , {field: 'z', width: "10%", title: '在方向上正应力',align:'center'}
+                    , {field: 'xy', width: "10%", title: '在XY方向上切应力',align:'center'}
+                    , {field: 'yz', width: "10%", title: '在YZ方向上切应力',align:'center'}
+                    , {field: 'zx', width: "10%", title: '在ZX方向上切应力',align:'center'}
+                    , {field: 'meanPressure', width: "10%", title: '平均应力',align:'center'}
+                    , {field: 'conMises', width: "10%", title: '有效应力',align:'center'}
+                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 节点应变结果初始化
+        table.render({
+            elem: '#gridStrain'
+            , url: '/static/results/gridStrain'
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '节点应变结果信息'
+            , id: 'gridStrainList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'elementId', width: "7%", title: '单元编号',align:'center'}
+                    ,{field: 'pointId', width: "7%", title: '节点编号',align:'center'}
+                    ,{field: 'elementCenter', width: "7%", title: '单元中心',align:'center'}
+                    , {field: 'x', width: "10%", title: '在X方向上正应变',align:'center'}
+                    , {field: 'y', width: "10%", title: '在Y方向上正应变',align:'center'}
+                    , {field: 'z', width: "10%", title: '在方向上正应变',align:'center'}
+                    , {field: 'xy', width: "10%", title: '在XY方向上切应变',align:'center'}
+                    , {field: 'yz', width: "10%", title: '在YZ方向上切应变',align:'center'}
+                    , {field: 'zx', width: "10%", title: '在ZX方向上切应变',align:'center'}
+                    , {field: 'meanPressure', width: "10%", title: '平均应变',align:'center'}
+                    , {field: 'vonMises', width: "10%", title: '有效应变',align:'center'}
+                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+    });
+</script>
+</body>
+</html>

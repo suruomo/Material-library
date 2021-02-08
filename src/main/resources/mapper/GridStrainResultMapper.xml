@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.GridStrainResultMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.GridStrainResult" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ANALYSIS_ID" property="analysisId" jdbcType="DECIMAL" />
+    <result column="ELEMENT_ID" property="elementId" jdbcType="DECIMAL" />
+    <result column="POINT_ID" property="pointId" jdbcType="DECIMAL" />
+    <result column="ELEMENT_CENTER" property="elementCenter" jdbcType="DECIMAL" />
+    <result column="X" property="x" jdbcType="VARCHAR" />
+    <result column="Y" property="y" jdbcType="VARCHAR" />
+    <result column="Z" property="z" jdbcType="VARCHAR" />
+    <result column="XY" property="xy" jdbcType="VARCHAR" />
+    <result column="YZ" property="yz" jdbcType="VARCHAR" />
+    <result column="ZX" property="zx" jdbcType="VARCHAR" />
+    <result column="MEAN_PRESSURE" property="meanPressure" jdbcType="VARCHAR" />
+    <result column="VON_MISES" property="vonMises" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ANALYSIS_ID, ELEMENT_ID, POINT_ID, ELEMENT_CENTER, X, Y, Z, XY, YZ, ZX, MEAN_PRESSURE, 
+    VON_MISES
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAI"."GRID_STRAIN_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.GridStrainResult">
+       select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."GRID_STRAIN_RESULT") a where rownum <= #{end}
+    ]]>
+    )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAI"."GRID_STRAIN_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.GridStrainResult" >
+    insert into "METAI"."GRID_STRAIN_RESULT" (ID, ANALYSIS_ID, ELEMENT_ID, 
+      POINT_ID, ELEMENT_CENTER, X, 
+      Y, Z, XY, YZ, 
+      ZX, MEAN_PRESSURE, VON_MISES
+      )
+    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{elementId,jdbcType=DECIMAL}, 
+      #{pointId,jdbcType=DECIMAL}, #{elementCenter,jdbcType=DECIMAL}, #{x,jdbcType=VARCHAR}, 
+      #{y,jdbcType=VARCHAR}, #{z,jdbcType=VARCHAR}, #{xy,jdbcType=VARCHAR}, #{yz,jdbcType=VARCHAR}, 
+      #{zx,jdbcType=VARCHAR}, #{meanPressure,jdbcType=VARCHAR}, #{vonMises,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.GridStrainResult" >
+    insert into "METAI"."GRID_STRAIN_RESULT"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="analysisId != null" >
+        ANALYSIS_ID,
+      </if>
+      <if test="elementId != null" >
+        ELEMENT_ID,
+      </if>
+      <if test="pointId != null" >
+        POINT_ID,
+      </if>
+      <if test="elementCenter != null" >
+        ELEMENT_CENTER,
+      </if>
+      <if test="x != null" >
+        X,
+      </if>
+      <if test="y != null" >
+        Y,
+      </if>
+      <if test="z != null" >
+        Z,
+      </if>
+      <if test="xy != null" >
+        XY,
+      </if>
+      <if test="yz != null" >
+        YZ,
+      </if>
+      <if test="zx != null" >
+        ZX,
+      </if>
+      <if test="meanPressure != null" >
+        MEAN_PRESSURE,
+      </if>
+      <if test="vonMises != null" >
+        VON_MISES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="analysisId != null" >
+        #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="elementId != null" >
+        #{elementId,jdbcType=DECIMAL},
+      </if>
+      <if test="pointId != null" >
+        #{pointId,jdbcType=DECIMAL},
+      </if>
+      <if test="elementCenter != null" >
+        #{elementCenter,jdbcType=DECIMAL},
+      </if>
+      <if test="x != null" >
+        #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null" >
+        #{y,jdbcType=VARCHAR},
+      </if>
+      <if test="z != null" >
+        #{z,jdbcType=VARCHAR},
+      </if>
+      <if test="xy != null" >
+        #{xy,jdbcType=VARCHAR},
+      </if>
+      <if test="yz != null" >
+        #{yz,jdbcType=VARCHAR},
+      </if>
+      <if test="zx != null" >
+        #{zx,jdbcType=VARCHAR},
+      </if>
+      <if test="meanPressure != null" >
+        #{meanPressure,jdbcType=VARCHAR},
+      </if>
+      <if test="vonMises != null" >
+        #{vonMises,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.GridStrainResult" >
+    update "METAI"."GRID_STRAIN_RESULT"
+    <set >
+      <if test="analysisId != null" >
+        ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="elementId != null" >
+        ELEMENT_ID = #{elementId,jdbcType=DECIMAL},
+      </if>
+      <if test="pointId != null" >
+        POINT_ID = #{pointId,jdbcType=DECIMAL},
+      </if>
+      <if test="elementCenter != null" >
+        ELEMENT_CENTER = #{elementCenter,jdbcType=DECIMAL},
+      </if>
+      <if test="x != null" >
+        X = #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null" >
+        Y = #{y,jdbcType=VARCHAR},
+      </if>
+      <if test="z != null" >
+        Z = #{z,jdbcType=VARCHAR},
+      </if>
+      <if test="xy != null" >
+        XY = #{xy,jdbcType=VARCHAR},
+      </if>
+      <if test="yz != null" >
+        YZ = #{yz,jdbcType=VARCHAR},
+      </if>
+      <if test="zx != null" >
+        ZX = #{zx,jdbcType=VARCHAR},
+      </if>
+      <if test="meanPressure != null" >
+        MEAN_PRESSURE = #{meanPressure,jdbcType=VARCHAR},
+      </if>
+      <if test="vonMises != null" >
+        VON_MISES = #{vonMises,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.GridStrainResult" >
+    update "METAI"."GRID_STRAIN_RESULT"
+    set ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      ELEMENT_ID = #{elementId,jdbcType=DECIMAL},
+      POINT_ID = #{pointId,jdbcType=DECIMAL},
+      ELEMENT_CENTER = #{elementCenter,jdbcType=DECIMAL},
+      X = #{x,jdbcType=VARCHAR},
+      Y = #{y,jdbcType=VARCHAR},
+      Z = #{z,jdbcType=VARCHAR},
+      XY = #{xy,jdbcType=VARCHAR},
+      YZ = #{yz,jdbcType=VARCHAR},
+      ZX = #{zx,jdbcType=VARCHAR},
+      MEAN_PRESSURE = #{meanPressure,jdbcType=VARCHAR},
+      VON_MISES = #{vonMises,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
