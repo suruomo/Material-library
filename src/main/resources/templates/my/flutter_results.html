@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/layui/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--引入topbar-->
+    <div th:replace="commons/bar::topbar"></div>
+    <!--引入sidebar-->
+    <!--    <div th:replace="commons/bar::sidebar"></div>-->
+    <div class="layui-body" style="padding: 25px;border:20px;">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <div class="layui-collapse">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">分析任务基本信息</h2>
+                    <div class="layui-colla-content layui-show">
+                        <form class="layui-form" th:action="@{/}" method="post" id="form1">
+                            <input type="hidden" name="id" id="id" th:value="${analysisTask.id}"/>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span style="color: red; ">*</span>分析类型</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="name" lay-verify="required"
+                                           autocomplete="off" class="layui-input" th:value="${analysisTask.type}"
+                                           readonly>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label"><span style="color: red; ">*</span>任务描述</label>
+                                <div class="layui-form-item layui-form-text">
+                                    <div class="layui-input-block">
+                            <textarea name="description" th:text="${analysisTask.description}" placeholder="请输入内容"
+                                      class="layui-textarea" ay-reqtext="任务描述是必填项！" readonly></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">前处理文件</label>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="beforeFile">
+                                    下载文件
+                                </button>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">分析结果文件</label>
+                                <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="resultFile">
+                                    下载文件
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">颤振速度交叉表</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="speed" lay-filter="speed"></table>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">V-G曲线数据</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="complex" lay-filter="complex"></table>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">V-G实数根数据</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="real" lay-filter="real"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--引入footer-->
+    <div th:replace="commons/bar::footer"></div>
+</div>
+<script type="text/html" id="complextoolbar">
+    <div class="layui-btn-container">
+        <a type="button" class="layui-btn  layui-btn-sm" lay-event="detailComplex"><i class="layui-icon">&#xe63c;</i>详细数据</a>
+    </div>
+</script>
+<script type="text/html" id="realtoolbar">
+    <div class="layui-btn-container">
+        <a type="button" class="layui-btn  layui-btn-sm" lay-event="detailReal"><i class="layui-icon">&#xe63c;</i>详细数据</a>
+    </div>
+</script>
+<script>
+    layui.use(['form', 'util', 'layer', 'table', 'jquery', 'element'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        var table = layui.table;
+        var util = layui.util;
+        var layer = layui.layer;
+        // 表单初始化
+        form.render();
+        // 颤振速度交叉表结果初始化
+        table.render({
+            elem: '#speed'
+            , url: '/flutter/results/speed'
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '模态频率信息'
+            , id: 'speedList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'symmetryType', width: "10%", title: '对称类型',align:'center'}
+                    , {field: 'machNumber', width: "15%", title: '马赫数',align:'center'}
+                    , {field: 'density', width: "8%", title: '密度',align:'center'}
+                    , {field: 'mode', width: "8%", title: '模态',align:'center'}
+                    , {field: 'kfreq', width: "15%", title: 'KFREQ',align:'center'}
+                    , {field: 'speed', width: "15%", title: '颤振速度标量',align:'center'}
+                    , {field: 'frequency', width: "8%", title: '频率',align:'center'}
+                    , {field: 'velocity', width: "15%", title: '颤振速度矢量',align:'center'}
+                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // vg曲线数据结果初始化
+        table.render({
+            elem: '#complex'
+            , url: '/flutter/results/complex'
+            , method: "get"
+            , page: true    //true表示分页
+            , title: 'vg曲线数据结果信息'
+            , id: 'vgComplexList'
+            , toolbar: '#toolbar'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'mode', width: "15%", title: '模态阶次',align:'center'}
+                    , {field: 'machNumber', width: "15%", title: '马赫数',align:'center'}
+                    , {field: 'density', width: "20%", title: '密度',align:'center'}
+                    , {field: 'symmetryType', width: "20%", title: '对称类型',align:'center'}
+                    , {field: 'flutterMethod', width: "20%", title: '颤振方法 ',align:'center'}
+                    , {fixed: 'right', title: '操作', toolbar: '#complextoolbar'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // vg实数根数据结果初始化
+        table.render({
+            elem: '#real'
+            , url: '/flutter/results/real'
+            , method: "get"
+            , page: true    //true表示分页
+            , title: 'vg实数根数据结果信息'
+            , id: 'vgRealList'
+            , toolbar: '#toolbar'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'mode', width: "15%", title: '模态阶次',align:'center'}
+                    , {field: 'machNumber', width: "15%", title: '马赫数',align:'center'}
+                    , {field: 'density', width: "20%", title: '密度',align:'center'}
+                    , {field: 'symmetryType', width: "20%", title: '对称类型',align:'center'}
+                    , {field: 'flutterMethod', width: "20%", title: '颤振方法 ',align:'center'}
+                    , {fixed: 'right', title: '操作', toolbar: '#realtoolbar'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        //监听complex右部操作工具条
+        table.on('tool(complex)', function (obj) {
+            var data = obj.data;
+            switch(obj.event){
+                case 'detailComplex':
+                    // layer.msg(data.id);
+                    layer.open({
+                        type: 2,
+                        title: '详细数据',
+                        shadeClose: true,
+                        //弹出框之外的地方是否可以点击
+                        offset: '30%',
+                        area: ['70%', '40%'],
+                        content: '/complex/'+data.id
+                    });
+                    break;
+            }
+        });
+        //监听real右部操作工具条
+        table.on('tool(real)', function (obj) {
+            var data = obj.data;
+            switch(obj.event){
+                case 'detailReal':
+                    layer.open({
+                        type: 2,
+                        title: '详细数据',
+                        shadeClose: true,
+                        //弹出框之外的地方是否可以点击
+                        offset: '30%',
+                        area: ['70%', '40%'],
+                        content: '/real/'+data.id
+                    });
+                    break;
+            }
+        });
+    });
+</script>
+</body>
+</html>

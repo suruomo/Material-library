@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.ComplexFormMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.ComplexForm" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="COMPLEX_ID" property="complexId" jdbcType="DECIMAL" />
+    <result column="KFREQ" property="kfreq" jdbcType="VARCHAR" />
+    <result column="SPEED" property="speed" jdbcType="VARCHAR" />
+    <result column="DAMPING" property="damping" jdbcType="VARCHAR" />
+    <result column="FREQUENCY" property="frequency" jdbcType="VARCHAR" />
+    <result column="VELOCITY" property="velocity" jdbcType="VARCHAR" />
+    <result column="NATURAL" property="natural" jdbcType="VARCHAR" />
+    <result column="LAMAR" property="lamar" jdbcType="VARCHAR" />
+    <result column="LAMAI" property="lamai" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, COMPLEX_ID, KFREQ, SPEED, DAMPING, FREQUENCY, VELOCITY, NATURAL, LAMAR, LAMAI
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAI"."COMPLEX_FORM"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.ComplexForm">
+        select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."COMPLEX_FORM" where COMPLEX_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAI"."COMPLEX_FORM"
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.ComplexForm" >
+    insert into "METAI"."COMPLEX_FORM" (ID, COMPLEX_ID, KFREQ, 
+      SPEED, DAMPING, FREQUENCY, 
+      VELOCITY, NATURAL, LAMAR, 
+      LAMAI)
+    values (#{id,jdbcType=DECIMAL}, #{complexId,jdbcType=DECIMAL}, #{kfreq,jdbcType=VARCHAR}, 
+      #{speed,jdbcType=VARCHAR}, #{damping,jdbcType=VARCHAR}, #{frequency,jdbcType=VARCHAR}, 
+      #{velocity,jdbcType=VARCHAR}, #{natural,jdbcType=VARCHAR}, #{lamar,jdbcType=VARCHAR}, 
+      #{lamai,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.ComplexForm" >
+    insert into "METAI"."COMPLEX_FORM"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="complexId != null" >
+        COMPLEX_ID,
+      </if>
+      <if test="kfreq != null" >
+        KFREQ,
+      </if>
+      <if test="speed != null" >
+        SPEED,
+      </if>
+      <if test="damping != null" >
+        DAMPING,
+      </if>
+      <if test="frequency != null" >
+        FREQUENCY,
+      </if>
+      <if test="velocity != null" >
+        VELOCITY,
+      </if>
+      <if test="natural != null" >
+        NATURAL,
+      </if>
+      <if test="lamar != null" >
+        LAMAR,
+      </if>
+      <if test="lamai != null" >
+        LAMAI,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="complexId != null" >
+        #{complexId,jdbcType=DECIMAL},
+      </if>
+      <if test="kfreq != null" >
+        #{kfreq,jdbcType=VARCHAR},
+      </if>
+      <if test="speed != null" >
+        #{speed,jdbcType=VARCHAR},
+      </if>
+      <if test="damping != null" >
+        #{damping,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null" >
+        #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="velocity != null" >
+        #{velocity,jdbcType=VARCHAR},
+      </if>
+      <if test="natural != null" >
+        #{natural,jdbcType=VARCHAR},
+      </if>
+      <if test="lamar != null" >
+        #{lamar,jdbcType=VARCHAR},
+      </if>
+      <if test="lamai != null" >
+        #{lamai,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.ComplexForm" >
+    update "METAI"."COMPLEX_FORM"
+    <set >
+      <if test="complexId != null" >
+        COMPLEX_ID = #{complexId,jdbcType=DECIMAL},
+      </if>
+      <if test="kfreq != null" >
+        KFREQ = #{kfreq,jdbcType=VARCHAR},
+      </if>
+      <if test="speed != null" >
+        SPEED = #{speed,jdbcType=VARCHAR},
+      </if>
+      <if test="damping != null" >
+        DAMPING = #{damping,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null" >
+        FREQUENCY = #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="velocity != null" >
+        VELOCITY = #{velocity,jdbcType=VARCHAR},
+      </if>
+      <if test="natural != null" >
+        NATURAL = #{natural,jdbcType=VARCHAR},
+      </if>
+      <if test="lamar != null" >
+        LAMAR = #{lamar,jdbcType=VARCHAR},
+      </if>
+      <if test="lamai != null" >
+        LAMAI = #{lamai,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.ComplexForm" >
+    update "METAI"."COMPLEX_FORM"
+    set COMPLEX_ID = #{complexId,jdbcType=DECIMAL},
+      KFREQ = #{kfreq,jdbcType=VARCHAR},
+      SPEED = #{speed,jdbcType=VARCHAR},
+      DAMPING = #{damping,jdbcType=VARCHAR},
+      FREQUENCY = #{frequency,jdbcType=VARCHAR},
+      VELOCITY = #{velocity,jdbcType=VARCHAR},
+      NATURAL = #{natural,jdbcType=VARCHAR},
+      LAMAR = #{lamar,jdbcType=VARCHAR},
+      LAMAI = #{lamai,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

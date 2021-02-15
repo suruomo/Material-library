@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.FlutterVgReALResultMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.FlutterVgReALResult" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ANALYSIS_ID" property="analysisId" jdbcType="DECIMAL" />
+    <result column="MODE" property="mode" jdbcType="DECIMAL" />
+    <result column="MACH_NUMBER" property="machNumber" jdbcType="VARCHAR" />
+    <result column="DENSITY" property="density" jdbcType="VARCHAR" />
+    <result column="SYMMETRY_TYPE" property="symmetryType" jdbcType="VARCHAR" />
+    <result column="FLUTTER_METHOD" property="flutterMethod" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ANALYSIS_ID, MODE, MACH_NUMBER, DENSITY, SYMMETRY_TYPE, FLUTTER_METHOD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAI"."FLUTTER_VG_REAL_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.FlutterVgReALResult">
+    select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."FLUTTER_VG_REAL_RESULT") a where rownum <= #{end}
+    ]]>
+    )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAI"."FLUTTER_VG_REAL_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.FlutterVgReALResult" >
+    insert into "METAI"."FLUTTER_VG_REAL_RESULT" (ID, ANALYSIS_ID, MODE, 
+      MACH_NUMBER, DENSITY, SYMMETRY_TYPE, 
+      FLUTTER_METHOD)
+    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{mode,jdbcType=DECIMAL}, 
+      #{machNumber,jdbcType=VARCHAR}, #{density,jdbcType=VARCHAR}, #{symmetryType,jdbcType=VARCHAR}, 
+      #{flutterMethod,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.FlutterVgReALResult" >
+    insert into "METAI"."FLUTTER_VG_REAL_RESULT"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="analysisId != null" >
+        ANALYSIS_ID,
+      </if>
+      <if test="mode != null" >
+        MODE,
+      </if>
+      <if test="machNumber != null" >
+        MACH_NUMBER,
+      </if>
+      <if test="density != null" >
+        DENSITY,
+      </if>
+      <if test="symmetryType != null" >
+        SYMMETRY_TYPE,
+      </if>
+      <if test="flutterMethod != null" >
+        FLUTTER_METHOD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="analysisId != null" >
+        #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="mode != null" >
+        #{mode,jdbcType=DECIMAL},
+      </if>
+      <if test="machNumber != null" >
+        #{machNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="density != null" >
+        #{density,jdbcType=VARCHAR},
+      </if>
+      <if test="symmetryType != null" >
+        #{symmetryType,jdbcType=VARCHAR},
+      </if>
+      <if test="flutterMethod != null" >
+        #{flutterMethod,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.FlutterVgReALResult" >
+    update "METAI"."FLUTTER_VG_REAL_RESULT"
+    <set >
+      <if test="analysisId != null" >
+        ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="mode != null" >
+        MODE = #{mode,jdbcType=DECIMAL},
+      </if>
+      <if test="machNumber != null" >
+        MACH_NUMBER = #{machNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="density != null" >
+        DENSITY = #{density,jdbcType=VARCHAR},
+      </if>
+      <if test="symmetryType != null" >
+        SYMMETRY_TYPE = #{symmetryType,jdbcType=VARCHAR},
+      </if>
+      <if test="flutterMethod != null" >
+        FLUTTER_METHOD = #{flutterMethod,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.FlutterVgReALResult" >
+    update "METAI"."FLUTTER_VG_REAL_RESULT"
+    set ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      MODE = #{mode,jdbcType=DECIMAL},
+      MACH_NUMBER = #{machNumber,jdbcType=VARCHAR},
+      DENSITY = #{density,jdbcType=VARCHAR},
+      SYMMETRY_TYPE = #{symmetryType,jdbcType=VARCHAR},
+      FLUTTER_METHOD = #{flutterMethod,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

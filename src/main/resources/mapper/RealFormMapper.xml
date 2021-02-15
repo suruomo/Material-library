@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.RealFormMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.RealForm" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="REAL_ID" property="realId" jdbcType="DECIMAL" />
+    <result column="SPEED" property="speed" jdbcType="VARCHAR" />
+    <result column="VELOCITY" property="velocity" jdbcType="VARCHAR" />
+    <result column="LAMAR" property="lamar" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REAL_ID, SPEED, VELOCITY, LAMAR
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAI"."REAL_FORM"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.RealForm">
+           select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."REAL_FORM" where REAL_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAI"."REAL_FORM"
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.RealForm" >
+    insert into "METAI"."REAL_FORM" (ID, REAL_ID, SPEED, 
+      VELOCITY, LAMAR)
+    values (#{id,jdbcType=DECIMAL}, #{realId,jdbcType=DECIMAL}, #{speed,jdbcType=VARCHAR}, 
+      #{velocity,jdbcType=VARCHAR}, #{lamar,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.RealForm" >
+    insert into "METAI"."REAL_FORM"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="realId != null" >
+        REAL_ID,
+      </if>
+      <if test="speed != null" >
+        SPEED,
+      </if>
+      <if test="velocity != null" >
+        VELOCITY,
+      </if>
+      <if test="lamar != null" >
+        LAMAR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="realId != null" >
+        #{realId,jdbcType=DECIMAL},
+      </if>
+      <if test="speed != null" >
+        #{speed,jdbcType=VARCHAR},
+      </if>
+      <if test="velocity != null" >
+        #{velocity,jdbcType=VARCHAR},
+      </if>
+      <if test="lamar != null" >
+        #{lamar,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.RealForm" >
+    update "METAI"."REAL_FORM"
+    <set >
+      <if test="realId != null" >
+        REAL_ID = #{realId,jdbcType=DECIMAL},
+      </if>
+      <if test="speed != null" >
+        SPEED = #{speed,jdbcType=VARCHAR},
+      </if>
+      <if test="velocity != null" >
+        VELOCITY = #{velocity,jdbcType=VARCHAR},
+      </if>
+      <if test="lamar != null" >
+        LAMAR = #{lamar,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.RealForm" >
+    update "METAI"."REAL_FORM"
+    set REAL_ID = #{realId,jdbcType=DECIMAL},
+      SPEED = #{speed,jdbcType=VARCHAR},
+      VELOCITY = #{velocity,jdbcType=VARCHAR},
+      LAMAR = #{lamar,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

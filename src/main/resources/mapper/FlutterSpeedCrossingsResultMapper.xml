@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.FlutterSpeedCrossingsResultMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.FlutterSpeedCrossingsResult" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ANALYSIS_ID" property="analysisId" jdbcType="DECIMAL" />
+    <result column="SYMMETRY_TYPE" property="symmetryType" jdbcType="VARCHAR" />
+    <result column="MACH_NUMBER" property="machNumber" jdbcType="VARCHAR" />
+    <result column="DENSITY" property="density" jdbcType="VARCHAR" />
+    <result column="MODE" property="mode" jdbcType="DECIMAL" />
+    <result column="KFREQ" property="kfreq" jdbcType="VARCHAR" />
+    <result column="SPEED" property="speed" jdbcType="VARCHAR" />
+    <result column="FREQUENCY" property="frequency" jdbcType="VARCHAR" />
+    <result column="VELOCITY" property="velocity" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ANALYSIS_ID, SYMMETRY_TYPE, MACH_NUMBER, DENSITY, MODE, KFREQ, SPEED, FREQUENCY, 
+    VELOCITY
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from "METAI"."FLUTTER_SPEED_CROSSINGS_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.FlutterSpeedCrossingsResult">
+     select * from (
+    <![CDATA[
+    select rownum rn,a.* from (select * from "METAL"."FLUTTER_SPEED_CROSSINGS_RESULT") a where rownum <= #{end}
+    ]]>
+    )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAI"."FLUTTER_SPEED_CROSSINGS_RESULT"
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.FlutterSpeedCrossingsResult" >
+    insert into "METAI"."FLUTTER_SPEED_CROSSINGS_RESULT" (ID, ANALYSIS_ID, SYMMETRY_TYPE, 
+      MACH_NUMBER, DENSITY, MODE, 
+      KFREQ, SPEED, FREQUENCY, 
+      VELOCITY)
+    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{symmetryType,jdbcType=VARCHAR}, 
+      #{machNumber,jdbcType=VARCHAR}, #{density,jdbcType=VARCHAR}, #{mode,jdbcType=DECIMAL}, 
+      #{kfreq,jdbcType=VARCHAR}, #{speed,jdbcType=VARCHAR}, #{frequency,jdbcType=VARCHAR}, 
+      #{velocity,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.FlutterSpeedCrossingsResult" >
+    insert into "METAI"."FLUTTER_SPEED_CROSSINGS_RESULT"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="analysisId != null" >
+        ANALYSIS_ID,
+      </if>
+      <if test="symmetryType != null" >
+        SYMMETRY_TYPE,
+      </if>
+      <if test="machNumber != null" >
+        MACH_NUMBER,
+      </if>
+      <if test="density != null" >
+        DENSITY,
+      </if>
+      <if test="mode != null" >
+        MODE,
+      </if>
+      <if test="kfreq != null" >
+        KFREQ,
+      </if>
+      <if test="speed != null" >
+        SPEED,
+      </if>
+      <if test="frequency != null" >
+        FREQUENCY,
+      </if>
+      <if test="velocity != null" >
+        VELOCITY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="analysisId != null" >
+        #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="symmetryType != null" >
+        #{symmetryType,jdbcType=VARCHAR},
+      </if>
+      <if test="machNumber != null" >
+        #{machNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="density != null" >
+        #{density,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null" >
+        #{mode,jdbcType=DECIMAL},
+      </if>
+      <if test="kfreq != null" >
+        #{kfreq,jdbcType=VARCHAR},
+      </if>
+      <if test="speed != null" >
+        #{speed,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null" >
+        #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="velocity != null" >
+        #{velocity,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.FlutterSpeedCrossingsResult" >
+    update "METAI"."FLUTTER_SPEED_CROSSINGS_RESULT"
+    <set >
+      <if test="analysisId != null" >
+        ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="symmetryType != null" >
+        SYMMETRY_TYPE = #{symmetryType,jdbcType=VARCHAR},
+      </if>
+      <if test="machNumber != null" >
+        MACH_NUMBER = #{machNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="density != null" >
+        DENSITY = #{density,jdbcType=VARCHAR},
+      </if>
+      <if test="mode != null" >
+        MODE = #{mode,jdbcType=DECIMAL},
+      </if>
+      <if test="kfreq != null" >
+        KFREQ = #{kfreq,jdbcType=VARCHAR},
+      </if>
+      <if test="speed != null" >
+        SPEED = #{speed,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null" >
+        FREQUENCY = #{frequency,jdbcType=VARCHAR},
+      </if>
+      <if test="velocity != null" >
+        VELOCITY = #{velocity,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.FlutterSpeedCrossingsResult" >
+    update "METAI"."FLUTTER_SPEED_CROSSINGS_RESULT"
+    set ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
+      SYMMETRY_TYPE = #{symmetryType,jdbcType=VARCHAR},
+      MACH_NUMBER = #{machNumber,jdbcType=VARCHAR},
+      DENSITY = #{density,jdbcType=VARCHAR},
+      MODE = #{mode,jdbcType=DECIMAL},
+      KFREQ = #{kfreq,jdbcType=VARCHAR},
+      SPEED = #{speed,jdbcType=VARCHAR},
+      FREQUENCY = #{frequency,jdbcType=VARCHAR},
+      VELOCITY = #{velocity,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

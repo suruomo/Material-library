@@ -43,7 +43,10 @@
         </javaClientGenerator>
 
         <!-- 要生成哪些表 -->
-        <table tableName="MODE_FREQUENCY_RESULT" domainObjectName="ModeFrequencyResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="MODE_SHAPE_RESULT" domainObjectName="ModeShapeResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="FLUTTER_SPEED_CROSSINGS_RESULT" domainObjectName="FlutterSpeedCrossingsResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="FLUTTER_VG_COMPLEX_RESULT" domainObjectName="FlutterVgComplexResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="COMPLEX_FORM" domainObjectName="ComplexForm" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="FLUTTER_VG_REAL_RESULT" domainObjectName="FlutterVgReALResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="REAL_FORM" domainObjectName="RealForm" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>

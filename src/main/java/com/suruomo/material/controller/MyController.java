@@ -51,6 +51,21 @@ public class MyController {
     @Resource
     private ModeShapeResultMapper modeShapeResultMapper;
 
+    @Resource
+    private FlutterSpeedCrossingsResultMapper flutterSpeedCrossingsResultMapper;
+
+    @Resource
+    private FlutterVgComplexResultMapper flutterVgComplexResultMapper;
+
+    @Resource
+    private FlutterVgReALResultMapper flutterVgReALResultMapper;
+
+    @Resource
+    private ComplexFormMapper complexFormMapper;
+
+    @Resource
+    private RealFormMapper realFormMapper;
+
     /**
      * 我的数据主页面
      *
@@ -148,16 +163,15 @@ public class MyController {
      */
     @GetMapping("/analysis/result/{id}/{type}")
     public String analysisResultInfo(@PathVariable String id, @PathVariable String type, Model model) {
-        AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
-        model.addAttribute("analysisTask",analysisTask);
-        switch (type){
+        AnalysisTask analysisTask = analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
+        model.addAttribute("analysisTask", analysisTask);
+        switch (type) {
             case "静力分析":
                 return "my/static_results";
             case "正向模态":
                 return "my/mode_results";
-//            case "气动颤振":
-//                return "my/flutter_results";
-//                break;
+            case "气动颤振":
+                return "my/flutter_results";
             default:
                 return "出错啦";
         }
@@ -165,6 +179,7 @@ public class MyController {
 
     /**
      * 返回静力分析的位移结果数据
+     *
      * @param page
      * @param limit
      * @return
@@ -181,6 +196,7 @@ public class MyController {
 
     /**
      * 返回静力分析的约束反力数据
+     *
      * @param page
      * @param limit
      * @return
@@ -197,6 +213,7 @@ public class MyController {
 
     /**
      * 返回静力分析的节点应力表
+     *
      * @param page
      * @param limit
      * @return
@@ -210,8 +227,10 @@ public class MyController {
         List<GridStressResult> lists = gridStressResultMapper.getAll(start, end);
         return result.getResult(lists);
     }
+
     /**
      * 返回静力分析的节点应变表
+     *
      * @param page
      * @param limit
      * @return
@@ -225,8 +244,10 @@ public class MyController {
         List<GridStrainResult> lists = gridStrainResultMapper.getAll(start, end);
         return result.getResult(lists);
     }
+
     /**
      * 返回正向模态的模态频率表
+     *
      * @param page
      * @param limit
      * @return
@@ -243,6 +264,7 @@ public class MyController {
 
     /**
      * 返回正向模态的模态振型表
+     *
      * @param page
      * @param limit
      * @return
@@ -254,6 +276,112 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<ModeShapeResult> lists = modeShapeResultMapper.getAll(start, end);
+        return result.getResult(lists);
+    }
+
+    /**
+     * 返回气动颤振的颤振速度交叉表
+     *
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/flutter/results/speed", params = {"page", "limit"})
+    public Map<String, Object> speedList(int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        List<FlutterSpeedCrossingsResult> lists = flutterSpeedCrossingsResultMapper.getAll(start, end);
+        return result.getResult(lists);
+    }
+
+    /**
+     * 返回气动颤振的vg曲线数据详细表
+     *
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/flutter/results/complex", params = {"page", "limit"})
+    public Map<String, Object> complexList(int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        List<FlutterVgComplexResult> lists = flutterVgComplexResultMapper.getAll(start, end);
+        return result.getResult(lists);
+    }
+
+    /**
+     * 返回气动颤振的vg实数根数据详细表
+     *
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/flutter/results/real", params = {"page", "limit"})
+    public Map<String, Object> realList(int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        List<FlutterVgReALResult> lists = flutterVgReALResultMapper.getAll(start, end);
+        return result.getResult(lists);
+    }
+
+    /**
+     * 跳转complex详细数据页面
+     *
+     * @return
+     */
+    @GetMapping(value = {"/complex/{complexId}"})
+    public String complexPage(@PathVariable String complexId, Model model) {
+        model.addAttribute(complexId, complexId);
+        return "my/complex_detail";
+    }
+
+    /**
+     * 返回complex详细表
+     *
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/complex/detail/{complexId}", params = {"page", "limit"})
+    public Map<String, Object> complexDetailList(@PathVariable String complexId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        List<ComplexForm> lists = complexFormMapper.getAll(complexId, start, end);
+        return result.getResult(lists);
+    }
+
+    /**
+     * 跳转real详细数据页面
+     *
+     * @return
+     */
+    @GetMapping(value = {"/real/{realId}"})
+    public String realPage(@PathVariable String realId, Model model) {
+        model.addAttribute(realId, realId);
+        return "my/real_detail";
+    }
+    /**
+     * 返回complex详细表
+     *
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/real/detail/{realId}", params = {"page", "limit"})
+    public Map<String, Object> realDetailList(@PathVariable String realId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        List<RealForm> lists = realFormMapper.getAll(realId, start, end);
         return result.getResult(lists);
     }
 }
