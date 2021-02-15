@@ -38,17 +38,15 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">几何模型</label>
-                    <div class="layui-upload">
-                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="choose1">选择文件</button>
-                        <button type="button" class="layui-btn layui-btn-sm" id="upload1">开始上传</button>
-                    </div>
+                    <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="geometric" th:href="@{/download/metal/original}">
+                        下载文件
+                    </a>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">有限元模型</label>
-                    <div class="layui-upload">
-                        <button type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="choose2">选择文件</button>
-                        <button type="button" class="layui-btn layui-btn-sm" id="upload2">开始上传</button>
-                    </div>
+                    <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="finite" th:href="@{/download/metal/original}">
+                        下载文件
+                    </a>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
@@ -160,30 +158,6 @@
             ;
         });
         form.render();
-        //几何模型上传
-        upload.render({
-            elem: '#choose1'
-            , url: 'https://httpbin.org/post' //改成您自己的上传接口
-            , auto: false
-            //,multiple: true
-            , bindAction: '#upload1'
-            , done: function (res) {
-                layer.msg('上传成功');
-                console.log(res)
-            }
-        });
-        // 有限元模型上传
-        upload.render({
-            elem: '#choose2'
-            , url: 'https://httpbin.org/post' //改成您自己的上传接口
-            , auto: false
-            //,multiple: true
-            , bindAction: '#upload2'
-            , done: function (res) {
-                layer.msg('上传成功');
-                console.log(res)
-            }
-        });
     });
 </script>
 </body>
