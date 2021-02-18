@@ -84,10 +84,11 @@
         var table = layui.table;
         var util = layui.util;
         var layer = layui.layer;
+        var id=$('#id').val()
         // 表格初始化
         table.render({
             elem: '#task'
-            , url: '/task/analysis'
+            , url: '/task/analysis/'+id
             , method: "get"
             , page: true    //true表示分页
             , title: '我的模型信息'

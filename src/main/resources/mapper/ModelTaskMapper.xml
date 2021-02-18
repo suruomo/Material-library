@@ -29,6 +29,9 @@
     ]]>
     )
     </select>
+    <select id="getMaxId" resultType="java.math.BigDecimal">
+       select max(ID) from "METAL"."MODEL_TASK"
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."MODEL_TASK"
     where ID = #{id,jdbcType=DECIMAL}

@@ -21,4 +21,6 @@ public interface ModelTaskMapper {
     int updateByPrimaryKey(ModelTask record);
 
     List<ModelTask> getAll(int start, int end);
+
+    BigDecimal getMaxId();
 }

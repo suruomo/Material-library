@@ -17,5 +17,5 @@ public interface AnalysisTaskMapper {
 
     int updateByPrimaryKey(AnalysisTask record);
 
-    List<AnalysisTask> getAll(int start, int end);
+    List<AnalysisTask> getAll(BigDecimal id, int start, int end);
 }

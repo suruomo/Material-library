@@ -3,15 +3,17 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.suruomo.material.dao.*;
 import com.suruomo.material.pojo.*;
+import com.suruomo.material.service.ModelTaskService;
 import com.suruomo.material.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +67,8 @@ public class MyController {
 
     @Resource
     private RealFormMapper realFormMapper;
+    @Autowired
+    private ModelTaskService modelTaskService;
 
     /**
      * 我的数据主页面
@@ -126,11 +130,11 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/task/analysis", params = {"page", "limit"})
-    public Map<String, Object> analysisList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/task/analysis/{id}", params = {"page", "limit"})
+    public Map<String, Object> analysisList(@PathVariable BigDecimal id, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<AnalysisTask> lists = analysisTaskMapper.getAll(start, end);
+        List<AnalysisTask> lists = analysisTaskMapper.getAll(id,start, end);
         return result.getResult(lists);
     }
 
@@ -383,5 +387,28 @@ public class MyController {
         int end = page * limit;
         List<RealForm> lists = realFormMapper.getAll(realId, start, end);
         return result.getResult(lists);
+    }
+
+    /**
+     * 新建模型任务
+//     * @param modelTask
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value ={"/task/model"})
+    public int addModelTask(@RequestBody Map<String,String> map){
+        try{
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            // 获取用户
+            User user = (User) request.getSession().getAttribute("user");
+            modelTaskService.addModel(map,user.getUserId());
+//            System.out.println("name："+map.get("name"));
+//            System.out.println("description："+map.get("description"));
+//            System.out.println("geometricModel："+map.get("geometricModel"));
+//            System.out.println("finiteElementModel："+map.get("finiteElementModel"));
+            return 0;
+        }catch (Exception e){
+            return 1;
+        }
     }
 }
