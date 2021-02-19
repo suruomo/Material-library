@@ -24,7 +24,7 @@
                     <label class="layui-form-label"><span style="color: red; ">*</span>任务名称</label>
                     <div class="layui-input-inline">
                         <input type="text" name="name" lay-verify="required" ay-reqtext="任务名称是必填项！"
-                               autocomplete="off" class="layui-input" th:value="${model.name}">
+                               autocomplete="off" class="layui-input" th:value="${model.name}" readonly>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -32,7 +32,7 @@
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
                             <textarea name="description" th:text="${model.description}" placeholder="请输入内容"
-                                      class="layui-textarea" ay-reqtext="任务描述是必填项！"></textarea>
+                                      class="layui-textarea" ay-reqtext="任务描述是必填项！" readonly></textarea>
                         </div>
                     </div>
                 </div>

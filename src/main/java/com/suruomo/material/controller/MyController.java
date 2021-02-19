@@ -498,4 +498,63 @@ public class MyController {
         }
         out.close();
     }
+    /**
+     * 下载前处理文件
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/download/beforeFile/{id}")
+    public void downloadBeforeFile(@PathVariable String id, HttpServletResponse response) throws IOException {
+        AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
+        //假如以中文名下载的话，设置下载文件名称
+        String[] strings=analysisTask.getBeforePath().split("/");
+        String filename = strings[strings.length-1];
+        //解码，免得文件名中文乱码
+        filename = URLDecoder.decode(filename, "UTF-8");
+        //获取文件位置
+        String filePath = getClass().getResource(analysisTask.getBeforePath()).getPath();
+        filePath = URLDecoder.decode(filePath, "UTF-8");
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+        //设置文件下载头
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        int len = 0;
+        while ((len = bis.read()) != -1) {
+            out.write(len);
+            out.flush();
+        }
+        out.close();
+    }
+
+    /**
+     * 下载结果文件
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/download/resultFile/{id}")
+    public void downloadResultFile(@PathVariable String id, HttpServletResponse response) throws IOException {
+        AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
+        //假如以中文名下载的话，设置下载文件名称
+        String[] strings=analysisTask.getResultPath().split("/");
+        String filename = strings[strings.length-1];
+        //解码，免得文件名中文乱码
+        filename = URLDecoder.decode(filename, "UTF-8");
+        //获取文件位置
+        String filePath = getClass().getResource(analysisTask.getResultPath()).getPath();
+        filePath = URLDecoder.decode(filePath, "UTF-8");
+        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+        //设置文件下载头
+        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+        response.setContentType("multipart/form-data");
+        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+        int len = 0;
+        while ((len = bis.read()) != -1) {
+            out.write(len);
+            out.flush();
+        }
+        out.close();
+    }
 }
