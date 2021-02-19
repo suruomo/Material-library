@@ -3,6 +3,7 @@ package com.suruomo.material.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.suruomo.material.dao.*;
 import com.suruomo.material.pojo.*;
+import com.suruomo.material.service.AnalysisTaskService;
 import com.suruomo.material.service.ModelTaskService;
 import com.suruomo.material.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,9 +68,11 @@ public class MyController {
 
     @Resource
     private RealFormMapper realFormMapper;
-    @Autowired
-    private ModelTaskService modelTaskService;
 
+    @Resource
+    private ModelTaskService modelTaskService;
+    @Resource
+    private AnalysisTaskService analysisTaskService;
     /**
      * 我的数据主页面
      *
@@ -152,8 +155,9 @@ public class MyController {
      *
      * @return
      */
-    @GetMapping(value = {"/task/analysis"})
-    public String myTaskAnalysis() {
+    @GetMapping(value = {"/task/analysis/{modelId}"})
+    public String myTaskAnalysis(@PathVariable String modelId,Model model) {
+        model.addAttribute("modelId",modelId);
         return "my/add_task_analysis";
     }
 
@@ -391,7 +395,6 @@ public class MyController {
 
     /**
      * 新建模型任务
-//     * @param modelTask
      * @return
      */
     @ResponseBody
@@ -402,10 +405,29 @@ public class MyController {
             // 获取用户
             User user = (User) request.getSession().getAttribute("user");
             modelTaskService.addModel(map,user.getUserId());
-//            System.out.println("name："+map.get("name"));
-//            System.out.println("description："+map.get("description"));
-//            System.out.println("geometricModel："+map.get("geometricModel"));
-//            System.out.println("finiteElementModel："+map.get("finiteElementModel"));
+            return 0;
+        }catch (Exception e){
+            return 1;
+        }
+    }
+
+    /**
+     * 新建分析任务
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value ={"/task/analysis"})
+    public int addAnalysisTask(@RequestBody Map<String,String> map){
+        try{
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            // 获取用户
+            User user = (User) request.getSession().getAttribute("user");
+            analysisTaskService.addAnalysis(map,user.getUserId());
+            System.out.println(map.get("type"));
+            System.out.println(map.get("modelId"));
+            System.out.println(map.get("description"));
+            System.out.println(map.get("beforePath"));
+            System.out.println(map.get("resultPath"));
             return 0;
         }catch (Exception e){
             return 1;

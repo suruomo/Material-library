@@ -11,11 +11,11 @@
     <!-- 内容主体区域 -->
     <div style="padding:5px;">
         <form class="layui-form" th:action="@{/task/analysis}" method="post" id="form">
-            <input type="hidden" name="id"/>
+            <input type="hidden" name="modelId" id="modelId" th:value="${modelId}"/>
             <div class="layui-form-item">
                 <label class="layui-form-label"><span style="color: red; ">*</span>分析类型</label>
                 <div class="layui-input-inline">
-                    <select name="type" id="type" lay-filter="type">
+                    <select name="type" id="type" lay-filter="type" >
                         <option value="静力分析">静力分析</option>
                         <option value="正向模态">正向模态</option>
                         <option value="气动颤振">气动颤振</option>
@@ -27,29 +27,31 @@
                 <div class="layui-form-item layui-form-text">
                     <div class="layui-input-block">
                         <textarea name="description" placeholder="请输入内容" class="layui-textarea"
-                                  ay-reqtext="任务描述是必填项！"></textarea>
+                                  lay-verify="required" lay-reqtext="任务描述是必填项！"></textarea>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">上传前处理文件</label>
-                <div class="layui-upload-drag" id="beforePath">
+                <div class="layui-upload-drag" id="beforeFile">
                     <i class="layui-icon">&#xe67c;</i>
                     <p>点击上传，或将文件拖拽到此处</p>
-                    <div class="layui-hide" id="beforeView">
-                        <hr>
-                        <img src="../static/images/aircraft-1813731.jpg" alt="上传成功后渲染" style="max-width: 196px">
+                    <button id="hideupload1" type="button" style="display:none;"></button>
+                    <input type="hidden" id="beforePath" name="beforePath" value=""/>
+                    <div class="layui-upload-list">
+                        <p id="demoText"></p>
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">上传结果文件</label>
-                <div class="layui-upload-drag" id="resultPath">
+                <div class="layui-upload-drag" id="resultFile">
                     <i class="layui-icon">&#xe67c;</i>
                     <p>点击上传，或将文件拖拽到此处</p>
-                    <div class="layui-hide" id="resultView">
-                        <hr>
-                        <img src="../static/images/aircraft-1813731.jpg" alt="上传成功后渲染" style="max-width: 196px">
+                    <button id="hideupload2" type="button" style="display:none;"></button>
+                    <input type="hidden" id="resultPath" name="resultPath" value=""/>
+                    <div class="layui-upload-list">
+                        <p id="demoText1"></p>
                     </div>
                 </div>
             </div>
@@ -72,32 +74,124 @@
             , upload = layui.upload;
         form.render();
         var element = layui.element;
+        var beforeflag=false;
+        var resultflag=false;
+        var formData={};
         // 前处理文件上传
-        upload.render({
-            elem: '#beforePath'
-            , url: '' //改成您自己的上传接口
-            , done: function (res) {
-                layer.msg('上传成功');
-                layui.$('#beforeView').removeClass('layui-hide').find('img').attr('src', res.files.file);
-                console.log(res)
+        var uploadBeforeFile =upload.render({
+            elem: '#beforeFile'
+            , url: '/upload/beforeFile' //改成您自己的上传接口
+            , accept: 'file'
+            , auto: false
+            , bindAction: '#hideupload1'
+            ,choose:function(obj){//假上传
+                beforeflag = true;//判断是否已上传，用于表单提交中控制跳转
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">已提交</span> ')
+            }
+            , done: function (res, index, upload) {
+                if (res.code == "1") {
+                    formData.beforePath=res.data
+                } else if (res.code == "0") {
+                    layer.msg('文件未选择，导入失败！');
+                } else {
+                    layer.msg('文件上传出现异常，请检查文件格式或网络，稍后重试！');
+                }
+            }
+            , error: function () {
+                // 演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadBeforeFile.upload();
+                });
             }
         });
-        // 前结果文件上传
-        upload.render({
-            elem: '#resultPath'
-            , url: '' //改成您自己的上传接口
-            , done: function (res) {
-                layer.msg('上传成功');
-                layui.$('#resultView').removeClass('layui-hide').find('img').attr('src', res.files.file);
-                console.log(res)
+        // 结果文件上传
+        var uploadResultFile=upload.render({
+            elem: '#resultFile'
+            , url: '/upload/resultFile' //改成您自己的上传接口
+            , accept: 'file'
+            , auto: false
+            , bindAction: '#hideupload2'
+            ,choose:function(obj){//假上传
+                resultflag = true;//判断是否已上传，用于表单提交中控制跳转
+                var demoText = $('#demoText1');
+                demoText.html('<span style="color: #FF5722;">已提交</span> ')
+            }
+            , done: function (res, index, upload) {
+                if (res.code == "1") {
+                    // 保存地址到表单域
+                    formData.resultPath=res.data
+                    $.ajax({
+                        url: "/task/analysis",
+                        type: "POST",
+                        data: JSON.stringify(formData),
+                        dataType: "json",
+                        async: true,
+                        contentType:"application/json",
+                        processData: false,
+                        success: function (data) {
+                            if (data == 0) {
+                                layer.msg("新建成功");
+                                // window.location.href = "/my";
+                            } else {
+                                //关闭弹框
+                                layer.msg("新建失败");
+                            }
+                        }
+                    });
+                } else if (res.code == "0") {
+                    layer.msg('文件未选择，导入失败！');
+                } else {
+                    layer.msg('文件上传出现异常，请检查文件格式或网络，稍后重试！');
+                }
+            }
+            , error: function () {
+                // 演示失败状态，并实现重传
+                var demoText = $('#demoText1');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadResultFile.upload();
+                });
             }
         });
         //监听提交
         form.on('submit(demo1)', function (data) {
-            // layer.alert(JSON.stringify(data.field), {
-            //     title: '最终的提交信息'
-            // })
-            form.submit();
+            layer.msg('提交中, 请稍后...', {
+                icon: 16,
+                shade: 0.01
+            },8000);
+            formData.type=data.field.type;
+            formData.description=data.field.description;
+            formData.modelId=data.field.modelId;
+            if(beforeflag||resultflag) {//判断是否上传模型，触发模型的上传功能
+                if (beforeflag){
+                    $("#hideupload1").trigger('click');
+                }
+                if (resultflag){
+                    $("#hideupload2").trigger('click');
+                }
+            }else {
+                $.ajax({ // 未上传模型
+                    url: "/task/analysis",
+                    type: "POST",
+                    data: JSON.stringify(formData),
+                    dataType: "json",
+                    async: true,
+                    contentType:"application/json",
+                    processData: false,
+                    success: function (data) {
+                        if (data == 0) {
+                            layer.msg("新建成功");
+                            // window.location.href = "/my";
+                        } else {
+                            //关闭弹框
+                            layer.msg("新建失败");
+                        }
+                    }
+                });
+            }
             return false;
         });
     });

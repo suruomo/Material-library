@@ -33,10 +33,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item" >
+                <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red; ">*</span>上传几何模型</label>
-                    <div class="layui-upload">
-                        <button type="button" class="layui-btn layui-btn-normal" id="geometricFile">选择文件</button>
+                    <div class="layui-upload-drag" id="geometricFile">
+                        <i class="layui-icon">&#xe67c;</i>
+                        <p>点击上传，或将文件拖拽到此处</p>
                         <button id="hideupload1" type="button" style="display:none;"></button>
                         <input type="hidden" id="geometricModel" name="geometricModel" value=""/>
                         <div class="layui-upload-list">
@@ -46,8 +47,9 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red; ">*</span>上传有限元模型</label>
-                    <div class="layui-upload">
-                        <button type="button"class="layui-btn layui-btn-normal" id="finiteElementFile">选择文件</button>
+                    <div class="layui-upload-drag" id="finiteElementFile">
+                        <i class="layui-icon">&#xe67c;</i>
+                        <p>点击上传，或将文件拖拽到此处</p>
                         <button id="hideupload2" type="button" style="display:none;"></button>
                         <input type="hidden" id="finiteElementModel" name="finiteElementModel" value=""/>
                         <div class="layui-upload-list">
@@ -71,31 +73,31 @@
     <div th:replace="commons/bar::footer"></div>
 </div>
 <script>
-    layui.use(['upload', 'form','jquery', 'element'], function () {
+    layui.use(['upload', 'form', 'jquery', 'element'], function () {
         var $ = layui.jquery;
         var layer = layui.layer
-            ,form = layui.form
+            , form = layui.form
             , upload = layui.upload;
         var element = layui.element;
-        var geoflag=false;
-        var finiteflag=false;
+        var geoflag = false;
+        var finiteflag = false;
         // var fd = new FormData();
-        var formData={};
+        var formData = {};
         // 几何模型上传
-        var uploadGeometricFile =upload.render({
+        var uploadGeometricFile = upload.render({
             elem: '#geometricFile'
             , url: '/upload/geometricModel' //改成您自己的上传接口
             , accept: 'file'
             , auto: false
             , bindAction: '#hideupload1'
-            ,choose:function(obj){//假上传
+            , choose: function (obj) {//假上传
                 geoflag = true;//判断是否已上传，用于表单提交中控制跳转
                 var demoText = $('#demoText');
                 demoText.html('<span style="color: #FF5722;">已提交</span> ')
-             }
+            }
             , done: function (res, index, upload) {
                 if (res.code == "1") {
-                    formData.geometricModel=res.data
+                    formData.geometricModel = res.data
                 } else if (res.code == "0") {
                     layer.msg('文件未选择，导入失败！');
                 } else {
@@ -112,13 +114,13 @@
             }
         });
         //有限元模型上传
-        var uploadFiniteElementFile=upload.render({
+        var uploadFiniteElementFile = upload.render({
             elem: '#finiteElementFile'
             , url: '/upload/finiteElementModel' //改成您自己的上传接口
             , accept: 'file'
             , auto: false
             , bindAction: '#hideupload2'
-            ,choose:function(obj){//假上传
+            , choose: function (obj) {//假上传
                 finiteflag = true;//判断是否已上传，用于表单提交中控制跳转
                 var demoText = $('#demoText1');
                 demoText.html('<span style="color: #FF5722;">已提交</span> ')
@@ -126,14 +128,14 @@
             , done: function (res, index, upload) {
                 if (res.code == "1") {
                     // 保存地址到表单域
-                    formData.finiteElementModel=res.data
+                    formData.finiteElementModel = res.data
                     $.ajax({
                         url: "/task/model",
                         type: "POST",
                         data: JSON.stringify(formData),
                         dataType: "json",
                         async: true,
-                        contentType:"application/json",
+                        contentType: "application/json",
                         processData: false,
                         success: function (data) {
                             if (data == 0) {
@@ -165,25 +167,25 @@
             layer.msg('提交中, 请稍后...', {
                 icon: 16,
                 shade: 0.01
-            },8000);
-            formData.name=data.field.name;
-            formData.description=data.field.description;
+            }, 8000);
+            formData.name = data.field.name;
+            formData.description = data.field.description;
             // formData = new FormData($( "#modelForm" )[0]);
-            if(geoflag||finiteflag) {//判断是否上传模型，触发模型的上传功能
-                if (geoflag){
+            if (geoflag || finiteflag) {//判断是否上传模型，触发模型的上传功能
+                if (geoflag) {
                     $("#hideupload1").trigger('click');
                 }
-                if (finiteflag){
+                if (finiteflag) {
                     $("#hideupload2").trigger('click');
                 }
-            }else {
+            } else {
                 $.ajax({ // 未上传模型
                     url: "/task/model",
                     type: "POST",
                     data: JSON.stringify(formData),
                     dataType: "json",
                     async: true,
-                    contentType:"application/json",
+                    contentType: "application/json",
                     processData: false,
                     success: function (data) {
                         if (data == 0) {
