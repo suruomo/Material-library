@@ -125,7 +125,12 @@
             if (obj.event === 'detail') {
                 window.location.href = "/analysis/result/" + data.id+"/"+data.type;
             } else if (obj.event == 'delete') {
-
+                layer.confirm('真的删除行么', function (index) {
+                    layer.msg('删除中...', {icon: 16, shade: 0.3, time: 3000});
+                    layer.msg("删除成功");
+                    obj.del();   //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index); //再执行关闭
+                });
             }
         });
         //监听顶部操作工具条
