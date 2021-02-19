@@ -53,7 +53,7 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "../upload/" +user.getUserId()+"/geometricModel/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/geometricModel/"+fileName;
 //                System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");
@@ -105,7 +105,7 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "../upload/" +user.getUserId()+"/finiteElementModel/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/finiteElementModel/"+fileName;
                 System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");
@@ -158,7 +158,7 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "../upload/" +user.getUserId()+"/beforeFile/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/beforeFile/"+fileName;
                 System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");
@@ -210,7 +210,7 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "../upload/" +user.getUserId()+"/resultFile/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/resultFile/"+fileName;
                 System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");

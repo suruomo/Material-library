@@ -38,24 +38,24 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">几何模型</label>
-                    <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="geometric" th:href="@{/download/metal/original}">
+                    <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="geometric" th:href="@{'/download/geometricModel/'+${model.id}}">
                         下载文件
                     </a>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">有限元模型</label>
-                    <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="finite" th:href="@{/download/metal/original}">
+                    <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="finite" th:href="@{'/download/finiteElementModel/'+${model.id}}">
                         下载文件
                     </a>
                 </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn layui-btn-radius" lay-submit="" th:text="修改" lay-filter="demo1">
-                            提交
-                        </button>
-                        <button type="reset" class="layui-btn layui-btn-radius layui-btn-primary">重置</button>
-                    </div>
-                </div>
+<!--                <div class="layui-form-item">-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <button class="layui-btn layui-btn-radius" lay-submit="" th:text="修改" lay-filter="demo1">-->
+<!--                            提交-->
+<!--                        </button>-->
+<!--                        <button type="reset" class="layui-btn layui-btn-radius layui-btn-primary">重置</button>-->
+<!--                    </div>-->
+<!--                </div>-->
             </form>
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
                 <legend><h3>分析任务</h3></legend>
