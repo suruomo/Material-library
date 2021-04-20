@@ -39,7 +39,7 @@
                     <div class="layui-upload-drag" id="geometricFile">
                         <i class="layui-icon">&#xe67c;</i>
                         <p>点击上传，或将文件拖拽到此处</p>
-<!--                        <button id="hideupload1" type="button" style="display:none;"></button>-->
+<!--                        <button id="hide1" type="button" style="display:none;"></button>-->
                         <input type="hidden" id="geometricModel" name="geometricModel" value=""/>
                         <div class="layui-upload-list">
                             <p id="demoText"></p>
@@ -52,7 +52,7 @@
                     <div class="layui-upload-drag" id="finiteElementFile">
                         <i class="layui-icon">&#xe67c;</i>
                         <p>点击上传，或将文件拖拽到此处</p>
-<!--                        <button id="hideupload2" type="button" style="display:none;"></button>-->
+<!--                        <button id="hide2" type="button" style="display:none;"></button>-->
                         <input type="hidden" id="finiteElementModel" name="finiteElementModel" value=""/>
                         <div class="layui-upload-list">
                             <p id="demoText1"></p>
@@ -209,24 +209,6 @@
                     title: '提示'
                     ,content: '未上传几何模型文件！！'
                 });
-                // $.ajax({ // 3.未上传模型
-                //     url: "/task/model",
-                //     type: "POST",
-                //     data: JSON.stringify(formData),
-                //     dataType: "json",
-                //     async: false,
-                //     contentType: "application/json",
-                //     processData: false,
-                //     success: function (data) {
-                //         if (data == 0) {
-                //             layer.msg("新建成功");
-                //             window.location.href = "/my";
-                //         } else {
-                //             //关闭弹框
-                //             layer.msg("新建失败");
-                //         }
-                //     }
-                // });
             }
             return false;
         });

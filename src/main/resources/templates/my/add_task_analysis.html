@@ -33,10 +33,10 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">上传前处理文件</label>
+                <button id="hideupload1" type="button" style="display:none;"></button>
                 <div class="layui-upload-drag" id="beforeFile">
                     <i class="layui-icon">&#xe67c;</i>
                     <p>点击上传，或将文件拖拽到此处</p>
-                    <button id="hideupload1" type="button" style="display:none;"></button>
                     <input type="hidden" id="beforePath" name="beforePath" value=""/>
                     <div class="layui-upload-list">
                         <p id="demoText"></p>
@@ -45,10 +45,10 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">上传结果文件</label>
+                <button id="hideupload2" type="button" style="display:none;"></button>
                 <div class="layui-upload-drag" id="resultFile">
                     <i class="layui-icon">&#xe67c;</i>
                     <p>点击上传，或将文件拖拽到此处</p>
-                    <button id="hideupload2" type="button" style="display:none;"></button>
                     <input type="hidden" id="resultPath" name="resultPath" value=""/>
                     <div class="layui-upload-list">
                         <p id="demoText1"></p>
@@ -165,31 +165,13 @@
             formData.type=data.field.type;
             formData.description=data.field.description;
             formData.modelId=data.field.modelId;
-            if(beforeflag||resultflag) {//判断是否上传模型，触发模型的上传功能
-                if (beforeflag){
-                    $("#hideupload1").trigger('click');
-                }
-                if (resultflag){
-                    $("#hideupload2").trigger('click');
-                }
+            if(beforeflag&&resultflag) {//判断是否上传模型，触发模型的上传功能
+                $("#hideupload1").trigger('click');
+                $("#hideupload2").trigger('click');
             }else {
-                $.ajax({ // 未上传模型
-                    url: "/task/analysis",
-                    type: "POST",
-                    data: JSON.stringify(formData),
-                    dataType: "json",
-                    async: true,
-                    contentType:"application/json",
-                    processData: false,
-                    success: function (data) {
-                        if (data == 0) {
-                            layer.msg("新建成功");
-                            // window.location.href = "/my";
-                        } else {
-                            //关闭弹框
-                            layer.msg("新建失败");
-                        }
-                    }
+                layer.open({
+                    title: '提示'
+                    ,content: '请上传全部文件！！'
                 });
             }
             return false;
