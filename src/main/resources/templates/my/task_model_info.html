@@ -103,13 +103,13 @@
                     , {field: 'resultPath', width: 200, title: '分析结果文件'}
                     , {
                     field: 'createTime', width: 200, title: '创建时间', sort: true, templet: function (d) {
-                        return util.toDateString(d.requestDate, "yyyy-MM-dd HH:mm:ss");
+                        return util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss");
                     }
                 }
                     , {field: 'createBy', width: 100, title: '创建者ID', sort: true}
                     , {
                     field: 'updateTime', width: 200, title: '修改时间', sort: true, templet: function (d) {
-                        return util.toDateString(d.requestDate, "yyyy-MM-dd HH:mm:ss");
+                        return util.toDateString(d.updateTime, "yyyy-MM-dd HH:mm:ss");
                     }
                 }
                     , {field: 'updateBy', width: 100, title: '修改者ID', sort: true}

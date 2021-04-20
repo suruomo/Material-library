@@ -2,7 +2,6 @@ package com.suruomo.material.controller;
 
 import com.suruomo.material.pojo.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,8 +39,6 @@ public class UploadController {
                 //文件上传的地址
                 String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/geometricModel";
                 String realPath = path.replace('/', '\\').substring(1, path.length());
-                //用于查看路径是否正确
-//                System.out.println(realPath);
                 //获取文件的名称
                 final String fileName = file.getOriginalFilename();
                 //限制文件上传的类型
@@ -54,7 +51,7 @@ public class UploadController {
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
                 String path01 = "/static/upload/" +user.getUserId()+"/geometricModel/"+fileName;
-//                System.out.println("文件路径是" + path01);
+                System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");
                 map.put("data", path01);

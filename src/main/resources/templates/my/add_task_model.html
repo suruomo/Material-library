@@ -35,10 +35,11 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red; ">*</span>上传几何模型</label>
+                    <button id="hideupload1" type="button" style="display:none;"></button>
                     <div class="layui-upload-drag" id="geometricFile">
                         <i class="layui-icon">&#xe67c;</i>
                         <p>点击上传，或将文件拖拽到此处</p>
-                        <button id="hideupload1" type="button" style="display:none;"></button>
+<!--                        <button id="hideupload1" type="button" style="display:none;"></button>-->
                         <input type="hidden" id="geometricModel" name="geometricModel" value=""/>
                         <div class="layui-upload-list">
                             <p id="demoText"></p>
@@ -46,11 +47,12 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><span style="color: red; ">*</span>上传有限元模型</label>
+                    <label class="layui-form-label">上传有限元模型</label>
+                    <button id="hideupload2" type="button" style="display:none;"></button>
                     <div class="layui-upload-drag" id="finiteElementFile">
                         <i class="layui-icon">&#xe67c;</i>
                         <p>点击上传，或将文件拖拽到此处</p>
-                        <button id="hideupload2" type="button" style="display:none;"></button>
+<!--                        <button id="hideupload2" type="button" style="display:none;"></button>-->
                         <input type="hidden" id="finiteElementModel" name="finiteElementModel" value=""/>
                         <div class="layui-upload-list">
                             <p id="demoText1"></p>
@@ -81,6 +83,7 @@
         var element = layui.element;
         var geoflag = false;
         var finiteflag = false;
+        var single=false;
         // var fd = new FormData();
         var formData = {};
         // 几何模型上传
@@ -98,6 +101,26 @@
             , done: function (res, index, upload) {
                 if (res.code == "1") {
                     formData.geometricModel = res.data
+                    if (single==false){
+                        $.ajax({
+                            url: "/task/model",
+                            type: "POST",
+                            data: JSON.stringify(formData),
+                            dataType: "json",
+                            async: false,
+                            contentType: "application/json",
+                            processData: false,
+                            success: function (data) {
+                                if (data == 0) {
+                                    layer.msg("新建成功");
+                                    window.location.href = "/my";
+                                } else {
+                                    //关闭弹框
+                                    layer.msg("新建失败");
+                                }
+                            }
+                        });
+                    }
                 } else if (res.code == "0") {
                     layer.msg('文件未选择，导入失败！');
                 } else {
@@ -134,7 +157,7 @@
                         type: "POST",
                         data: JSON.stringify(formData),
                         dataType: "json",
-                        async: true,
+                        async: false,
                         contentType: "application/json",
                         processData: false,
                         success: function (data) {
@@ -172,31 +195,38 @@
             formData.description = data.field.description;
             // formData = new FormData($( "#modelForm" )[0]);
             if (geoflag || finiteflag) {//判断是否上传模型，触发模型的上传功能
-                if (geoflag) {
+                // 1.只有几何
+                if (geoflag&&!finiteflag) {
                     $("#hideupload1").trigger('click');
-                }
-                if (finiteflag) {
+                }else {
+                    //2.两个模型都有
+                    single=true;
+                    $("#hideupload1").trigger('click');
                     $("#hideupload2").trigger('click');
                 }
             } else {
-                $.ajax({ // 未上传模型
-                    url: "/task/model",
-                    type: "POST",
-                    data: JSON.stringify(formData),
-                    dataType: "json",
-                    async: true,
-                    contentType: "application/json",
-                    processData: false,
-                    success: function (data) {
-                        if (data == 0) {
-                            layer.msg("新建成功");
-                            window.location.href = "/my";
-                        } else {
-                            //关闭弹框
-                            layer.msg("新建失败");
-                        }
-                    }
+                layer.open({
+                    title: '提示'
+                    ,content: '未上传几何模型文件！！'
                 });
+                // $.ajax({ // 3.未上传模型
+                //     url: "/task/model",
+                //     type: "POST",
+                //     data: JSON.stringify(formData),
+                //     dataType: "json",
+                //     async: false,
+                //     contentType: "application/json",
+                //     processData: false,
+                //     success: function (data) {
+                //         if (data == 0) {
+                //             layer.msg("新建成功");
+                //             window.location.href = "/my";
+                //         } else {
+                //             //关闭弹框
+                //             layer.msg("新建失败");
+                //         }
+                //     }
+                // });
             }
             return false;
         });
