@@ -6,7 +6,7 @@ import com.suruomo.material.pojo.*;
 import com.suruomo.material.service.AnalysisTaskService;
 import com.suruomo.material.service.ModelTaskService;
 import com.suruomo.material.utils.Result;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +28,7 @@ import java.util.Map;
  * @description:
  */
 @Controller
+@Slf4j
 public class MyController {
 
     @Resource
@@ -444,28 +444,47 @@ public class MyController {
      * @throws IOException
      */
     @GetMapping("/download/geometricModel/{id}")
-    public void downloadGeometricModel(@PathVariable String id, HttpServletResponse response) throws IOException {
+    public  void downloadGeometricModel(@PathVariable String id, HttpServletResponse response) throws IOException {
         ModelTask modelTask=modelTaskMapper.selectByPrimaryKey(new BigDecimal(id));
-        //假如以中文名下载的话，设置下载文件名称
-        String[] strings=modelTask.getGeometricModel().split("/");
-        String filename = strings[strings.length-1];
-        //解码，免得文件名中文乱码
-        filename = URLDecoder.decode(filename, "UTF-8");
-        //获取文件位置
-        String filePath = getClass().getResource(modelTask.getGeometricModel()).getPath();
-        filePath = URLDecoder.decode(filePath, "UTF-8");
-        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
-        //设置文件下载头
-        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
-        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
-        response.setContentType("multipart/form-data");
-        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-        int len = 0;
-        while ((len = bis.read()) != -1) {
-            out.write(len);
-            out.flush();
+        String path=modelTask.getGeometricModel();
+        if (path!=null){
+            try{
+                //假如以中文名下载的话，设置下载文件名称
+                String[] strings=path.split("/");
+                String filename = strings[strings.length-1];
+                //解码，免得文件名中文乱码
+                filename = URLDecoder.decode(filename, "UTF-8");
+                //获取文件位置
+                String filePath = getClass().getResource(modelTask.getGeometricModel()).getPath();
+                filePath = URLDecoder.decode(filePath, "UTF-8");
+                InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+                //设置文件下载头
+                response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+                //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+                response.setContentType("multipart/form-data");
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                int len = 0;
+                while ((len = bis.read()) != -1) {
+                    out.write(len);
+                    out.flush();
+                }
+                out.close();
+            }catch (Exception e){
+                log.error("下载几何模型出错");
+                // 没有该文件
+                response.reset();
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print("<script type='text/javascript'>alert('下载几何模型出错');location.href='/task/model/" + id + "'</script>");
+                response.getWriter().close();
+            }
+        }else {
+            // 没有该文件
+            response.reset();
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + id + "'</script>");
+            response.getWriter().close();
         }
-        out.close();
+
     }
 
 
