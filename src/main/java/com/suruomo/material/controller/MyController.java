@@ -470,7 +470,6 @@ public class MyController {
                 }
                 out.close();
             }catch (Exception e){
-                log.error("下载几何模型出错");
                 // 没有该文件
                 response.reset();
                 response.setContentType("text/html;charset=UTF-8");
