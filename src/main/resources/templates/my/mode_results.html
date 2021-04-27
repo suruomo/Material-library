@@ -39,13 +39,13 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <label class="layui-form-label">前处理文件</label>
+                                <label class="layui-form-label"><span style="color: red; ">*</span>前处理文件</label>
                                 <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="beforeFile" th:href="@{'/download/beforeFile/'+${analysisTask.id}}">
                                     下载文件
                                 </a>
                             </div>
                             <div class="layui-form-item">
-                                <label class="layui-form-label">分析结果文件</label>
+                                <label class="layui-form-label"><span style="color: red; ">*</span>分析结果文件</label>
                                 <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="resultFile" th:href="@{'/download/resultFile/'+${analysisTask.id}}">
                                     下载文件
                                 </a>
