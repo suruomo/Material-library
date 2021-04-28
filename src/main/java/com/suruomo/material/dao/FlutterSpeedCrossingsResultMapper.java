@@ -1,7 +1,6 @@
 package com.suruomo.material.dao;
 
 import com.suruomo.material.pojo.FlutterSpeedCrossingsResult;
-import com.suruomo.material.pojo.ModeShapeResult;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,5 +18,5 @@ public interface FlutterSpeedCrossingsResultMapper {
 
     int updateByPrimaryKey(FlutterSpeedCrossingsResult record);
 
-    List<FlutterSpeedCrossingsResult> getAll(int start, int end);
+    List<FlutterSpeedCrossingsResult> getAll(BigDecimal id, int start, int end);
 }

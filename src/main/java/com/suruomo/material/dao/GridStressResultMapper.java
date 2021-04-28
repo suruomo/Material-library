@@ -20,5 +20,5 @@ public interface GridStressResultMapper {
 
     int updateByPrimaryKey(GridStressResult record);
 
-    List<GridStressResult> getAll(int start, int end);
+    List<GridStressResult> getAll(BigDecimal id, int start, int end);
 }

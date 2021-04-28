@@ -79,12 +79,14 @@
         var table = layui.table;
         var util = layui.util;
         var layer = layui.layer;
+        // 分析任务id
+        var analysisId=$('#id').val();
         // 表单初始化
         form.render();
         // 模态频率结果初始化
         table.render({
             elem: '#modeFrequency'
-            , url: '/mode/results/frequency'
+            , url: '/mode/results/frequency/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '模态频率信息'
@@ -109,7 +111,7 @@
         // 模态振型结果初始化
         table.render({
             elem: '#modeShape'
-            , url: '/mode/results/shape'
+            , url: '/mode/results/shape/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '模态振型结果信息'

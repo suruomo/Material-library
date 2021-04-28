@@ -20,7 +20,7 @@ public interface ModelTaskMapper {
 
     int updateByPrimaryKey(ModelTask record);
 
-    List<ModelTask> getAll(int start, int end);
+    List<ModelTask> getAll(Long userId, int start, int end);
 
     BigDecimal getMaxId();
 }

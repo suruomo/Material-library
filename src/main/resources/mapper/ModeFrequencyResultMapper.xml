@@ -24,7 +24,7 @@
   <select id="getAll" resultType="com.suruomo.material.pojo.ModeFrequencyResult">
    select * from (
     <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."MODE_FREQUENCY_RESULT") a where rownum <= #{end}
+    select rownum rn,a.* from (select * from "METAL"."MODE_FREQUENCY_RESULT" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
     ]]>
     )
   </select>

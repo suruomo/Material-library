@@ -125,10 +125,12 @@ public class MyController {
      */
     @ResponseBody
     @GetMapping(value = "/task/models", params = {"page", "limit"})
-    public Map<String, Object> modelList(int page, int limit) throws JsonProcessingException {
+    public Map<String, Object> modelList(HttpServletRequest request,int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<ModelTask> lists = modelTaskMapper.getAll(start, end);
+        // 获取用户
+        User user = (User) request.getSession().getAttribute("user");
+        List<ModelTask> lists = modelTaskMapper.getAll(user.getUserId(),start, end);
         return result.successResult(lists);
     }
 
@@ -210,17 +212,19 @@ public class MyController {
     /**
      * 返回静力分析的位移结果数据
      *
+     * @param analysisId
      * @param page
      * @param limit
      * @return
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/static/results/distance", params = {"page", "limit"})
-    public Map<String, Object> distanceList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/static/results/distance/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> distanceList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<DistanceResult> lists = distanceResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<DistanceResult> lists = distanceResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -233,11 +237,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/static/results/constrainForce", params = {"page", "limit"})
-    public Map<String, Object> constrainForceList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/static/results/constrainForce/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> constrainForceList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<ConstrainForceResult> lists = constrainForceResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ConstrainForceResult> lists = constrainForceResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -250,11 +255,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/static/results/gridStress", params = {"page", "limit"})
-    public Map<String, Object> gridStressList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/static/results/gridStress/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> gridStressList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<GridStressResult> lists = gridStressResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<GridStressResult> lists = gridStressResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -267,11 +273,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/static/results/gridStrain", params = {"page", "limit"})
-    public Map<String, Object> gridStrainList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/static/results/gridStrain/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> gridStrainList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<GridStrainResult> lists = gridStrainResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<GridStrainResult> lists = gridStrainResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -284,11 +291,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/mode/results/frequency", params = {"page", "limit"})
-    public Map<String, Object> modeFrequencyList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/mode/results/frequency/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> modeFrequencyList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<ModeFrequencyResult> lists = modeFrequencyResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ModeFrequencyResult> lists = modeFrequencyResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -301,11 +309,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/mode/results/shape", params = {"page", "limit"})
-    public Map<String, Object> modeShapeList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/mode/results/shape/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> modeShapeList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<ModeShapeResult> lists = modeShapeResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ModeShapeResult> lists = modeShapeResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -318,11 +327,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/flutter/results/speed", params = {"page", "limit"})
-    public Map<String, Object> speedList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/flutter/results/speed/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> speedList(@PathVariable String analysisId,int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<FlutterSpeedCrossingsResult> lists = flutterSpeedCrossingsResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<FlutterSpeedCrossingsResult> lists = flutterSpeedCrossingsResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -335,11 +345,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/flutter/results/complex", params = {"page", "limit"})
-    public Map<String, Object> complexList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/flutter/results/complex/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> complexList(@PathVariable String analysisId,int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<FlutterVgComplexResult> lists = flutterVgComplexResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<FlutterVgComplexResult> lists = flutterVgComplexResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
@@ -352,11 +363,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/flutter/results/real", params = {"page", "limit"})
-    public Map<String, Object> realList(int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/flutter/results/real/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> realList(@PathVariable String analysisId,int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
-        List<FlutterVgReALResult> lists = flutterVgReALResultMapper.getAll(start, end);
+        BigDecimal id=new BigDecimal(analysisId);
+        List<FlutterVgReALResult> lists = flutterVgReALResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 

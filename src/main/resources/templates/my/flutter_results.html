@@ -95,12 +95,14 @@
         var table = layui.table;
         var util = layui.util;
         var layer = layui.layer;
+        // 分析任务id
+        var analysisId=$('#id').val();
         // 表单初始化
         form.render();
         // 颤振速度交叉表结果初始化
         table.render({
             elem: '#speed'
-            , url: '/flutter/results/speed'
+            , url: '/flutter/results/speed/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '模态频率信息'
@@ -126,7 +128,7 @@
         // vg曲线数据结果初始化
         table.render({
             elem: '#complex'
-            , url: '/flutter/results/complex'
+            , url: '/flutter/results/complex/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: 'vg曲线数据结果信息'
@@ -149,7 +151,7 @@
         // vg实数根数据结果初始化
         table.render({
             elem: '#real'
-            , url: '/flutter/results/real'
+            , url: '/flutter/results/real/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: 'vg实数根数据结果信息'

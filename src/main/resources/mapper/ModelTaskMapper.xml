@@ -25,7 +25,7 @@
     <select id="getAll" resultType="com.suruomo.material.pojo.ModelTask">
     select * from (
     <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."MODEL_TASK") a where rownum <= #{end}
+    select rownum rn,a.* from (select * from "METAL"."MODEL_TASK" where CREATE_BY=#{param1}) a where rownum <= #{end}
     ]]>
     )
     </select>

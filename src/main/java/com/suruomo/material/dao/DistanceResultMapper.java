@@ -20,5 +20,5 @@ public interface DistanceResultMapper {
 
     int updateByPrimaryKey(DistanceResult record);
 
-    List<DistanceResult> getAll(int start, int end);
+    List<DistanceResult> getAll(BigDecimal id, int start, int end);
 }

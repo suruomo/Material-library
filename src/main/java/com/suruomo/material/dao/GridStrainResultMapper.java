@@ -20,5 +20,5 @@ public interface GridStrainResultMapper {
 
     int updateByPrimaryKey(GridStrainResult record);
 
-    List<GridStrainResult> getAll(int start, int end);
+    List<GridStrainResult> getAll(BigDecimal id, int start, int end);
 }

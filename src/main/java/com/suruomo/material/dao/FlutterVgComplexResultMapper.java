@@ -17,5 +17,5 @@ public interface FlutterVgComplexResultMapper {
 
     int updateByPrimaryKey(FlutterVgComplexResult record);
 
-    List<FlutterVgComplexResult> getAll(int start, int end);
+    List<FlutterVgComplexResult> getAll(BigDecimal id, int start, int end);
 }

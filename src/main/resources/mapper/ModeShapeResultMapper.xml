@@ -25,7 +25,7 @@
   <select id="getAll" resultType="com.suruomo.material.pojo.ModeShapeResult">
    select * from (
     <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."MODE_SHAPE_RESULT") a where rownum <= #{end}
+    select rownum rn,a.* from (select * from "METAL"."MODE_SHAPE_RESULT" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
     ]]>
     )
   </select>

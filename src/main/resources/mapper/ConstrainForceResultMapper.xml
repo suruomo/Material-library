@@ -24,7 +24,7 @@
     <select id="getAll" resultType="com.suruomo.material.pojo.ConstrainForceResult">
       select * from (
     <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."CONSTRAIN_FORCE_RESULT") a where rownum <= #{end}
+    select rownum rn,a.* from (select * from "METAL"."CONSTRAIN_FORCE_RESULT" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
     ]]>
     )
     </select>

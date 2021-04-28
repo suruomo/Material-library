@@ -91,12 +91,14 @@
         var table = layui.table;
         var util = layui.util;
         var layer = layui.layer;
+        // 分析任务id
+        var analysisId=$('#id').val();
         // 表单初始化
         form.render();
         // 位移结果初始化
         table.render({
             elem: '#distance'
-            , url: '/static/results/distance'
+            , url: '/static/results/distance/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '位移结果信息'
@@ -121,7 +123,7 @@
         // 约束反力结果初始化
         table.render({
             elem: '#constrainForce'
-            , url: '/static/results/constrainForce'
+            , url: '/static/results/constrainForce/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '约束反力结果信息'
@@ -146,7 +148,7 @@
         // 节点应力结果初始化
         table.render({
             elem: '#gridStress'
-            , url: '/static/results/gridStress'
+            , url: '/static/results/gridStress/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '节点应力结果信息'
@@ -175,7 +177,7 @@
         // 节点应变结果初始化
         table.render({
             elem: '#gridStrain'
-            , url: '/static/results/gridStrain'
+            , url: '/static/results/gridStrain/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '节点应变结果信息'

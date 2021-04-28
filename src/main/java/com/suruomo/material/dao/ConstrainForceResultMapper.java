@@ -20,5 +20,5 @@ public interface ConstrainForceResultMapper {
 
     int updateByPrimaryKey(ConstrainForceResult record);
 
-    List<ConstrainForceResult> getAll(int start, int end);
+    List<ConstrainForceResult> getAll(BigDecimal id, int start, int end);
 }

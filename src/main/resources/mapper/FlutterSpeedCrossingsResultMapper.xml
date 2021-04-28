@@ -26,7 +26,7 @@
     <select id="getAll" resultType="com.suruomo.material.pojo.FlutterSpeedCrossingsResult">
      select * from (
     <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."FLUTTER_SPEED_CROSSINGS_RESULT") a where rownum <= #{end}
+    select rownum rn,a.* from (select * from "METAL"."FLUTTER_SPEED_CROSSINGS_RESULT" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
     ]]>
     )
     </select>

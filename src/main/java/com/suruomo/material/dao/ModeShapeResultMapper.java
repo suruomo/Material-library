@@ -17,5 +17,5 @@ public interface ModeShapeResultMapper {
 
     int updateByPrimaryKey(ModeShapeResult record);
 
-    List<ModeShapeResult> getAll(int start, int end);
+    List<ModeShapeResult> getAll(BigDecimal id, int start, int end);
 }

@@ -17,5 +17,5 @@ public interface ModeFrequencyResultMapper {
 
     int updateByPrimaryKey(ModeFrequencyResult record);
 
-    List<ModeFrequencyResult> getAll(int start, int end);
+    List<ModeFrequencyResult> getAll(BigDecimal id, int start, int end);
 }

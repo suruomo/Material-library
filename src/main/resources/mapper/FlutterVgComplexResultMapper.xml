@@ -22,7 +22,7 @@
   <select id="getAll" resultType="com.suruomo.material.pojo.FlutterVgComplexResult">
     select * from (
     <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."FLUTTER_VG_COMPLEX_RESULT") a where rownum <= #{end}
+    select rownum rn,a.* from (select * from "METAL"."FLUTTER_VG_COMPLEX_RESULT" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
     ]]>
     )
   </select>

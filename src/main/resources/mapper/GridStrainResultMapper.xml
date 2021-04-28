@@ -29,7 +29,7 @@
     <select id="getAll" resultType="com.suruomo.material.pojo.GridStrainResult">
        select * from (
     <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."GRID_STRAIN_RESULT") a where rownum <= #{end}
+    select rownum rn,a.* from (select * from "METAL"."GRID_STRAIN_RESULT" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
     ]]>
     )
     </select>
