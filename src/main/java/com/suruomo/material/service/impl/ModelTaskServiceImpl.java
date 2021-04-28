@@ -38,4 +38,10 @@ public class ModelTaskServiceImpl implements ModelTaskService {
         modelTask.setUpdateTime(new Date());
         modelTaskMapper.insert(modelTask);
     }
+
+    @Override
+    public void updateByPrimaryKey(ModelTask task) {
+        task.setUpdateTime(new Date());
+        modelTaskMapper.updateByPrimaryKey(task);
+    }
 }

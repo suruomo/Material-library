@@ -50,7 +50,7 @@ public class LogController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<Log> lists = logService.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**

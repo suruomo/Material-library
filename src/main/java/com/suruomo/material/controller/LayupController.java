@@ -96,7 +96,7 @@ public class LayupController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<Layup> lists = layupMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -112,7 +112,7 @@ public class LayupController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<Layup> lists = layupMapper.getByName(start, end,name);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 跳转至导出PCOMP页面

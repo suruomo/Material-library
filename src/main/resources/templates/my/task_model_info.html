@@ -20,10 +20,16 @@
             </fieldset>
             <form class="layui-form" th:action="@{/task/model}" method="post" id="form1">
                 <input type="hidden" name="id" id="id" th:value="${model.id}"/>
+                <input type="hidden" name="finiteElementModel" id="finiteElementModel" th:value="${model.finiteElementModel}"/>
+                <input type="hidden" name="geometricModel" id="geometricModel" th:value="${model.geometricModel}"/>
+                <input type="hidden" name="createTime" id="createTime" th:value="${model.createTime}"/>
+                <input type="hidden" name="createBy" id="createBy" th:value="${model.createBy}"/>
+                <input type="hidden" name="updateBy" id="updateBy" th:value="${model.updateBy}"/>
+                <input type="hidden" name="updateTime" id="updateTime" th:value="${model.updateTime}"/>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red; ">*</span>任务名称</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="name" lay-verify="required" ay-reqtext="任务名称是必填项！"
+                        <input type="text" id="name" name="name" lay-verify="required" ay-reqtext="任务名称是必填项！"
                                autocomplete="off" class="layui-input" th:value="${model.name}" readonly>
                     </div>
                 </div>
@@ -31,19 +37,25 @@
                     <label class="layui-form-label"><span style="color: red; ">*</span>任务描述</label>
                     <div class="layui-form-item layui-form-text">
                         <div class="layui-input-block">
-                            <textarea name="description" th:text="${model.description}" placeholder="请输入内容"
+                            <textarea name="description" id="description" th:text="${model.description}" placeholder="请输入内容"
                                       class="layui-textarea" ay-reqtext="任务描述是必填项！" readonly></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><span style="color: red; ">*</span>几何模型</label>
+                    <a type="button" class="layui-btn layui-btn-sm" id="geometricUpload">
+                        重新上传模型
+                    </a>
                     <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="geometric" th:href="@{'/download/geometricModel/'+${model.id}}">
                         下载文件
                     </a>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">有限元模型</label>
+                    <a type="button" class="layui-btn layui-btn-sm" id="finiteElementUpload">
+                        重新上传模型
+                    </a>
                     <a type="button" class="layui-btn layui-btn-sm layui-btn-normal" id="finite" th:href="@{'/download/finiteElementModel/'+${model.id}}">
                         下载文件
                     </a>
@@ -76,7 +88,17 @@
         var table = layui.table;
         var util = layui.util;
         var layer = layui.layer;
-        var id=$('#id').val()
+        var id=$('#id').val();
+        var formData={};
+        formData.id=id;
+        formData.name=$('#name').val();
+        formData.description=$('#description').val();
+        formData.geometricModel=$('#geometricModel').val();
+        formData.finiteElementModel=$('#finiteElementModel').val();
+        formData.createTime=util.toDateString($('#createTime').val(), "yyyy-MM-dd HH:mm:ss");
+        formData.createBy=$('#createBy').val();
+        formData.updateTime=util.toDateString($('#updateTime').val(), "yyyy-MM-dd HH:mm:ss");
+        formData.updateBy=$('#updateBy').val();
         // 表格初始化
         table.render({
             elem: '#task'
@@ -114,8 +136,16 @@
         //监听右部操作工具条
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
+            var type;
+            if(data.type=="静力分析"){
+                type="staticType";
+            }else if(data.type=="正向模态"){
+                type="modeType";
+            }else{
+                type="flutterType";
+            }
             if (obj.event === 'detail') {
-                window.location.href = "/analysis/result/" + data.id+"/"+data.type;
+                window.location.href = "/analysis/result/" + data.id+"/"+type;
             } else if (obj.event == 'delete') {
                 layer.confirm('真的删除行么', function (index) {
                     layer.msg('删除中...', {icon: 16, shade: 0.3, time: 3000});
@@ -155,24 +185,79 @@
             }
             ;
         });
-        // // 下载几何模型事件监听
-        // $("#geometric").click(function(){
-        //     // layer.msg("下载几何模型事件监听");
-        //     // th:href="@{'/download/geometricModel/'+${model.id}}"
-        //     $.ajax({
-        //         url: "/download/geometricModel/"+id,
-        //         type: "GET",
-        //         dataType: "file",
-        //         // contentType: "application/json",
-        //         success: function (data) {
-        //         }
-        //     });
-        // });
-        // // 下载有限元模型事件监听
-        // $("#finite").click(function(){
-        //     layer.msg("下载有限元模型事件监听");
-        //     // th:href="@{'/download/finiteElementModel/'+${model.id}}"
-        // });
+
+        //重新上传几何模型
+        var uploadGeometric = upload.render({
+            elem: '#geometricUpload' //绑定元素
+            ,url: '/upload/geometricModel' //上传接口
+            ,accept: 'file' //普通文件
+            ,done: function(res){
+                // 上传成功
+                if (res.code == 1) {
+                    formData.geometricModel=res.data;
+                        $.ajax({
+                            url: "/task/model",
+                            method: "PUT",
+                            data: JSON.stringify(formData),
+                            dataType: "json",
+                            contentType: "application/json",
+                            processData: false,
+                            success: function (data) {
+                                if (data.code == 0) {
+                                    layer.msg("上传成功");
+                                } else {
+                                    //关闭弹框
+                                    layer.msg("上传失败");
+                                }
+                            }
+                        });
+                    }
+                 else if (res.code == 0) {
+                    layer.msg('文件未选择，导入失败！');
+                } else {
+                    layer.msg('文件上传出现异常，请检查，稍后重试！');
+                }
+            }
+            ,error: function(){
+                layer.msg('文件上传出现异常，请检查文件格式或网络，稍后重试！');
+            }
+        });
+        //重新上传有限元模型
+        var uploadGeometric = upload.render({
+            elem: '#finiteElementUpload' //绑定元素
+            ,url: '/upload/finiteElementModel' //上传接口
+            ,accept: 'file' //普通文件
+            ,done: function(res){
+                // 上传成功
+                if (res.code == 1) {
+                    formData.finiteElementModel=res.data;
+                    $.ajax({
+                        url: "/task/model",
+                        method: "PUT",
+                        data: JSON.stringify(formData),
+                        dataType: "json",
+                        contentType: "application/json",
+                        processData: false,
+                        success: function (data) {
+                            if (data.code == 0) {
+                                layer.msg("上传成功");
+                            } else {
+                                //关闭弹框
+                                layer.msg("上传失败");
+                            }
+                        }
+                    });
+                }
+                else if (res.code == 0) {
+                    layer.msg('文件未选择，导入失败！');
+                } else {
+                    layer.msg('文件上传出现异常，请检查，稍后重试！');
+                }
+            }
+            ,error: function(){
+                layer.msg('文件上传出现异常，请检查文件格式或网络，稍后重试！');
+            }
+        });
         form.render();
     });
 </script>

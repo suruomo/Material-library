@@ -1,5 +1,7 @@
 package com.suruomo.material.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -14,11 +16,11 @@ public class ModelTask implements Serializable {
     private String geometricModel;
 
     private String finiteElementModel;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING,locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     private BigDecimal createBy;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING,locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private BigDecimal updateBy;

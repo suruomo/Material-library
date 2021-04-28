@@ -134,7 +134,7 @@ public class MetalController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalInput> lists = metalInputMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 根据条件筛选ISAP金属列表
@@ -158,7 +158,7 @@ public class MetalController {
         else{
             lists = metalInputMapper.getAllDataByCondition(start, end,typeName,family,temper);
         }
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 返回金属材料卡数据
@@ -173,7 +173,7 @@ public class MetalController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalOut> lists = metalOutMapper.getAllData(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -198,7 +198,7 @@ public class MetalController {
         else{
             lists = metalOutMapper.getAllDataByCondition(start, end,typeName,family,temper);
         }
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 下载原始金属导入模板
@@ -236,7 +236,7 @@ public class MetalController {
     @RequestMapping(value = "admin/metal/query",params = "typeName")
     public Map<String, Object> queryFamily(String typeName) throws JsonProcessingException {
         List<String> lists = metalOutMapper.getFamily(typeName);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * ISAP根据类型查family
@@ -247,7 +247,7 @@ public class MetalController {
     @RequestMapping(value = "/metals/isap/query",params = "typeName")
     public Map<String, Object> queryByFamily(String typeName) throws JsonProcessingException {
         List<String> lists = metalInputMapper.getFamily(typeName);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 材料卡根据类型查family
@@ -258,7 +258,7 @@ public class MetalController {
     @RequestMapping(value = "/metals/card/query",params = "typeName")
     public Map<String, Object> queryCardByTypeName(String typeName) throws JsonProcessingException {
         List<String> lists = metalOutMapper.getFamily(typeName);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 根据family查temper
@@ -269,7 +269,7 @@ public class MetalController {
     @RequestMapping(value = "/metals/card/query",params = "family")
     public Map<String, Object> queryCardByFamily(String family) throws JsonProcessingException {
         List<String> lists = metalOutMapper.getTemper(family);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 根据family查temper
@@ -280,7 +280,7 @@ public class MetalController {
     @RequestMapping(value = "admin/metal/query",params = "family")
     public Map<String, Object> queryTemper(String family) throws JsonProcessingException {
         List<String> lists = metalOutMapper.getTemper(family);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 根据family查temper
@@ -291,7 +291,7 @@ public class MetalController {
     @RequestMapping(value = "/metals/isap/query",params = "family")
     public Map<String, Object> queryByTemper(String family) throws JsonProcessingException {
         List<String> lists = metalInputMapper.getTemper(family);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 下载材料卡导入模板
@@ -341,7 +341,7 @@ public class MetalController {
         else{
             lists = metalOutMapper.getAllDataByCondition(start, end,typeName,family,temper);
         }
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     @ResponseBody
     @GetMapping(value = "/metals/card/{type}",params = {"page","limit"})
@@ -359,7 +359,7 @@ public class MetalController {
             }
         }
         List<MetalOut> lists = metalOutMapper.getAll(start, end,queryType);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 跳转至ISAP金属详细信息页面

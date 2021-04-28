@@ -98,6 +98,24 @@ public class MyController {
     }
 
     /**
+     * 更新模型任务数据
+     * @return
+     */
+    @RequestMapping(value = {"/task/model"},method = RequestMethod.PUT)
+    public String updateModel(@RequestBody ModelTask task,Model model){
+        System.out.println("进来修改模型");
+        try{
+            modelTaskService.updateByPrimaryKey(task);
+            model.addAttribute("code",0);
+            model.addAttribute("model",modelTaskMapper.selectByPrimaryKey(task.getId()));
+            return "my/task_model_info";
+        }catch (Exception e){
+            model.addAttribute("code",1);
+            model.addAttribute("model",modelTaskMapper.selectByPrimaryKey(task.getId()));
+            return  "my/task_model_info";
+        }
+    }
+    /**
      * 返回模型任务数据
      *
      * @param page
@@ -111,7 +129,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<ModelTask> lists = modelTaskMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -142,7 +160,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<AnalysisTask> lists = analysisTaskMapper.getAll(id,start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -178,11 +196,11 @@ public class MyController {
         AnalysisTask analysisTask = analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
         model.addAttribute("analysisTask", analysisTask);
         switch (type) {
-            case "静力分析":
+            case "staticType":
                 return "my/static_results";
-            case "正向模态":
+            case "modeType":
                 return "my/mode_results";
-            case "气动颤振":
+            case "flutterType":
                 return "my/flutter_results";
             default:
                 return "出错啦";
@@ -203,7 +221,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<DistanceResult> lists = distanceResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -220,7 +238,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<ConstrainForceResult> lists = constrainForceResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -237,7 +255,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<GridStressResult> lists = gridStressResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -254,7 +272,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<GridStrainResult> lists = gridStrainResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -271,7 +289,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<ModeFrequencyResult> lists = modeFrequencyResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -288,7 +306,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<ModeShapeResult> lists = modeShapeResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -305,7 +323,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<FlutterSpeedCrossingsResult> lists = flutterSpeedCrossingsResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -322,7 +340,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<FlutterVgComplexResult> lists = flutterVgComplexResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -339,7 +357,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<FlutterVgReALResult> lists = flutterVgReALResultMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -367,7 +385,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<ComplexForm> lists = complexFormMapper.getAll(complexId, start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -394,7 +412,7 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<RealForm> lists = realFormMapper.getAll(realId, start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -495,26 +513,43 @@ public class MyController {
     @GetMapping("/download/finiteElementModel/{id}")
     public void downloadFiniteElementModel(@PathVariable String id, HttpServletResponse response) throws IOException {
         ModelTask modelTask=modelTaskMapper.selectByPrimaryKey(new BigDecimal(id));
-        //假如以中文名下载的话，设置下载文件名称
-        String[] strings=modelTask.getFiniteElementModel().split("/");
-        String filename = strings[strings.length-1];
-        //解码，免得文件名中文乱码
-        filename = URLDecoder.decode(filename, "UTF-8");
-        //获取文件位置
-        String filePath = getClass().getResource(modelTask.getFiniteElementModel()).getPath();
-        filePath = URLDecoder.decode(filePath, "UTF-8");
-        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
-        //设置文件下载头
-        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
-        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
-        response.setContentType("multipart/form-data");
-        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-        int len = 0;
-        while ((len = bis.read()) != -1) {
-            out.write(len);
-            out.flush();
+        String path=modelTask.getGeometricModel();
+        if (path!=null){
+            try {
+                //假如以中文名下载的话，设置下载文件名称
+                String[] strings=modelTask.getFiniteElementModel().split("/");
+                String filename = strings[strings.length-1];
+                //解码，免得文件名中文乱码
+                filename = URLDecoder.decode(filename, "UTF-8");
+                //获取文件位置
+                String filePath = getClass().getResource(modelTask.getFiniteElementModel()).getPath();
+                filePath = URLDecoder.decode(filePath, "UTF-8");
+                InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+                //设置文件下载头
+                response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+                //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+                response.setContentType("multipart/form-data");
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                int len = 0;
+                while ((len = bis.read()) != -1) {
+                    out.write(len);
+                    out.flush();
+                }
+                out.close();
+            }catch (Exception e){
+                // 没有该文件
+                response.reset();
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print("<script type='text/javascript'>alert('下载有限元模型出错');location.href='/task/model/" + id + "'</script>");
+                response.getWriter().close();
+            }
+        }else {
+            // 没有该文件
+            response.reset();
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + id + "'</script>");
+            response.getWriter().close();
         }
-        out.close();
     }
     /**
      * 下载前处理文件
@@ -524,26 +559,43 @@ public class MyController {
     @GetMapping("/download/beforeFile/{id}")
     public void downloadBeforeFile(@PathVariable String id, HttpServletResponse response) throws IOException {
         AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
-        //假如以中文名下载的话，设置下载文件名称
-        String[] strings=analysisTask.getBeforePath().split("/");
-        String filename = strings[strings.length-1];
-        //解码，免得文件名中文乱码
-        filename = URLDecoder.decode(filename, "UTF-8");
-        //获取文件位置
-        String filePath = getClass().getResource(analysisTask.getBeforePath()).getPath();
-        filePath = URLDecoder.decode(filePath, "UTF-8");
-        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
-        //设置文件下载头
-        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
-        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
-        response.setContentType("multipart/form-data");
-        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-        int len = 0;
-        while ((len = bis.read()) != -1) {
-            out.write(len);
-            out.flush();
+        String path=analysisTask.getBeforePath();
+        if (path!=null){
+            try {
+                //假如以中文名下载的话，设置下载文件名称
+                String[] strings=analysisTask.getBeforePath().split("/");
+                String filename = strings[strings.length-1];
+                //解码，免得文件名中文乱码
+                filename = URLDecoder.decode(filename, "UTF-8");
+                //获取文件位置
+                String filePath = getClass().getResource(analysisTask.getBeforePath()).getPath();
+                filePath = URLDecoder.decode(filePath, "UTF-8");
+                InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+                //设置文件下载头
+                response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+                //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+                response.setContentType("multipart/form-data");
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                int len = 0;
+                while ((len = bis.read()) != -1) {
+                    out.write(len);
+                    out.flush();
+                }
+                out.close();
+            }catch (Exception e){
+                // 没有该文件
+                response.reset();
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print("<script type='text/javascript'>alert('下载前处理文件出错');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
+                response.getWriter().close();
+            }
+        }else {
+            // 没有该文件
+            response.reset();
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
+            response.getWriter().close();
         }
-        out.close();
     }
 
     /**
@@ -554,25 +606,42 @@ public class MyController {
     @GetMapping("/download/resultFile/{id}")
     public void downloadResultFile(@PathVariable String id, HttpServletResponse response) throws IOException {
         AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(new BigDecimal(id));
-        //假如以中文名下载的话，设置下载文件名称
-        String[] strings=analysisTask.getResultPath().split("/");
-        String filename = strings[strings.length-1];
-        //解码，免得文件名中文乱码
-        filename = URLDecoder.decode(filename, "UTF-8");
-        //获取文件位置
-        String filePath = getClass().getResource(analysisTask.getResultPath()).getPath();
-        filePath = URLDecoder.decode(filePath, "UTF-8");
-        InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
-        //设置文件下载头
-        response.addHeader("Content-Disposition", "attachment;filename=" + filename);
-        //设置文件ContentType类型，这样设置，会自动判断下载文件类型
-        response.setContentType("multipart/form-data");
-        BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-        int len = 0;
-        while ((len = bis.read()) != -1) {
-            out.write(len);
-            out.flush();
+        String path=analysisTask.getResultPath();
+        if (path!=null){
+            try {
+                //假如以中文名下载的话，设置下载文件名称
+                String[] strings=analysisTask.getResultPath().split("/");
+                String filename = strings[strings.length-1];
+                //解码，免得文件名中文乱码
+                filename = URLDecoder.decode(filename, "UTF-8");
+                //获取文件位置
+                String filePath = getClass().getResource(analysisTask.getResultPath()).getPath();
+                filePath = URLDecoder.decode(filePath, "UTF-8");
+                InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
+                //设置文件下载头
+                response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+                //设置文件ContentType类型，这样设置，会自动判断下载文件类型
+                response.setContentType("multipart/form-data");
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                int len = 0;
+                while ((len = bis.read()) != -1) {
+                    out.write(len);
+                    out.flush();
+                }
+                out.close();
+            }catch (Exception e){
+                // 没有该文件
+                response.reset();
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().print("<script type='text/javascript'>alert('下载结果文件出错');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
+                response.getWriter().close();
+            }
+        }else {
+            // 没有该文件
+            response.reset();
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
+            response.getWriter().close();
         }
-        out.close();
     }
 }

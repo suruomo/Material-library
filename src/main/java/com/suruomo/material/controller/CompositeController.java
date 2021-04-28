@@ -111,7 +111,7 @@ public class CompositeController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<CompositeInput> lists = compositeInputMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 按条件筛选重载ISAP表格
@@ -128,7 +128,7 @@ public class CompositeController {
         else{
             lists = compositeInputMapper.getByNameParameter(start, end,name,parameter);
         }
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 返回查询导出材料卡复合数据
@@ -143,7 +143,7 @@ public class CompositeController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<CompositeOut> lists = compositeOutMapper.getAll(start, end);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -221,7 +221,7 @@ public class CompositeController {
     @RequestMapping(value = "admin/composite/query",params = "name")
     public Map<String, Object> queryParameter(String name) throws JsonProcessingException {
         List<String> lists = compositeInputMapper.getParameters(name);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
 
     /**
@@ -234,7 +234,7 @@ public class CompositeController {
     @RequestMapping(value = "/composites/isap/query",params = "name")
     public Map<String, Object> queryByName(String name) throws JsonProcessingException {
         List<String> lists = compositeInputMapper.getParameters(name);
-        return result.getResult(lists);
+        return result.successResult(lists);
     }
     /**
      * 下载材料卡复材导入模板

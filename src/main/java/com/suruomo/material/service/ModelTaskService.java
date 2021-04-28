@@ -1,5 +1,6 @@
 package com.suruomo.material.service;
 
+import com.suruomo.material.pojo.ModelTask;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -17,4 +18,6 @@ public interface ModelTaskService {
      * @param userId
      */
     void addModel(Map<String, String> map, Long userId);
+
+    void updateByPrimaryKey(ModelTask task);
 }
