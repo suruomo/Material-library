@@ -52,10 +52,10 @@
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {field: 'name', width: 300, title: '任务名称', sort: true}
+                    {field: 'name', width: 150, title: '任务名称', sort: true}
                     , {field: 'description',width: 300, title: '任务描述'}
-                    , {field: 'geometricModel', width: 100, title: '几何模型'}
-                    , {field: 'finiteElementModel', width: 100, title: '有限元模型'}
+                    , {field: 'geometricModel', width: 300, title: '几何模型'}
+                    , {field: 'finiteElementModel', width: 300, title: '有限元模型'}
                     , {field: 'createTime',width: 200, title: '创建时间', templet:function(d){return util.toDateString(d.createTime, "yyyy-MM-dd HH:mm:ss");}}
                     , {field: 'createBy',width: 100, title: '创建者ID'}
                     , {field: 'updateTime',width: 200, title: '修改时间', templet:function(d){return util.toDateString(d.updateTime, "yyyy-MM-dd HH:mm:ss");}}

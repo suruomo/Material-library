@@ -1,8 +1,12 @@
 package com.suruomo.material.controller;
 
+import com.suruomo.material.dao.ModelTaskMapper;
+import com.suruomo.material.pojo.ModelTask;
 import com.suruomo.material.pojo.User;
+import com.suruomo.material.service.ModelTaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,7 +14,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +28,10 @@ import java.util.Map;
  */
 @Controller
 public class UploadController {
+    @Resource
+    private ModelTaskService modelTaskService;
+    @Resource
+    private ModelTaskMapper modelTaskMapper;
     /**
      * 上传几何模型
      * @param file
@@ -29,15 +39,18 @@ public class UploadController {
      */
     @PostMapping("/upload/geometricModel")
     @ResponseBody
-    public Map<String, Object> uploadGeometricModel(@RequestParam("file") MultipartFile file) {
+    public Map<String, Object> uploadGeometricModel(HttpServletRequest request,@RequestParam("file") MultipartFile file) {
         HashMap<String,Object> map=new HashMap<>();
         try {
             if (file != null) {
-                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 // 获取用户
                 User user = (User) request.getSession().getAttribute("user");
+                // 创建新模型任务，返回任务id
+                int modelId=modelTaskService.addModel(user.getUserId());
+                request.getSession().setAttribute("modelId",String.valueOf(modelId));
                 //文件上传的地址
-                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/geometricModel";
+                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/"+modelId+"/geometricModel";
                 String realPath = path.replace('/', '\\').substring(1, path.length());
                 //获取文件的名称
                 final String fileName = file.getOriginalFilename();
@@ -50,11 +63,12 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "/static/upload/" +user.getUserId()+"/geometricModel/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/"+modelId+"/geometricModel/"+fileName;
                 System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");
                 map.put("data", path01);
+                map.put("modelId", modelId);
             } else {
                 //文件为空
                 map.put("code", 0);
@@ -79,18 +93,19 @@ public class UploadController {
      */
     @PostMapping("/upload/finiteElementModel")
     @ResponseBody
-    public Map<String, Object> uploadFiniteElementModel(@RequestParam("file") MultipartFile file) {
+    public Map<String, Object> uploadFiniteElementModel(HttpServletRequest request,@RequestParam("file") MultipartFile file) {
+        System.out.println("进来有限元");
         HashMap<String,Object> map=new HashMap<>();
         try {
             if (file != null) {
-                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 // 获取用户
                 User user = (User) request.getSession().getAttribute("user");
+                String modelId=(String)request.getSession().getAttribute("modelId");
+                System.out.println("有限元id:"+modelId);
                 //文件上传的地址
-                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/finiteElementModel";
+                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/"+modelId+"/finiteElementModel";
                 String realPath = path.replace('/', '\\').substring(1, path.length());
-                //用于查看路径是否正确
-                System.out.println(realPath);
                 //获取文件的名称
                 final String fileName = file.getOriginalFilename();
                 //限制文件上传的类型
@@ -102,7 +117,7 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "/static/upload/" +user.getUserId()+"/finiteElementModel/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/"+modelId+"/finiteElementModel/"+fileName;
                 System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");
@@ -116,6 +131,7 @@ public class UploadController {
             map.put("count", 1);
             return map;
         } catch (Exception e) {
+            e.printStackTrace();
             //上传出现异常，请稍后重试
             map.put("code", 2);
             map.put("msg", "文件上传异常");

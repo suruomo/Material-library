@@ -74,7 +74,7 @@
     <!--引入footer-->
     <div th:replace="commons/bar::footer"></div>
 </div>
-<script>
+<script type="text/javascript">
     layui.use(['upload', 'form', 'jquery', 'element'], function () {
         var $ = layui.jquery;
         var layer = layui.layer
@@ -84,7 +84,6 @@
         var geoflag = false;
         var finiteflag = false;
         var single=false;
-        // var fd = new FormData();
         var formData = {};
         // 几何模型上传
         var uploadGeometricFile = upload.render({
@@ -92,6 +91,7 @@
             , url: '/upload/geometricModel' //改成您自己的上传接口
             , accept: 'file'
             , auto: false
+            , async: false
             , bindAction: '#hideupload1'
             , choose: function (obj) {//假上传
                 geoflag = true;//判断是否已上传，用于表单提交中控制跳转
@@ -100,7 +100,8 @@
             }
             , done: function (res, index, upload) {
                 if (res.code == "1") {
-                    formData.geometricModel = res.data
+                    formData.geometricModel = res.data;
+                    formData.id = res.modelId;
                     if (single==false){
                         $.ajax({
                             url: "/task/model",
@@ -120,6 +121,10 @@
                                 }
                             }
                         });
+                    }else{
+                        // 上传两个
+                        // uploadFiniteElementFile.upload();
+                        $("#hideupload2").trigger('click');
                     }
                 } else if (res.code == "0") {
                     layer.msg('文件未选择，导入失败！');
@@ -139,9 +144,13 @@
         //有限元模型上传
         var uploadFiniteElementFile = upload.render({
             elem: '#finiteElementFile'
-            , url: '/upload/finiteElementModel' //改成您自己的上传接口
+            , url: '/upload/finiteElementModel'//改成您自己的上传接口
             , accept: 'file'
             , auto: false
+            , async: false
+            // , data: {
+            //     modelId:formData.id
+            // }
             , bindAction: '#hideupload2'
             , choose: function (obj) {//假上传
                 finiteflag = true;//判断是否已上传，用于表单提交中控制跳转
@@ -151,7 +160,7 @@
             , done: function (res, index, upload) {
                 if (res.code == "1") {
                     // 保存地址到表单域
-                    formData.finiteElementModel = res.data
+                    formData.finiteElementModel = res.data;
                     $.ajax({
                         url: "/task/model",
                         type: "POST",
@@ -202,7 +211,6 @@
                     //2.两个模型都有
                     single=true;
                     $("#hideupload1").trigger('click');
-                    $("#hideupload2").trigger('click');
                 }
             } else {
                 layer.open({

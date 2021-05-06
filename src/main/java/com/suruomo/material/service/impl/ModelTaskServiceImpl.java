@@ -44,4 +44,18 @@ public class ModelTaskServiceImpl implements ModelTaskService {
         task.setUpdateTime(new Date());
         modelTaskMapper.updateByPrimaryKey(task);
     }
+
+    @Override
+    public int addModel(Long userId) {
+        // 获取当前数据库最大id
+        int id = modelTaskMapper.getMaxId().intValue();
+        ModelTask modelTask=new ModelTask();
+        modelTask.setId(new BigDecimal(id+1));
+        modelTask.setCreateBy(new BigDecimal(userId));
+        modelTask.setUpdateBy(new BigDecimal(userId));
+        modelTask.setCreateTime(new Date());
+        modelTask.setUpdateTime(new Date());
+        modelTaskMapper.insert(modelTask);
+        return id+1;
+    }
 }

@@ -20,4 +20,6 @@ public interface ModelTaskService {
     void addModel(Map<String, String> map, Long userId);
 
     void updateByPrimaryKey(ModelTask task);
+
+    int addModel(Long userId);
 }

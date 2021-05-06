@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -433,12 +434,16 @@ public class MyController {
      */
     @ResponseBody
     @PostMapping(value ={"/task/model"})
-    public int addModelTask(@RequestBody Map<String,String> map){
+    public int addModelTask(@RequestBody ModelTask modelTask){
         try{
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            // 获取用户
-            User user = (User) request.getSession().getAttribute("user");
-            modelTaskService.addModel(map,user.getUserId());
+            System.out.println("新建修改id"+modelTask.getId());
+            ModelTask modelTask1=modelTaskMapper.selectByPrimaryKey(modelTask.getId());
+            modelTask1.setGeometricModel(modelTask.getGeometricModel());
+            modelTask1.setFiniteElementModel(modelTask.getFiniteElementModel());
+            modelTask1.setName(modelTask.getName());
+            modelTask1.setDescription(modelTask.getDescription());
+            modelTask1.setUpdateTime(new Date());
+            modelTaskService.updateByPrimaryKey(modelTask1);
             return 0;
         }catch (Exception e){
             return 1;
