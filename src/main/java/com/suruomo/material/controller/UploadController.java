@@ -43,7 +43,6 @@ public class UploadController {
         HashMap<String,Object> map=new HashMap<>();
         try {
             if (file != null) {
-//                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 // 获取用户
                 User user = (User) request.getSession().getAttribute("user");
                 // 创建新模型任务，返回任务id
@@ -94,15 +93,12 @@ public class UploadController {
     @PostMapping("/upload/finiteElementModel")
     @ResponseBody
     public Map<String, Object> uploadFiniteElementModel(HttpServletRequest request,@RequestParam("file") MultipartFile file) {
-        System.out.println("进来有限元");
         HashMap<String,Object> map=new HashMap<>();
         try {
             if (file != null) {
-//                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 // 获取用户
                 User user = (User) request.getSession().getAttribute("user");
                 String modelId=(String)request.getSession().getAttribute("modelId");
-                System.out.println("有限元id:"+modelId);
                 //文件上传的地址
                 String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/"+modelId+"/finiteElementModel";
                 String realPath = path.replace('/', '\\').substring(1, path.length());
@@ -140,7 +136,109 @@ public class UploadController {
             return map;
         }
     }
+    /**
+     * 重新上传几何模型
+     * @param file
+     * @return
+     */
+    @PostMapping("/reload/geometricModel")
+    @ResponseBody
+    public Map<String, Object> reloadGeometricModel(HttpServletRequest request,@RequestParam("file") MultipartFile file
+            ,@RequestParam("modelId")String modelId) {
+        HashMap<String,Object> map=new HashMap<>();
+        try {
+            if (file != null) {
+                // 获取用户
+                User user = (User) request.getSession().getAttribute("user");
+                //文件上传的地址
+                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/"+modelId+"/geometricModel";
+                String realPath = path.replace('/', '\\').substring(1, path.length());
+                //获取文件的名称
+                final String fileName = file.getOriginalFilename();
+                //限制文件上传的类型
+                // String contentType = file.getContentType();
+                File file1 = new File(realPath, fileName);
+                if(!file1.exists()) {
+                    file1.mkdirs();
+                }
+                //完成文件的上传
+                file.transferTo(file1);
+                System.out.println("文件上传成功!");
+                String path01 = "/static/upload/" +user.getUserId()+"/"+modelId+"/geometricModel/"+fileName;
+                System.out.println("文件路径是" + path01);
+                map.put("code", 1);
+                map.put("msg", "成功");
+                map.put("data", path01);
+                map.put("modelId", modelId);
+            } else {
+                //文件为空
+                map.put("code", 0);
+                map.put("msg", "文件为空");
+                map.put("data", null);
+            }
+            map.put("count", 1);
+            return map;
+        } catch (Exception e) {
+            //上传出现异常，请稍后重试
+            map.put("code", 2);
+            map.put("msg", "文件上传异常");
+            map.put("data", null);
+            map.put("count", 1);
+            return map;
+        }
+    }
 
+    /**
+     * 重新上传有限元模型
+     * @param file
+     * @return
+     */
+    @PostMapping("/reload/finiteElementModel")
+    @ResponseBody
+    public Map<String, Object> reloadFiniteElementModel(HttpServletRequest request,@RequestParam("file") MultipartFile file
+            ,@RequestParam("modelId")String modelId) {
+        HashMap<String,Object> map=new HashMap<>();
+        try {
+            if (file != null) {
+                // 获取用户
+                User user = (User) request.getSession().getAttribute("user");
+                //文件上传的地址
+                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/"+modelId+"/finiteElementModel";
+                String realPath = path.replace('/', '\\').substring(1, path.length());
+                //获取文件的名称
+                final String fileName = file.getOriginalFilename();
+                //限制文件上传的类型
+                // String contentType = file.getContentType();
+                File file1 = new File(realPath, fileName);
+                if(!file1.exists()) {
+                    file1.mkdirs();
+                }
+                //完成文件的上传
+                file.transferTo(file1);
+                System.out.println("文件上传成功!");
+                String path01 = "/static/upload/" +user.getUserId()+"/"+modelId+"/finiteElementModel/"+fileName;
+                System.out.println("文件路径是" + path01);
+                map.put("code", 1);
+                map.put("msg", "成功");
+                map.put("data", path01);
+            } else {
+                //文件为空
+                map.put("code", 0);
+                map.put("msg", "文件为空");
+                map.put("data", null);
+            }
+            map.put("count", 1);
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            //上传出现异常，请稍后重试
+            map.put("code", 2);
+            map.put("msg", "文件上传异常");
+            map.put("data", null);
+            map.put("count", 1);
+            return map;
+        }
+    }
     /**
      * 上传前处理文件
      * @param file

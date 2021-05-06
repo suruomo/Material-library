@@ -189,8 +189,11 @@
         //重新上传几何模型
         var uploadGeometric = upload.render({
             elem: '#geometricUpload' //绑定元素
-            ,url: '/upload/geometricModel' //上传接口
+            ,url: '/reload/geometricModel' //上传接口
             ,accept: 'file' //普通文件
+            ,data:{
+                modelId:id
+            }
             ,done: function(res){
                 // 上传成功
                 if (res.code == 1) {
@@ -227,6 +230,9 @@
             elem: '#finiteElementUpload' //绑定元素
             ,url: '/upload/finiteElementModel' //上传接口
             ,accept: 'file' //普通文件
+            ,data:{
+                modelId:id
+            }
             ,done: function(res){
                 // 上传成功
                 if (res.code == 1) {
