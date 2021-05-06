@@ -456,17 +456,20 @@ public class MyController {
      */
     @ResponseBody
     @PostMapping(value ={"/task/analysis"})
-    public int addAnalysisTask(@RequestBody Map<String,String> map){
+    public int addAnalysisTask(@RequestBody AnalysisTask analysisTask){
         try{
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             // 获取用户
             User user = (User) request.getSession().getAttribute("user");
-            analysisTaskService.addAnalysis(map,user.getUserId());
-            System.out.println(map.get("type"));
-            System.out.println(map.get("modelId"));
-            System.out.println(map.get("description"));
-            System.out.println(map.get("beforePath"));
-            System.out.println(map.get("resultPath"));
+            System.out.println("新建修改id"+analysisTask.getId());
+            AnalysisTask analysisTask1=analysisTaskMapper.selectByPrimaryKey(analysisTask.getId());
+            analysisTask1.setBeforePath(analysisTask.getBeforePath());
+            analysisTask1.setResultPath(analysisTask.getResultPath());
+            analysisTask1.setType(analysisTask.getType());
+            analysisTask1.setModelId(analysisTask.getModelId());
+            analysisTask1.setDescription(analysisTask.getDescription());
+            analysisTask1.setUpdateTime(new Date());
+            analysisTaskMapper.updateByPrimaryKey(analysisTask1);
             return 0;
         }catch (Exception e){
             return 1;

@@ -3,6 +3,7 @@ package com.suruomo.material.controller;
 import com.suruomo.material.dao.ModelTaskMapper;
 import com.suruomo.material.pojo.ModelTask;
 import com.suruomo.material.pojo.User;
+import com.suruomo.material.service.AnalysisTaskService;
 import com.suruomo.material.service.ModelTaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
@@ -31,7 +32,7 @@ public class UploadController {
     @Resource
     private ModelTaskService modelTaskService;
     @Resource
-    private ModelTaskMapper modelTaskMapper;
+    private AnalysisTaskService analysisTaskService;
     /**
      * 上传几何模型
      * @param file
@@ -246,15 +247,18 @@ public class UploadController {
      */
     @PostMapping("/upload/beforeFile")
     @ResponseBody
-    public Map<String, Object> uploadBeforeFile(@RequestParam("file") MultipartFile file) {
+    public Map<String, Object> uploadBeforeFile(HttpServletRequest request,@RequestParam("file") MultipartFile file
+            ,@RequestParam("modelId")String modelId) {
         HashMap<String,Object> map=new HashMap<>();
         try {
             if (file != null) {
-                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 // 获取用户
                 User user = (User) request.getSession().getAttribute("user");
+                // 创建新模型任务，返回任务id
+                int analysisId=analysisTaskService.addAnalysis(user.getUserId());
+                request.getSession().setAttribute("analysisId",String.valueOf(analysisId));
                 //文件上传的地址
-                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/beforeFile";
+                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/"+modelId+"/"+analysisId+"/beforeFile";
                 String realPath = path.replace('/', '\\').substring(1, path.length());
                 //用于查看路径是否正确
 //                System.out.println(realPath);
@@ -269,11 +273,12 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "/static/upload/" +user.getUserId()+"/beforeFile/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/"+modelId+"/"+analysisId+"/beforeFile/"+fileName;
                 System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");
                 map.put("data", path01);
+                map.put("analysisId", analysisId);
             } else {
                 //文件为空
                 map.put("code", 0);
@@ -298,18 +303,17 @@ public class UploadController {
      */
     @PostMapping("/upload/resultFile")
     @ResponseBody
-    public Map<String, Object> uploadResultFile(@RequestParam("file") MultipartFile file) {
+    public Map<String, Object> uploadResultFile(HttpServletRequest request,@RequestParam("file") MultipartFile file
+            ,@RequestParam("modelId")String modelId) {
         HashMap<String,Object> map=new HashMap<>();
         try {
             if (file != null) {
-                HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
                 // 获取用户
                 User user = (User) request.getSession().getAttribute("user");
+                String analysisId=(String)request.getSession().getAttribute("analysisId");
                 //文件上传的地址
-                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/resultFile";
+                String path = ResourceUtils.getURL("classpath:").getPath() + "static/upload/"+user.getUserId()+"/"+modelId+"/"+analysisId+"/resultFile";
                 String realPath = path.replace('/', '\\').substring(1, path.length());
-                //用于查看路径是否正确
-                System.out.println(realPath);
                 //获取文件的名称
                 final String fileName = file.getOriginalFilename();
                 //限制文件上传的类型
@@ -321,7 +325,7 @@ public class UploadController {
                 //完成文件的上传
                 file.transferTo(file1);
                 System.out.println("文件上传成功!");
-                String path01 = "/static/upload/" +user.getUserId()+"/resultFile/"+fileName;
+                String path01 = "/static/upload/" +user.getUserId()+"/"+modelId+"/"+analysisId+"/resultFile/"+fileName;
                 System.out.println("文件路径是" + path01);
                 map.put("code", 1);
                 map.put("msg", "成功");

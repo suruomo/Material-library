@@ -17,4 +17,6 @@ public interface AnalysisTaskService {
      * @param userId
      */
     void addAnalysis(Map<String, String> map, Long userId);
+
+    int addAnalysis(Long userId);
 }

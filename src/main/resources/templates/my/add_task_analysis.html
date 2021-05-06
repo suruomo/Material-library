@@ -77,12 +77,16 @@
         var beforeflag=false;
         var resultflag=false;
         var formData={};
+        var modelId=$('#modelId').val();
         // 前处理文件上传
         var uploadBeforeFile =upload.render({
             elem: '#beforeFile'
             , url: '/upload/beforeFile' //改成您自己的上传接口
             , accept: 'file'
             , auto: false
+            , data: {
+                modelId:modelId
+            }
             , bindAction: '#hideupload1'
             ,choose:function(obj){//假上传
                 beforeflag = true;//判断是否已上传，用于表单提交中控制跳转
@@ -91,7 +95,9 @@
             }
             , done: function (res, index, upload) {
                 if (res.code == "1") {
-                    formData.beforePath=res.data
+                    formData.beforePath=res.data;
+                    formData.id=res.analysisId;
+                    $("#hideupload2").trigger('click');
                 } else if (res.code == "0") {
                     layer.msg('文件未选择，导入失败！');
                 } else {
@@ -113,6 +119,9 @@
             , url: '/upload/resultFile' //改成您自己的上传接口
             , accept: 'file'
             , auto: false
+            , data: {
+                modelId:modelId
+            }
             , bindAction: '#hideupload2'
             ,choose:function(obj){//假上传
                 resultflag = true;//判断是否已上传，用于表单提交中控制跳转
@@ -170,7 +179,6 @@
             formData.modelId=data.field.modelId;
             if(beforeflag&&resultflag) {//判断是否上传模型，触发模型的上传功能
                 $("#hideupload1").trigger('click');
-                $("#hideupload2").trigger('click');
             }else {
                 layer.open({
                     title: '提示'

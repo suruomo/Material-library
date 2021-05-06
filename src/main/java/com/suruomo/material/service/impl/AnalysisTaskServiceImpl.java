@@ -2,6 +2,7 @@ package com.suruomo.material.service.impl;
 
 import com.suruomo.material.dao.AnalysisTaskMapper;
 import com.suruomo.material.pojo.AnalysisTask;
+import com.suruomo.material.pojo.ModelTask;
 import com.suruomo.material.service.AnalysisTaskService;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,19 @@ public class AnalysisTaskServiceImpl implements AnalysisTaskService {
         analysisTask.setCreateTime(new Date());
         analysisTask.setUpdateTime(new Date());
         analysisTaskMapper.insert(analysisTask);
+    }
+
+    @Override
+    public int addAnalysis(Long userId) {
+        // 获取当前数据库最大id
+        int id = analysisTaskMapper.getMaxId().intValue();
+        AnalysisTask analysisTask=new AnalysisTask();
+        analysisTask.setId(new BigDecimal(id+1));
+        analysisTask.setCreateBy(new BigDecimal(userId));
+        analysisTask.setUpdateBy(new BigDecimal(userId));
+        analysisTask.setCreateTime(new Date());
+        analysisTask.setUpdateTime(new Date());
+        analysisTaskMapper.insert(analysisTask);
+        return id+1;
     }
 }
