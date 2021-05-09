@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.suruomo.material.dao.DisplacementResultMapper" >
-  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.DisplacementResult" >
+<mapper namespace="com.suruomo.material.dao.MaxDisplacementsResultMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.MaxDisplacementsResult" >
     <result column="ID" property="id" jdbcType="DECIMAL" />
     <result column="ANALYSIS_ID" property="analysisId" jdbcType="DECIMAL" />
-    <result column="POINT_ID" property="pointId" jdbcType="DECIMAL" />
     <result column="T1" property="t1" jdbcType="VARCHAR" />
     <result column="T2" property="t2" jdbcType="VARCHAR" />
     <result column="T3" property="t3" jdbcType="VARCHAR" />
@@ -71,16 +70,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, ANALYSIS_ID, POINT_ID, T1, T2, T3, R1, R2, R3
+    ID, ANALYSIS_ID, T1, T2, T3, R1, R2, R3
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.suruomo.material.pojo.DisplacementResultExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.suruomo.material.pojo.MaxDisplacementsResultExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from DISPLACEMENT_RESULT
+    from MAX_DISPLACEMENTS_RESULT
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,31 +87,28 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.suruomo.material.pojo.DisplacementResultExample" >
-    delete from DISPLACEMENT_RESULT
+  <delete id="deleteByExample" parameterType="com.suruomo.material.pojo.MaxDisplacementsResultExample" >
+    delete from MAX_DISPLACEMENTS_RESULT
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.suruomo.material.pojo.DisplacementResult" >
-    insert into DISPLACEMENT_RESULT (ID, ANALYSIS_ID, POINT_ID, 
-      T1, T2, T3, R1, 
-      R2, R3)
-    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{pointId,jdbcType=DECIMAL}, 
-      #{t1,jdbcType=VARCHAR}, #{t2,jdbcType=VARCHAR}, #{t3,jdbcType=VARCHAR}, #{r1,jdbcType=VARCHAR}, 
-      #{r2,jdbcType=VARCHAR}, #{r3,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.suruomo.material.pojo.MaxDisplacementsResult" >
+    insert into MAX_DISPLACEMENTS_RESULT (ID, ANALYSIS_ID, T1, 
+      T2, T3, R1, R2, 
+      R3)
+    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{t1,jdbcType=VARCHAR}, 
+      #{t2,jdbcType=VARCHAR}, #{t3,jdbcType=VARCHAR}, #{r1,jdbcType=VARCHAR}, #{r2,jdbcType=VARCHAR}, 
+      #{r3,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.DisplacementResult" >
-    insert into DISPLACEMENT_RESULT
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.MaxDisplacementsResult" >
+    insert into MAX_DISPLACEMENTS_RESULT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
       </if>
       <if test="analysisId != null" >
         ANALYSIS_ID,
-      </if>
-      <if test="pointId != null" >
-        POINT_ID,
       </if>
       <if test="t1 != null" >
         T1,
@@ -140,9 +136,6 @@
       <if test="analysisId != null" >
         #{analysisId,jdbcType=DECIMAL},
       </if>
-      <if test="pointId != null" >
-        #{pointId,jdbcType=DECIMAL},
-      </if>
       <if test="t1 != null" >
         #{t1,jdbcType=VARCHAR},
       </if>
@@ -163,30 +156,20 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.suruomo.material.pojo.DisplacementResultExample" resultType="java.lang.Integer" >
-    select count(*) from DISPLACEMENT_RESULT
+  <select id="countByExample" parameterType="com.suruomo.material.pojo.MaxDisplacementsResultExample" resultType="java.lang.Integer" >
+    select count(*) from MAX_DISPLACEMENTS_RESULT
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="getAll" resultType="com.suruomo.material.pojo.DisplacementResult">
-        select * from (
-    <![CDATA[
-    select rownum rn,a.* from (select * from "METAL"."DISPLACEMENT_RESULT" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
-    ]]>
-    )
-    </select>
-    <update id="updateByExampleSelective" parameterType="map" >
-    update DISPLACEMENT_RESULT
+  <update id="updateByExampleSelective" parameterType="map" >
+    update MAX_DISPLACEMENTS_RESULT
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=DECIMAL},
       </if>
       <if test="record.analysisId != null" >
         ANALYSIS_ID = #{record.analysisId,jdbcType=DECIMAL},
-      </if>
-      <if test="record.pointId != null" >
-        POINT_ID = #{record.pointId,jdbcType=DECIMAL},
       </if>
       <if test="record.t1 != null" >
         T1 = #{record.t1,jdbcType=VARCHAR},
@@ -212,10 +195,9 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update DISPLACEMENT_RESULT
+    update MAX_DISPLACEMENTS_RESULT
     set ID = #{record.id,jdbcType=DECIMAL},
       ANALYSIS_ID = #{record.analysisId,jdbcType=DECIMAL},
-      POINT_ID = #{record.pointId,jdbcType=DECIMAL},
       T1 = #{record.t1,jdbcType=VARCHAR},
       T2 = #{record.t2,jdbcType=VARCHAR},
       T3 = #{record.t3,jdbcType=VARCHAR},
