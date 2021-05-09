@@ -45,7 +45,7 @@ public class MyController {
     private ConstrainForceResultMapper constrainForceResultMapper;
 
     @Resource
-    private DistanceResultMapper distanceResultMapper;
+    private DisplacementResultMapper displacementResultMapper;
 
     @Resource
     private GridStrainResultMapper gridStrainResultMapper;
@@ -220,12 +220,12 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/static/results/distance/{analysisId}", params = {"page", "limit"})
-    public Map<String, Object> distanceList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/static/results/displacement/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> distplacementList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         BigDecimal id=new BigDecimal(analysisId);
-        List<DistanceResult> lists = distanceResultMapper.getAll(id,start, end);
+        List<DisplacementResult> lists = displacementResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 

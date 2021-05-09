@@ -19,7 +19,7 @@
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
         <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
-                        connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:XE" userId="system" password="sys">
+                        connectionURL="jdbc:oracle:thin:@127.0.0.1:1521:XE" userId="METAL" password="METAL">
         </jdbcConnection>
         <javaTypeResolver>
             <!-- This property is used to specify whether MyBatis Generator should
@@ -43,10 +43,6 @@
         </javaClientGenerator>
 
         <!-- 要生成哪些表 -->
-        <table tableName="FLUTTER_SPEED_CROSSINGS_RESULT" domainObjectName="FlutterSpeedCrossingsResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="FLUTTER_VG_COMPLEX_RESULT" domainObjectName="FlutterVgComplexResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="COMPLEX_FORM" domainObjectName="ComplexForm" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="FLUTTER_VG_REAL_RESULT" domainObjectName="FlutterVgReALResult" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
-        <table tableName="REAL_FORM" domainObjectName="RealForm" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="DISPLACEMENT_RESULT" domainObjectName="DisplacementResult" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
     </context>
 </generatorConfiguration>

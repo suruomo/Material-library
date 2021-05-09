@@ -56,7 +56,7 @@
                 <div class="layui-colla-item">
                     <h2 class="layui-colla-title">位移结果</h2>
                     <div class="layui-colla-content layui-show">
-                        <table class="layui-hide" style="margin-top:15px;" id="distance" lay-filter="distance"></table>
+                        <table class="layui-hide" style="margin-top:15px;" id="displacement" lay-filter="displacement"></table>
                     </div>
                 </div>
                 <div class="layui-colla-item">
@@ -97,12 +97,12 @@
         form.render();
         // 位移结果初始化
         table.render({
-            elem: '#distance'
-            , url: '/static/results/distance/'+analysisId
+            elem: '#displacement'
+            , url: '/static/results/displacement/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '位移结果信息'
-            , id: 'distanceList'
+            , id: 'displacementList'
             , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
