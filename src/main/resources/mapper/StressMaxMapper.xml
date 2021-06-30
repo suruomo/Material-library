@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.StressMaxMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.StressMax" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ANALYSIS_ID" property="analysisId" jdbcType="DECIMAL" />
+    <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+    <result column="LOADCASE_NAME" property="loadcaseName" jdbcType="VARCHAR" />
+    <result column="SUBCASE_NAME" property="subcaseName" jdbcType="VARCHAR" />
+    <result column="LAYER_NAME" property="layerName" jdbcType="VARCHAR" />
+    <result column="X" property="x" jdbcType="VARCHAR" />
+    <result column="Y" property="y" jdbcType="VARCHAR" />
+    <result column="Z" property="z" jdbcType="VARCHAR" />
+    <result column="XY" property="xy" jdbcType="VARCHAR" />
+    <result column="YZ" property="yz" jdbcType="VARCHAR" />
+    <result column="ZX" property="zx" jdbcType="VARCHAR" />
+    <result column="VON_MISES" property="vonMises" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ANALYSIS_ID, GROUP_NAME, LOADCASE_NAME, SUBCASE_NAME, LAYER_NAME, X, Y, Z, XY, 
+    YZ, ZX, VON_MISES
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.suruomo.material.pojo.StressMaxExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from STRESS_MAX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.suruomo.material.pojo.StressMaxExample" >
+    delete from STRESS_MAX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.StressMax" >
+    insert into STRESS_MAX (ID, ANALYSIS_ID, GROUP_NAME, 
+      LOADCASE_NAME, SUBCASE_NAME, LAYER_NAME, 
+      X, Y, Z, XY, 
+      YZ, ZX, VON_MISES)
+    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{groupName,jdbcType=VARCHAR}, 
+      #{loadcaseName,jdbcType=VARCHAR}, #{subcaseName,jdbcType=VARCHAR}, #{layerName,jdbcType=VARCHAR}, 
+      #{x,jdbcType=VARCHAR}, #{y,jdbcType=VARCHAR}, #{z,jdbcType=VARCHAR}, #{xy,jdbcType=VARCHAR}, 
+      #{yz,jdbcType=VARCHAR}, #{zx,jdbcType=VARCHAR}, #{vonMises,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.StressMax" >
+    insert into STRESS_MAX
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="analysisId != null" >
+        ANALYSIS_ID,
+      </if>
+      <if test="groupName != null" >
+        GROUP_NAME,
+      </if>
+      <if test="loadcaseName != null" >
+        LOADCASE_NAME,
+      </if>
+      <if test="subcaseName != null" >
+        SUBCASE_NAME,
+      </if>
+      <if test="layerName != null" >
+        LAYER_NAME,
+      </if>
+      <if test="x != null" >
+        X,
+      </if>
+      <if test="y != null" >
+        Y,
+      </if>
+      <if test="z != null" >
+        Z,
+      </if>
+      <if test="xy != null" >
+        XY,
+      </if>
+      <if test="yz != null" >
+        YZ,
+      </if>
+      <if test="zx != null" >
+        ZX,
+      </if>
+      <if test="vonMises != null" >
+        VON_MISES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="analysisId != null" >
+        #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="loadcaseName != null" >
+        #{loadcaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="subcaseName != null" >
+        #{subcaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="layerName != null" >
+        #{layerName,jdbcType=VARCHAR},
+      </if>
+      <if test="x != null" >
+        #{x,jdbcType=VARCHAR},
+      </if>
+      <if test="y != null" >
+        #{y,jdbcType=VARCHAR},
+      </if>
+      <if test="z != null" >
+        #{z,jdbcType=VARCHAR},
+      </if>
+      <if test="xy != null" >
+        #{xy,jdbcType=VARCHAR},
+      </if>
+      <if test="yz != null" >
+        #{yz,jdbcType=VARCHAR},
+      </if>
+      <if test="zx != null" >
+        #{zx,jdbcType=VARCHAR},
+      </if>
+      <if test="vonMises != null" >
+        #{vonMises,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.suruomo.material.pojo.StressMaxExample" resultType="java.lang.Integer" >
+    select count(*) from STRESS_MAX
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update STRESS_MAX
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.analysisId != null" >
+        ANALYSIS_ID = #{record.analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.groupName != null" >
+        GROUP_NAME = #{record.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loadcaseName != null" >
+        LOADCASE_NAME = #{record.loadcaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subcaseName != null" >
+        SUBCASE_NAME = #{record.subcaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.layerName != null" >
+        LAYER_NAME = #{record.layerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.x != null" >
+        X = #{record.x,jdbcType=VARCHAR},
+      </if>
+      <if test="record.y != null" >
+        Y = #{record.y,jdbcType=VARCHAR},
+      </if>
+      <if test="record.z != null" >
+        Z = #{record.z,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xy != null" >
+        XY = #{record.xy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yz != null" >
+        YZ = #{record.yz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zx != null" >
+        ZX = #{record.zx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vonMises != null" >
+        VON_MISES = #{record.vonMises,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update STRESS_MAX
+    set ID = #{record.id,jdbcType=DECIMAL},
+      ANALYSIS_ID = #{record.analysisId,jdbcType=DECIMAL},
+      GROUP_NAME = #{record.groupName,jdbcType=VARCHAR},
+      LOADCASE_NAME = #{record.loadcaseName,jdbcType=VARCHAR},
+      SUBCASE_NAME = #{record.subcaseName,jdbcType=VARCHAR},
+      LAYER_NAME = #{record.layerName,jdbcType=VARCHAR},
+      X = #{record.x,jdbcType=VARCHAR},
+      Y = #{record.y,jdbcType=VARCHAR},
+      Z = #{record.z,jdbcType=VARCHAR},
+      XY = #{record.xy,jdbcType=VARCHAR},
+      YZ = #{record.yz,jdbcType=VARCHAR},
+      ZX = #{record.zx,jdbcType=VARCHAR},
+      VON_MISES = #{record.vonMises,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

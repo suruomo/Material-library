@@ -43,11 +43,14 @@
         </javaClientGenerator>
 
         <!-- 要生成哪些表 -->
-        <table tableName="OLOAD_RESULT" domainObjectName="OloadResult" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-        <table tableName="SPCFORCE_RESULT" domainObjectName="SpcforceResult" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-        <table tableName="MAX_SPCFORCE_RESULT" domainObjectName="MaxSpcforceResult" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-        <table tableName="MAX_DISPLACEMENTS_RESULT" domainObjectName="MaxDisplacementsResult" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-        <table tableName="MAX_APPLIED_LOADS_RESULT" domainObjectName="MaxAppliedLoadsResult" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
-        <table tableName="DISPLACEMENT_RESULT" domainObjectName="DisplacementResult" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="DISPLACEMENT_TRANSLATIONAL_MAX" domainObjectName="DisplacementTranslationalMax" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="DISPLACEMENT_TRANSLATIONAL_MIN" domainObjectName="DisplacementTranslationalMin" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="DISPLACEMENT_ROTATIONAL_MAX" domainObjectName="DisplacementRotationalMax" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="DISPLACEMENT_ROTATIONAL_MIN" domainObjectName="DisplacementRotationalMin" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="STRESS_MIN" domainObjectName="StressMin" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="STRESS_MAX" domainObjectName="StressMax" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="STRAIN_MIN" domainObjectName="StrainMin" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="STRAIN_MAX" domainObjectName="StrainMax" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <table tableName="MODE_FACTORS" domainObjectName="ModeFactors" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
     </context>
 </generatorConfiguration>
