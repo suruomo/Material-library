@@ -78,6 +78,10 @@ public class MyController {
     private ModelTaskService modelTaskService;
     @Resource
     private AnalysisTaskService analysisTaskService;
+    @Resource
+    private LoadBCSMapper loadBCSMapper;
+    @Resource
+    private MaterialMapper materialMapper;
     /**
      * 我的数据主页面
      *
@@ -208,6 +212,43 @@ public class MyController {
             default:
                 return "出错啦";
         }
+    }
+
+    /**
+     * 返回边界条件数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/results/loadbcs/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> loadBCSList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<LoadBCS> lists = loadBCSMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回材料数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/results/material/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> materialSList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<Material> lists = materialMapper.getAll(id,start, end);
+        return result.successResult(lists);
     }
 
     /**

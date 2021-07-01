@@ -54,27 +54,84 @@
                     </div>
                 </div>
                 <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">位移结果</h2>
+                    <h2 class="layui-colla-title">分析模型基本信息</h2>
                     <div class="layui-colla-content layui-show">
-                        <table class="layui-hide" style="margin-top:15px;" id="displacement" lay-filter="displacement"></table>
+                        <fieldset class="layui-elem-field">
+                        <legend><h9 style="color: #c82333">边界条件</h9></legend>
+                        <table class="layui-hide" style="margin-top:15px;" id="loadbcs" lay-filter="loadbcs"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h9 style="color: #c82333">材料信息</h9></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="material" lay-filter="material"></table>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">约束反力</h2>
+                    <h2 class="layui-colla-title">位移结果汇总</h2>
                     <div class="layui-colla-content layui-show">
-                        <table class="layui-hide" style="margin-top:15px;" id="constrainForce" lay-filter="constrainForce"></table>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">平移位移最小值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="dtmin" lay-filter="dtmin"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">平移位移最大值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="dtmax" lay-filter="dtmax"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">转动位移最小值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="drmin" lay-filter="drmin"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">转动位移最大值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="drmax" lay-filter="drmax"></table>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">节点应力</h2>
+                    <h2 class="layui-colla-title">约束反力结果汇总</h2>
                     <div class="layui-colla-content layui-show">
-                        <table class="layui-hide" style="margin-top:15px;" id="gridStress" lay-filter="gridStress"></table>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">Constraint Force Translational 最小值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="cftmin" lay-filter="cftmin"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">Constraint Force Translational 最大值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="cftmax" lay-filter="cftmax"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">Constraint Force Rotational 最小值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="cfrmin" lay-filter="cfrmin"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">Constraint Force Rotational 最大值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="cfrmax" lay-filter="cfrmax"></table>
+                        </fieldset>
                     </div>
                 </div>
                 <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">节点应变</h2>
+                    <h2 class="layui-colla-title">应力</h2>
                     <div class="layui-colla-content layui-show">
-                        <table class="layui-hide" style="margin-top:15px;" id="gridStrain" lay-filter="gridStrain"></table>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">应力最小值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="stress_min" lay-filter="stress_min"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">应力最大值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="stress_max" lay-filter="stress_max"></table>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">应变</h2>
+                    <div class="layui-colla-content layui-show">
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">应变最小值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="strain_min" lay-filter="strain_min"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h13 style="color: #c82333">应变最大值</h13></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="strain_max" lay-filter="strain_max"></table>
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -95,35 +152,122 @@
         var analysisId=$('#id').val();
         // 表单初始化
         form.render();
-        // 位移结果初始化
+        // 边界条件初始化
         table.render({
-            elem: '#displacement'
-            , url: '/static/results/displacement/'+analysisId
-            , method: "get"
-            , page: true    //true表示分页
-            , title: '位移结果信息'
-            , id: 'displacementList'
-            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
-            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            , cols: [
+            elem: '#loadbcs'
+            ,url:'/results/loadbcs/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
                 [
-                    {field: 'pointId', width: "10%", title: '节点编号',align:'center'}
-                    , {field: 't1', width: "15%", title: '沿X方向平动位移',align:'center'}
-                    , {field: 't2', width: "15%", title: '沿Y方向平动位移',align:'center'}
-                    , {field: 't3', width: "15%", title: '沿Z方向平动位移',align:'center'}
-                    , {field: 'r1', width: "15%", title: '沿X方向转动位移',align:'center'}
-                    , {field: 'r2', width: "15%", title: '沿Y方向转动位移',align:'center'}
-                    , {field: 'r3', width: "15%", title: '沿Z方向转动位移',align:'center'}
-                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                {field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                ,{field:'loadcaseType', width:"10%", title: '工况类型'}
+                ,{field:'loadID', width:"10%", title: '边界条件序号', sort: true}
+                ,{field:'loadName', width:"10%", title: '边界条件名称'}
+                ,{field:'loadType', title: '边界条件类型', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{field:'applicationType', width: "20%", title: '应用类型', sort: true}
+                ,{field:'elementDimension', width: "10%", title: '应用单元维度', sort: true}
+            ]
+            ]
+
+        });
+        // 材料条件初始化
+        table.render({
+            elem: '#material'
+            ,url:'/results/material/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                {field:'materialName', width:"15%", title: '材料名称', sort: true}
+                ,{field:'materialInfo', width:"85%", title: '材料信息'}
+            ]
+            ]
+        });
+        // 位移/translational/min/
+        table.render({
+            elem: '#dtmin'
+            ,url:'/static/results/displacement/translational/min/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'t1', width:"10%", title: '沿y方向平动位移'}
+                    ,{field:'t2', title: '沿y方向平动位移', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'t3', width: "20%", title: '沿z方向平动位移', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
                 ]
             ]
-            , done: function (res, curr, count) {
-            }
+
         });
-        // 约束反力结果初始化
+        // 位移/translational/max/
         table.render({
-            elem: '#constrainForce'
-            , url: '/static/results/constrainForce/'+analysisId
+            elem: '#dtmax'
+            ,url:'/static/results/displacement/translational/max/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'t1', width:"10%", title: '沿x方向平动位移'}
+                    ,{field:'t2', title: '沿y方向平动位移', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'t3', width: "20%", title: '沿z方向平动位移', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
+                ]
+            ]
+
+        });
+        // 位移/rotational/min/
+        table.render({
+            elem: '#drmin'
+            ,url:'/static/results/displacement/rotational/min/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'r1', width:"10%", title: '绕x方向转动位移'}
+                    ,{field:'r2', title: '绕y方向转动位移', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'r3', width: "20%", title: '绕z方向转动位移', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
+                ]
+            ]
+
+        });
+        // 位移/rotational/max/
+        table.render({
+            elem: '#drmax'
+            ,url:'/static/results/displacement/rotational/min/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'r1', width:"10%", title: '绕x方向转动位移'}
+                    ,{field:'r2', title: '绕y方向转动位移', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'r3', width: "20%", title: '绕z方向转动位移', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
+                ]
+            ]
+
+        });
+        // 约束反力/translational/min/
+        table.render({
+            elem: '#cftmin'
+            , url: '/static/results/constrainForce/translational/min/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '约束反力结果信息'
@@ -132,23 +276,98 @@
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {field: 'pointId', width: "10%", title: '节点编号',align:'center'}
-                    , {field: 't1', width: "15%", title: '在X方向上约束反力',align:'center'}
-                    , {field: 't2', width: "15%", title: '在Y方向上约束反力',align:'center'}
-                    , {field: 't3', width: "15%", title: '在Z方向上约束反力',align:'center'}
-                    , {field: 'r1', width: "15%", title: '在X转动方向上约束反力',align:'center'}
-                    , {field: 'r2', width: "15%", title: '在Y转动方向上约束反力',align:'center'}
-                    , {field: 'r3', width: "15%", title: '在Z转动方向上约束反力',align:'center'}
-                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'t1', width:"10%", title: '沿y方向平动'}
+                    ,{field:'t2', title: '沿y方向平动', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'t3', width: "20%", title: '沿z方向平动', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
                 ]
             ]
             , done: function (res, curr, count) {
             }
         });
-        // 节点应力结果初始化
+        // 约束反力/translational/max/
         table.render({
-            elem: '#gridStress'
-            , url: '/static/results/gridStress/'+analysisId
+            elem: '#cftmax'
+            , url: '/static/results/constrainForce/translational/max/'+analysisId
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '约束反力结果信息'
+            , id: 'constrainForceList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'t1', width:"10%", title: '沿y方向平动'}
+                    ,{field:'t2', title: '沿y方向平动', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'t3', width: "20%", title: '沿z方向平动', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 约束反力/rotational/min/
+        table.render({
+            elem: '#cfrmin'
+            , url: '/static/results/constrainForce/rotational/min/'+analysisId
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '约束反力结果信息'
+            , id: 'constrainForceList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'r1', width:"10%", title: '绕x方向转动'}
+                    ,{field:'r2', title: '绕y方向转动', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'r3', width: "20%", title: '绕z方向转动', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 约束反力/rotational/max/
+        table.render({
+            elem: '#cfrmax'
+            , url: '/static/results/constrainForce/rotational/max/'+analysisId
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '约束反力结果信息'
+            , id: 'constrainForceList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    ,{field:'r1', width:"10%", title: '绕x方向转动'}
+                    ,{field:'r2', title: '绕y方向转动', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'r3', width: "20%", title: '绕z方向转动', sort: true}
+                    ,{field:'magnitude', width: "10%", title: 'Magnitude', sort: true}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 节点应力min
+        table.render({
+            elem: '#stress_min'
+            , url: '/static/results/stress/min/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '节点应力结果信息'
@@ -157,27 +376,54 @@
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {field: 'elementId', width: "7%", title: '单元编号',align:'center'}
-                    ,{field: 'pointId', width: "7%", title: '节点编号',align:'center'}
-                    ,{field: 'elementCenter', width: "7%", title: '单元中心',align:'center'}
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
                     , {field: 'x', width: "10%", title: '在X方向上正应力',align:'center'}
                     , {field: 'y', width: "10%", title: '在Y方向上正应力',align:'center'}
                     , {field: 'z', width: "10%", title: '在方向上正应力',align:'center'}
                     , {field: 'xy', width: "10%", title: '在XY方向上切应力',align:'center'}
                     , {field: 'yz', width: "10%", title: '在YZ方向上切应力',align:'center'}
                     , {field: 'zx', width: "10%", title: '在ZX方向上切应力',align:'center'}
-                    , {field: 'meanPressure', width: "10%", title: '平均应力',align:'center'}
-                    , {field: 'conMises', width: "10%", title: '有效应力',align:'center'}
-                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                    , {field: 'vonMises', width: "10%", title: '有效应力',align:'center'}
                 ]
             ]
             , done: function (res, curr, count) {
             }
         });
-        // 节点应变结果初始化
+        // 节点应力max
         table.render({
-            elem: '#gridStrain'
-            , url: '/static/results/gridStrain/'+analysisId
+            elem: '#stress_max'
+            , url: '/static/results/stress/max/'+analysisId
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '节点应力结果信息'
+            , id: 'gridStressList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    , {field: 'x', width: "10%", title: '在X方向上正应力',align:'center'}
+                    , {field: 'y', width: "10%", title: '在Y方向上正应力',align:'center'}
+                    , {field: 'z', width: "10%", title: '在方向上正应力',align:'center'}
+                    , {field: 'xy', width: "10%", title: '在XY方向上切应力',align:'center'}
+                    , {field: 'yz', width: "10%", title: '在YZ方向上切应力',align:'center'}
+                    , {field: 'zx', width: "10%", title: '在ZX方向上切应力',align:'center'}
+                    , {field: 'vonMises', width: "10%", title: '有效应力',align:'center'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 节点应变min
+        table.render({
+            elem: '#strain_min'
+            , url: '/static/results/strain/min/'+analysisId
             , method: "get"
             , page: true    //true表示分页
             , title: '节点应变结果信息'
@@ -186,16 +432,44 @@
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
-                    {field: 'elementId', width: "7%", title: '单元编号',align:'center'}
-                    ,{field: 'pointId', width: "7%", title: '节点编号',align:'center'}
-                    ,{field: 'elementCenter', width: "7%", title: '单元中心',align:'center'}
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
                     , {field: 'x', width: "10%", title: '在X方向上正应变',align:'center'}
                     , {field: 'y', width: "10%", title: '在Y方向上正应变',align:'center'}
                     , {field: 'z', width: "10%", title: '在方向上正应变',align:'center'}
                     , {field: 'xy', width: "10%", title: '在XY方向上切应变',align:'center'}
                     , {field: 'yz', width: "10%", title: '在YZ方向上切应变',align:'center'}
                     , {field: 'zx', width: "10%", title: '在ZX方向上切应变',align:'center'}
-                    , {field: 'meanPressure', width: "10%", title: '平均应变',align:'center'}
+                    , {field: 'vonMises', width: "10%", title: '有效应变',align:'center'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 节点应变max
+        table.render({
+            elem: '#strain_max'
+            , url: '/static/results/strain/max/'+analysisId
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '节点应变结果信息'
+            , id: 'gridStrainList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field:'groupName', width:"10%", title: '组名', sort: true}
+                    ,{field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'subdcaseType', width:"10%", title: '子工况名称'}
+                    ,{field:'layerName', width:"10%", title: '层名称', sort: true}
+                    , {field: 'x', width: "10%", title: '在X方向上正应变',align:'center'}
+                    , {field: 'y', width: "10%", title: '在Y方向上正应变',align:'center'}
+                    , {field: 'z', width: "10%", title: '在方向上正应变',align:'center'}
+                    , {field: 'xy', width: "10%", title: '在XY方向上切应变',align:'center'}
+                    , {field: 'yz', width: "10%", title: '在YZ方向上切应变',align:'center'}
+                    , {field: 'zx', width: "10%", title: '在ZX方向上切应变',align:'center'}
                     , {field: 'vonMises', width: "10%", title: '有效应变',align:'center'}
                     // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]

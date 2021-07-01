@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.LoadBCSMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.LoadBCS" >
+    <result column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ANALYSIS_ID" property="analysisId" jdbcType="DECIMAL" />
+    <result column="LOADCASE_NAME" property="loadcaseName" jdbcType="VARCHAR" />
+    <result column="LOADCASE_TYPE" property="loadcaseType" jdbcType="VARCHAR" />
+    <result column="LOAD_ID" property="loadId" jdbcType="VARCHAR" />
+    <result column="LOAD_NAME" property="loadName" jdbcType="VARCHAR" />
+    <result column="LOAD_TYPE" property="loadType" jdbcType="VARCHAR" />
+    <result column="APPLICATION_TYPE" property="applicationType" jdbcType="VARCHAR" />
+    <result column="ELEMENT_DIMENSION" property="elementDimension" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.LoadBCS" >
+    insert into "METAL"."LOADBCS" (ID, ANALYSIS_ID, LOADCASE_NAME, 
+      LOADCASE_TYPE, LOAD_ID, LOAD_NAME, 
+      LOAD_TYPE, APPLICATION_TYPE, ELEMENT_DIMENSION
+      )
+    values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{loadcaseName,jdbcType=VARCHAR}, 
+      #{loadcaseType,jdbcType=VARCHAR}, #{loadId,jdbcType=VARCHAR}, #{loadName,jdbcType=VARCHAR}, 
+      #{loadType,jdbcType=VARCHAR}, #{applicationType,jdbcType=VARCHAR}, #{elementDimension,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.LoadBCS" >
+    insert into "METAL"."LOADBCS"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="analysisId != null" >
+        ANALYSIS_ID,
+      </if>
+      <if test="loadcaseName != null" >
+        LOADCASE_NAME,
+      </if>
+      <if test="loadcaseType != null" >
+        LOADCASE_TYPE,
+      </if>
+      <if test="loadId != null" >
+        LOAD_ID,
+      </if>
+      <if test="loadName != null" >
+        LOAD_NAME,
+      </if>
+      <if test="loadType != null" >
+        LOAD_TYPE,
+      </if>
+      <if test="applicationType != null" >
+        APPLICATION_TYPE,
+      </if>
+      <if test="elementDimension != null" >
+        ELEMENT_DIMENSION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="analysisId != null" >
+        #{analysisId,jdbcType=DECIMAL},
+      </if>
+      <if test="loadcaseName != null" >
+        #{loadcaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="loadcaseType != null" >
+        #{loadcaseType,jdbcType=VARCHAR},
+      </if>
+      <if test="loadId != null" >
+        #{loadId,jdbcType=VARCHAR},
+      </if>
+      <if test="loadName != null" >
+        #{loadName,jdbcType=VARCHAR},
+      </if>
+      <if test="loadType != null" >
+        #{loadType,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationType != null" >
+        #{applicationType,jdbcType=VARCHAR},
+      </if>
+      <if test="elementDimension != null" >
+        #{elementDimension,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="getAll" resultType="com.suruomo.material.pojo.LoadBCS">
+    select * from (
+    <![CDATA[
+        select rownum rn,a.* from (select * from "METAL"."LOADBCS" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+  </select>
+</mapper>
