@@ -90,4 +90,7 @@
     ]]>
     )
   </select>
+    <select id="getMaxId" resultType="java.lang.Integer">
+      select max(ID) from "METAL"."LOADBCS"
+    </select>
 </mapper>

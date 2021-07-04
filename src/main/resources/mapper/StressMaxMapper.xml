@@ -85,7 +85,7 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from STRESS_MAX
+    from "METAL"."STRESS_MAX"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,13 +94,13 @@
     </if>
   </select>
   <delete id="deleteByExample" parameterType="com.suruomo.material.pojo.StressMaxExample" >
-    delete from STRESS_MAX
+    delete from "METAL"."STRESS_MAX"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.StressMax" >
-    insert into STRESS_MAX (ID, ANALYSIS_ID, GROUP_NAME, 
+    insert into "METAL"."STRESS_MAX" (ID, ANALYSIS_ID, GROUP_NAME, 
       LOADCASE_NAME, SUBCASE_NAME, LAYER_NAME, 
       X, Y, Z, XY, 
       YZ, ZX, VON_MISES)
@@ -110,7 +110,7 @@
       #{yz,jdbcType=VARCHAR}, #{zx,jdbcType=VARCHAR}, #{vonMises,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.StressMax" >
-    insert into STRESS_MAX
+    insert into "METAL"."STRESS_MAX"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -195,13 +195,23 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.suruomo.material.pojo.StressMaxExample" resultType="java.lang.Integer" >
-    select count(*) from STRESS_MAX
+    select count(*) from "METAL"."STRESS_MAX"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+    <select id="getMaxId" resultType="java.lang.Integer">
+      select max(ID) from "METAL"."STRESS_MAX"
+    </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.StressMax">
+    select * from (
+    <![CDATA[
+                    select rownum rn,a.* from (select * from "METAL"."STRESS_MAX" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+  </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update STRESS_MAX
+    update "METAL"."STRESS_MAX"
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=DECIMAL},
@@ -248,7 +258,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update STRESS_MAX
+    update "METAL"."STRESS_MAX"
     set ID = #{record.id,jdbcType=DECIMAL},
       ANALYSIS_ID = #{record.analysisId,jdbcType=DECIMAL},
       GROUP_NAME = #{record.groupName,jdbcType=VARCHAR},

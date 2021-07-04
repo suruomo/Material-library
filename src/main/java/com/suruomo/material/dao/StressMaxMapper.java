@@ -2,6 +2,8 @@ package com.suruomo.material.dao;
 
 import com.suruomo.material.pojo.StressMax;
 import com.suruomo.material.pojo.StressMaxExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +23,8 @@ public interface StressMaxMapper {
     int updateByExampleSelective(@Param("record") StressMax record, @Param("example") StressMaxExample example);
 
     int updateByExample(@Param("record") StressMax record, @Param("example") StressMaxExample example);
+
+    int getMaxId();
+
+    List<StressMax> getAll(BigDecimal id, int start, int end);
 }

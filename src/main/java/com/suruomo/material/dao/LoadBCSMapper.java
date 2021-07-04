@@ -12,4 +12,6 @@ public interface LoadBCSMapper {
     int insertSelective(LoadBCS record);
 
     List<LoadBCS> getAll(BigDecimal id, int start, int end);
+
+    int getMaxId();
 }

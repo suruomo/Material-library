@@ -182,6 +182,13 @@
     <select id="getMaxId" resultType="java.lang.Integer">
       select max(ID) from "METAL"."DISPLACEMENT_TRANSLATIONAL_MAX"
     </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.DisplacementTranslationalMax">
+      select * from (
+    <![CDATA[
+                      select rownum rn,a.* from (select * from "METAL"."DISPLACEMENT_TRANSLATIONAL_MAX" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+    </select>
     <update id="updateByExampleSelective" parameterType="map" >
     update "METAL"."DISPLACEMENT_TRANSLATIONAL_MAX"
     <set >

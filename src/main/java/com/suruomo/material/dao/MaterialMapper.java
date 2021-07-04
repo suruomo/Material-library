@@ -12,4 +12,6 @@ public interface MaterialMapper {
     int insertSelective(Material record);
 
     List<Material> getAll(BigDecimal id, int start, int end);
+
+    int getMaxId();
 }

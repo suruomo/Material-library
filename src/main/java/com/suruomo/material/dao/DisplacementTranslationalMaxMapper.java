@@ -2,6 +2,8 @@ package com.suruomo.material.dao;
 
 import com.suruomo.material.pojo.DisplacementTranslationalMax;
 import com.suruomo.material.pojo.DisplacementTranslationalMaxExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -23,4 +25,6 @@ public interface DisplacementTranslationalMaxMapper {
     int updateByExample(@Param("record") DisplacementTranslationalMax record, @Param("example") DisplacementTranslationalMaxExample example);
 
     int getMaxId();
+
+    List<DisplacementTranslationalMax> getAll(BigDecimal id, int start, int end);
 }

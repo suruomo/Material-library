@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.suruomo.material.dao.*;
 import com.suruomo.material.pojo.*;
 import com.suruomo.material.service.AnalysisTaskService;
+import com.suruomo.material.service.GetStaticService;
 import com.suruomo.material.service.ModelTaskService;
 import com.suruomo.material.utils.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -82,6 +83,33 @@ public class MyController {
     private LoadBCSMapper loadBCSMapper;
     @Resource
     private MaterialMapper materialMapper;
+    @Resource
+    private GetStaticService getStaticService;
+    @Resource
+    private DisplacementTranslationalMinMapper displacementTranslationalMinMapper;
+    @Resource
+    private DisplacementTranslationalMaxMapper displacementTranslationalMaxMapper;
+    @Resource
+    private DisplacementRotationalMaxMapper displacementRotationalMaxMapper;
+    @Resource
+    private DisplacementRotationalMinMapper displacementRotationalMinMapper;
+    @Resource
+    private ConstraintForceTMinMapper constraintForceTMinMapper;
+    @Resource
+    private ConstraintForceTMaxMapper constraintForceTMaxMapper;
+    @Resource
+    private ConstraintForceRMinMapper constraintForceRMinMapper;
+    @Resource
+    private ConstraintForceRMaxMapper constraintForceRMaxMapper;
+    @Resource
+    private StressMinMapper stressMinMapper;
+    @Resource
+    private StressMaxMapper stressMaxMapper;
+    @Resource
+    private StrainMinMapper strainMinMapper;
+    @Resource
+    private StrainMaxMapper strainMaxMapper;
+
     /**
      * 我的数据主页面
      *
@@ -250,7 +278,222 @@ public class MyController {
         List<Material> lists = materialMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
-
+    /**
+     * 返回静力分析位移 translation min数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/displacement/translational/min/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getDisplacementTMinList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<DisplacementTranslationalMin> lists = displacementTranslationalMinMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析位移 translation max数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/displacement/translational/max/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getDisplacementTMaxList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<DisplacementTranslationalMax> lists = displacementTranslationalMaxMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析位移 rotation min数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @returns
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/displacement/rotational/min/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getDisplacementRMinList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<DisplacementRotationalMin> lists = displacementRotationalMinMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析位移 rotation max数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @returns
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/displacement/rotational/max/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getDisplacementRMaxList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<DisplacementRotationalMax> lists = displacementRotationalMaxMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析约束反力 translation min数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/constrainForce/translational/min/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getConstraintForceTMinList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ConstraintForceTMin> lists = constraintForceTMinMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析约束反力 translation max数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/constrainForce/translational/max/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getConstraintForceTMaxList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ConstraintForceTMax> lists = constraintForceTMaxMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析约束反力 rotation min数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/constrainForce/rotational/min/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getConstraintForceRMinList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ConstraintForceRMin> lists = constraintForceRMinMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析约束反力 rotation max数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/constrainForce/rotational/max/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getConstraintForceRMaxList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ConstraintForceRMax> lists = constraintForceRMaxMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析 stress  min数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/stress/min/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getStressMinList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<StressMin> lists = stressMinMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析 stress  max数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/stress/max/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getStressMaxList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<StressMax> lists = stressMaxMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析 strain  min数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/strain/min/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getStrainMinList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<StrainMin> lists = strainMinMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回静力分析 stress  max数据
+     *
+     * @param analysisId
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/static/results/strain/max/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> getStrainMaxList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<StrainMax> lists = strainMaxMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
     /**
      * 返回静力分析的位移结果数据
      *
@@ -511,6 +754,15 @@ public class MyController {
             analysisTask1.setDescription(analysisTask.getDescription());
             analysisTask1.setUpdateTime(new Date());
             analysisTaskMapper.updateByPrimaryKey(analysisTask1);
+            switch (analysisTask.getType()){
+                case "静力分析":
+                    getStaticService.getStaticResult(analysisTask.getId(),analysisTask.getResultPath());
+                    break;
+                case "正向模态":
+                    break;
+                default:
+                    break;
+            }
             return 0;
         }catch (Exception e){
             return 1;

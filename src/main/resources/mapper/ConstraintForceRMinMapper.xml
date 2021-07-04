@@ -90,4 +90,14 @@
       </if>
     </trim>
   </insert>
+    <select id="getMaxId" resultType="java.lang.Integer">
+      select max(ID) from "METAL"."CONSTRAINT_FORCE_R_MIN"
+    </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.ConstraintForceRMin">
+      select * from (
+    <![CDATA[
+                      select rownum rn,a.* from (select * from "METAL"."CONSTRAINT_FORCE_R_MIN" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+    </select>
 </mapper>

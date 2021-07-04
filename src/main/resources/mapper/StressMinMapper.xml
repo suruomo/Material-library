@@ -85,7 +85,7 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from STRESS_MIN
+    from "METAL"."STRESS_MIN"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,13 +94,13 @@
     </if>
   </select>
   <delete id="deleteByExample" parameterType="com.suruomo.material.pojo.StressMinExample" >
-    delete from STRESS_MIN
+    delete from "METAL"."STRESS_MIN"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.StressMin" >
-    insert into STRESS_MIN (ID, ANALYSIS_ID, GROUP_NAME, 
+    insert into "METAL"."STRESS_MIN" (ID, ANALYSIS_ID, GROUP_NAME, 
       LOADCASE_NAME, SUBCASE_NAME, LAYER_NAME, 
       X, Y, Z, XY, 
       YZ, ZX, VON_MISES)
@@ -110,7 +110,7 @@
       #{yz,jdbcType=VARCHAR}, #{zx,jdbcType=VARCHAR}, #{vonMises,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.StressMin" >
-    insert into STRESS_MIN
+    insert into "METAL"."STRESS_MIN"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -195,13 +195,23 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.suruomo.material.pojo.StressMinExample" resultType="java.lang.Integer" >
-    select count(*) from STRESS_MIN
+    select count(*) from "METAL"."STRESS_MIN"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update STRESS_MIN
+    <select id="getMaxId" resultType="java.lang.Integer">
+      select max(ID) from "METAL"."STRESS_MIN"
+    </select>
+    <select id="getAll" resultType="com.suruomo.material.pojo.StressMin">
+      select * from (
+    <![CDATA[
+                      select rownum rn,a.* from (select * from "METAL"."STRESS_MIN" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
+    update "METAL"."STRESS_MIN"
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=DECIMAL},
@@ -248,7 +258,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update STRESS_MIN
+    update "METAL"."STRESS_MIN"
     set ID = #{record.id,jdbcType=DECIMAL},
       ANALYSIS_ID = #{record.analysisId,jdbcType=DECIMAL},
       GROUP_NAME = #{record.groupName,jdbcType=VARCHAR},

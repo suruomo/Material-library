@@ -182,7 +182,14 @@
   <select id="getMaxId" resultType="java.lang.Integer">
     select max(ID) from "METAL"."DISPLACEMENT_ROTATIONAL_MIN"
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+    <select id="getAll" resultType="com.suruomo.material.pojo.DisplacementRotationalMin">
+      select * from (
+    <![CDATA[
+                      select rownum rn,a.* from (select * from "METAL"."DISPLACEMENT_ROTATIONAL_MIN" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+    </select>
+    <update id="updateByExampleSelective" parameterType="map" >
     update "METAL"."DISPLACEMENT_ROTATIONAL_MIN"
     <set >
       <if test="record.id != null" >
