@@ -43,18 +43,6 @@ public class MyController {
     private Result result;
 
     @Resource
-    private ConstrainForceResultMapper constrainForceResultMapper;
-
-    @Resource
-    private DisplacementResultMapper displacementResultMapper;
-
-    @Resource
-    private GridStrainResultMapper gridStrainResultMapper;
-
-    @Resource
-    private GridStressResultMapper gridStressResultMapper;
-
-    @Resource
     private ModeFrequencyResultMapper modeFrequencyResultMapper;
 
     @Resource
@@ -492,78 +480,6 @@ public class MyController {
         int end = page * limit;
         BigDecimal id=new BigDecimal(analysisId);
         List<StrainMax> lists = strainMaxMapper.getAll(id,start, end);
-        return result.successResult(lists);
-    }
-    /**
-     * 返回静力分析的位移结果数据
-     *
-     * @param analysisId
-     * @param page
-     * @param limit
-     * @return
-     * @throws JsonProcessingException
-     */
-    @ResponseBody
-    @GetMapping(value = "/static/results/displacement/{analysisId}", params = {"page", "limit"})
-    public Map<String, Object> distplacementList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
-        int start = (page - 1) * limit + 1;
-        int end = page * limit;
-        BigDecimal id=new BigDecimal(analysisId);
-        List<DisplacementResult> lists = displacementResultMapper.getAll(id,start, end);
-        return result.successResult(lists);
-    }
-
-    /**
-     * 返回静力分析的约束反力数据
-     *
-     * @param page
-     * @param limit
-     * @return
-     * @throws JsonProcessingException
-     */
-    @ResponseBody
-    @GetMapping(value = "/static/results/constrainForce/{analysisId}", params = {"page", "limit"})
-    public Map<String, Object> constrainForceList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
-        int start = (page - 1) * limit + 1;
-        int end = page * limit;
-        BigDecimal id=new BigDecimal(analysisId);
-        List<ConstrainForceResult> lists = constrainForceResultMapper.getAll(id,start, end);
-        return result.successResult(lists);
-    }
-
-    /**
-     * 返回静力分析的节点应力表
-     *
-     * @param page
-     * @param limit
-     * @return
-     * @throws JsonProcessingException
-     */
-    @ResponseBody
-    @GetMapping(value = "/static/results/gridStress/{analysisId}", params = {"page", "limit"})
-    public Map<String, Object> gridStressList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
-        int start = (page - 1) * limit + 1;
-        int end = page * limit;
-        BigDecimal id=new BigDecimal(analysisId);
-        List<GridStressResult> lists = gridStressResultMapper.getAll(id,start, end);
-        return result.successResult(lists);
-    }
-
-    /**
-     * 返回静力分析的节点应变表
-     *
-     * @param page
-     * @param limit
-     * @return
-     * @throws JsonProcessingException
-     */
-    @ResponseBody
-    @GetMapping(value = "/static/results/gridStrain/{analysisId}", params = {"page", "limit"})
-    public Map<String, Object> gridStrainList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
-        int start = (page - 1) * limit + 1;
-        int end = page * limit;
-        BigDecimal id=new BigDecimal(analysisId);
-        List<GridStrainResult> lists = gridStrainResultMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
 
