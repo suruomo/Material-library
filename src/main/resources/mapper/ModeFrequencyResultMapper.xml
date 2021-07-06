@@ -18,7 +18,7 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
-    from "METAI"."MODE_FREQUENCY_RESULT"
+    from "METAL"."MODE_FREQUENCY_RESULT"
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="getAll" resultType="com.suruomo.material.pojo.ModeFrequencyResult">
@@ -28,20 +28,23 @@
     ]]>
     )
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
-    delete from "METAI"."MODE_FREQUENCY_RESULT"
+    <select id="getMaxId" resultType="java.lang.Integer">
+      select max(ID) from "METAL"."MODE_FREQUENCY_RESULT"
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from "METAL"."MODE_FREQUENCY_RESULT"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
-    insert into "METAI"."MODE_FREQUENCY_RESULT" (ID, ANALYSIS_ID, MODE_NO, 
-      MODE_ORDER, E, R, C, 
+    insert into "METAL"."MODE_FREQUENCY_RESULT" (ID, ANALYSIS_ID, MODE_NO, 
+      MODE_ORDER, E, R, C,
       MASS, STIFFNESS)
     values (#{id,jdbcType=DECIMAL}, #{analysisId,jdbcType=DECIMAL}, #{modeNo,jdbcType=DECIMAL}, 
       #{modeOrder,jdbcType=DECIMAL}, #{e,jdbcType=VARCHAR}, #{r,jdbcType=VARCHAR}, #{c,jdbcType=VARCHAR}, 
       #{mass,jdbcType=VARCHAR}, #{stiffness,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
-    insert into "METAI"."MODE_FREQUENCY_RESULT"
+    insert into "METAL"."MODE_FREQUENCY_RESULT"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -102,7 +105,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
-    update "METAI"."MODE_FREQUENCY_RESULT"
+    update "METAL"."MODE_FREQUENCY_RESULT"
     <set >
       <if test="analysisId != null" >
         ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
@@ -120,7 +123,7 @@
         R = #{r,jdbcType=VARCHAR},
       </if>
       <if test="c != null" >
-        C = #{c,jdbcType=VARCHAR},
+        C= #{c,jdbcType=VARCHAR},
       </if>
       <if test="mass != null" >
         MASS = #{mass,jdbcType=VARCHAR},
@@ -132,13 +135,13 @@
     where ID = #{id,jdbcType=DECIMAL}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.suruomo.material.pojo.ModeFrequencyResult" >
-    update "METAI"."MODE_FREQUENCY_RESULT"
+    update "METAL"."MODE_FREQUENCY_RESULT"
     set ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL},
       MODE_NO = #{modeNo,jdbcType=DECIMAL},
       MODE_ORDER = #{modeOrder,jdbcType=DECIMAL},
       E = #{e,jdbcType=VARCHAR},
       R = #{r,jdbcType=VARCHAR},
-      C = #{c,jdbcType=VARCHAR},
+        C = #{c,jdbcType=VARCHAR},
       MASS = #{mass,jdbcType=VARCHAR},
       STIFFNESS = #{stiffness,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}

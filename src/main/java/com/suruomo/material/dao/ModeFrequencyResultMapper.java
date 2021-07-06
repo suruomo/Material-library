@@ -18,4 +18,6 @@ public interface ModeFrequencyResultMapper {
     int updateByPrimaryKey(ModeFrequencyResult record);
 
     List<ModeFrequencyResult> getAll(BigDecimal id, int start, int end);
+
+    int getMaxId();
 }

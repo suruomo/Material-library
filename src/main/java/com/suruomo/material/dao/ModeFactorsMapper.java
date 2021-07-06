@@ -2,6 +2,8 @@ package com.suruomo.material.dao;
 
 import com.suruomo.material.pojo.ModeFactors;
 import com.suruomo.material.pojo.ModeFactorsExample;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +23,8 @@ public interface ModeFactorsMapper {
     int updateByExampleSelective(@Param("record") ModeFactors record, @Param("example") ModeFactorsExample example);
 
     int updateByExample(@Param("record") ModeFactors record, @Param("example") ModeFactorsExample example);
+
+    int getMaxId();
+
+    List<ModeFactors> getAll(BigDecimal id, int start, int end);
 }

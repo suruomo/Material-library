@@ -54,15 +54,40 @@
                     </div>
                 </div>
                 <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">分析模型基本信息</h2>
+                    <div class="layui-colla-content layui-show">
+                        <fieldset class="layui-elem-field">
+                            <legend><h9 style="color: #c82333">边界条件</h9></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="loadbcs" lay-filter="loadbcs"></table>
+                        </fieldset>
+                        <fieldset class="layui-elem-field">
+                            <legend><h9 style="color: #c82333">材料信息</h9></legend>
+                            <table class="layui-hide" style="margin-top:15px;" id="material" lay-filter="material"></table>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
                     <h2 class="layui-colla-title">模态频率数据表</h2>
                     <div class="layui-colla-content layui-show">
                         <table class="layui-hide" style="margin-top:15px;" id="modeFrequency" lay-filter="modeFrequency"></table>
                     </div>
                 </div>
                 <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">模态振型数据表</h2>
+                    <h2 class="layui-colla-title">模态最大单点约束数据表</h2>
                     <div class="layui-colla-content layui-show">
-                        <table class="layui-hide" style="margin-top:15px;" id="modeShape" lay-filter="modeShape"></table>
+                        <table class="layui-hide" style="margin-top:15px;" id="modeSpcForces" lay-filter="modeSpcForces"></table>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">模态最大位移数据表</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="modeDisplacements" lay-filter="modeDisplacements"></table>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">模态参与因子数据表</h2>
+                    <div class="layui-colla-content layui-show">
+                        <table class="layui-hide" style="margin-top:15px;" id="modeFactors" lay-filter="modeFactors"></table>
                     </div>
                 </div>
             </div>
@@ -83,6 +108,38 @@
         var analysisId=$('#id').val();
         // 表单初始化
         form.render();
+        // 边界条件初始化
+        table.render({
+            elem: '#loadbcs'
+            ,url:'/results/loadbcs/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                    {field:'loadcaseName', width:"10%", title: '工况名称', sort: true}
+                    ,{field:'loadcaseType', width:"10%", title: '工况类型'}
+                    ,{field:'loadId', width:"10%", title: '边界条件序号', sort: true}
+                    ,{field:'loadName', width:"10%", title: '边界条件名称'}
+                    ,{field:'loadType', title: '边界条件类型', width: "10%", minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                    ,{field:'applicationType', width: "20%", title: '应用类型', sort: true}
+                    ,{field:'elementDimension', width: "10%", title: '应用单元维度', sort: true}
+                ]
+            ]
+
+        });
+        // 材料条件初始化
+        table.render({
+            elem: '#material'
+            ,url:'/results/material/'+analysisId
+            ,method: "get"
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [
+                [
+                    {field:'materialName', width:"15%", title: '材料名称', sort: true}
+                    ,{field:'materialInfo', width:"85%", title: '材料信息'}
+                ]
+            ]
+        });
         // 模态频率结果初始化
         table.render({
             elem: '#modeFrequency'
@@ -102,32 +159,81 @@
                     , {field: 'c', width: "15%", title: '周期频率值(Hz)',align:'center'}
                     , {field: 'mass', width: "15%", title: '有效质量',align:'center'}
                     , {field: 'stiffness', width: "15%", title: '有效刚度',align:'center'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 模态参与因子结果初始化
+        table.render({
+            elem: '#modeFactors'
+            , url: '/mode/results/factors/'+analysisId
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '模态参与因子结果信息'
+            , id: 'modeFactorsList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'modeNo', width: "11%", title: '模态阶次',align:'center'}
+                    , {field: 'modeFrequency', width: "11%", title: '模态频率',align:'center'}
+                    , {field: 't1', width: "13%", title: '沿X方向',align:'center'}
+                    , {field: 't2', width: "13%", title: '沿Y方向',align:'center'}
+                    , {field: 't3', width: "13%", title: '沿Z方向',align:'center'}
+                    , {field: 'r1', width: "13%", title: '沿X转动',align:'center'}
+                    , {field: 'r2', width: "13%", title: '沿Y转动',align:'center'}
+                    , {field: 'r3', width: "13%", title: '沿Z转动',align:'center'}
                     // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]
             ]
             , done: function (res, curr, count) {
             }
         });
-        // 模态振型结果初始化
+        // 模态单点约束结果初始化
         table.render({
-            elem: '#modeShape'
-            , url: '/mode/results/shape/'+analysisId
+            elem: '#modeSpcForces'
+            , url: '/mode/results/spcforces/'+analysisId
             , method: "get"
             , page: true    //true表示分页
-            , title: '模态振型结果信息'
-            , id: 'modeShapeList'
+            , title: '模态单点约束结果信息'
+            , id: 'modeFactorsList'
             , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
             , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             , cols: [
                 [
                     {field: 'modeNo', width: "11%", title: '模态阶次',align:'center'}
-                    ,{field: 'pointId', width: "11%", title: '节点编号',align:'center'}
-                    , {field: 't1', width: "13%", title: '沿X方向上平动位移',align:'center'}
-                    , {field: 't2', width: "13%", title: '沿Y方向上平动位移',align:'center'}
-                    , {field: 't3', width: "13%", title: '沿Z方向上平动位移',align:'center'}
-                    , {field: 'r1', width: "13%", title: '沿X转动方向上转动位移',align:'center'}
-                    , {field: 'r2', width: "13%", title: '沿Y转动方向上转动位移',align:'center'}
-                    , {field: 'r3', width: "13%", title: '沿Z转动方向上转动位移',align:'center'}
+                    , {field: 't1', width: "13%", title: '沿X方向',align:'center'}
+                    , {field: 't2', width: "13%", title: '沿Y方向',align:'center'}
+                    , {field: 't3', width: "13%", title: '沿Z方向',align:'center'}
+                    , {field: 'r1', width: "13%", title: '沿X转动',align:'center'}
+                    , {field: 'r2', width: "13%", title: '沿Y转动',align:'center'}
+                    , {field: 'r3', width: "13%", title: '沿Z转动',align:'center'}
+                    // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
+                ]
+            ]
+            , done: function (res, curr, count) {
+            }
+        });
+        // 模态最大位移结果初始化
+        table.render({
+            elem: '#modeDisplacements'
+            , url: '/mode/results/displacements/'+analysisId
+            , method: "get"
+            , page: true    //true表示分页
+            , title: '模态最大位移结果信息'
+            , id: 'modeFactorsList'
+            , toolbar: '#toolbarDemo'  //开启表格头部工具栏区域
+            , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            , cols: [
+                [
+                    {field: 'modeNo', width: "11%", title: '模态阶次',align:'center'}
+                    , {field: 't1', width: "13%", title: '沿X方向平动位移',align:'center'}
+                    , {field: 't2', width: "13%", title: '沿Y方向平动位移',align:'center'}
+                    , {field: 't3', width: "13%", title: '沿Z方向平动位移',align:'center'}
+                    , {field: 'r1', width: "13%", title: '沿X转动位移',align:'center'}
+                    , {field: 'r2', width: "13%", title: '沿Y转动位移',align:'center'}
+                    , {field: 'r3', width: "13%", title: '沿Z转动位移',align:'center'}
                     // , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
                 ]
             ]

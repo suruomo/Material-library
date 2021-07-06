@@ -81,7 +81,7 @@
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from MODE_FACTORS
+    from "METAL"."MODE_FACTORS"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,13 +90,13 @@
     </if>
   </select>
   <delete id="deleteByExample" parameterType="com.suruomo.material.pojo.ModeFactorsExample" >
-    delete from MODE_FACTORS
+    delete from "METAL"."MODE_FACTORS"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.ModeFactors" >
-    insert into MODE_FACTORS (ID, ANALYSIS_ID, MODE_NO, 
+    insert into "METAL"."MODE_FACTORS" (ID, ANALYSIS_ID, MODE_NO, 
       FREQUENCY, T1, T2, 
       T3, R1, R2, R3
       )
@@ -106,7 +106,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.suruomo.material.pojo.ModeFactors" >
-    insert into MODE_FACTORS
+    insert into "METAL"."MODE_FACTORS"
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         ID,
@@ -173,13 +173,23 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.suruomo.material.pojo.ModeFactorsExample" resultType="java.lang.Integer" >
-    select count(*) from MODE_FACTORS
+    select count(*) from "METAL"."MODE_FACTORS"
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+    <select id="getMaxId" resultType="java.lang.Integer">
+      select max(ID) from "METAL"."MODE_FACTORS"
+    </select>
+  <select id="getAll" resultType="com.suruomo.material.pojo.ModeFactors">
+    select * from (
+    <![CDATA[
+                    select rownum rn,a.* from (select * from "METAL"."MODE_FACTORS" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}
+    ]]>
+    )
+  </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update MODE_FACTORS
+    update "METAL"."MODE_FACTORS"
     <set >
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=DECIMAL},
@@ -217,7 +227,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update MODE_FACTORS
+    update "METAL"."MODE_FACTORS"
     set ID = #{record.id,jdbcType=DECIMAL},
       ANALYSIS_ID = #{record.analysisId,jdbcType=DECIMAL},
       MODE_NO = #{record.modeNo,jdbcType=DECIMAL},

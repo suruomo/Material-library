@@ -1,22 +1,40 @@
 package com.suruomo.material;
 
 
+import com.suruomo.material.dao.ModeMaxDisplacementsMapper;
+import com.suruomo.material.pojo.ModeMaxDisplacements;
+import com.suruomo.material.service.GetModeService;
 import com.suruomo.material.service.GetStaticService;
+import com.suruomo.material.utils.GetModeResult;
 import com.suruomo.material.utils.GetStaticResult;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
+import java.math.BigDecimal;
+
 
 @SpringBootTest
 class MaterialApplicationTests {
     @Autowired
-    GetStaticService getStaticService;
+    GetModeService getModeService;
+    @Autowired
+    ModeMaxDisplacementsMapper displacementsMapper;
+
+    String path = "G:\\heminmin\\patran\\0705\\mode_wing\\export-mode-result-06-Jul-21-16-08-07.txt";
     @Test
     void main(){
-        String path = "G:\\heminmin\\patran\\0621\\lin-static\\export-static-result-30-Jun-21-14-11-20.txt";
-        GetStaticResult getStaticResult=new GetStaticResult(getStaticService);
-//        GetStaticResult.readDisplacementResultFile(path);
+
+        GetModeResult getModeResult=new GetModeResult(getModeService);
+        GetModeResult.readFrequencyFile(path,new BigDecimal(8));
+//        getModeService.getModeResult(new BigDecimal(8),path);
+    }
+
+    @Test
+    void insert(){
+        GetModeResult getModeResult=new GetModeResult(getModeService);
+        GetModeResult.readDisplacementsFile(path,new BigDecimal(8));
     }
 
 }

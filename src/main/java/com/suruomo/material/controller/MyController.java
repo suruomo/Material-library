@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.suruomo.material.dao.*;
 import com.suruomo.material.pojo.*;
 import com.suruomo.material.service.AnalysisTaskService;
+import com.suruomo.material.service.GetModeService;
 import com.suruomo.material.service.GetStaticService;
 import com.suruomo.material.service.ModelTaskService;
 import com.suruomo.material.utils.Result;
@@ -97,6 +98,14 @@ public class MyController {
     private StrainMinMapper strainMinMapper;
     @Resource
     private StrainMaxMapper strainMaxMapper;
+    @Resource
+    private GetModeService getModeService;
+    @Resource
+    private ModeFactorsMapper modeFactorsMapper;
+    @Resource
+    private ModeMaxSpcForcesMapper modeMaxSpcForcesMapper;
+    @Resource
+    private ModeMaxDisplacementsMapper modeMaxDisplacementsMapper;
 
     /**
      * 我的数据主页面
@@ -546,7 +555,7 @@ public class MyController {
     }
 
     /**
-     * 返回正向模态的模态振型表
+     * 返回正向模态的模态参与因子表
      *
      * @param page
      * @param limit
@@ -554,15 +563,48 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
-    @GetMapping(value = "/mode/results/shape/{analysisId}", params = {"page", "limit"})
-    public Map<String, Object> modeShapeList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+    @GetMapping(value = "/mode/results/factors/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> modefactorsList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         BigDecimal id=new BigDecimal(analysisId);
-        List<ModeShapeResult> lists = modeShapeResultMapper.getAll(id,start, end);
+        List<ModeFactors> lists = modeFactorsMapper.getAll(id,start, end);
         return result.successResult(lists);
     }
-
+    /**
+     * 返回正向模态的模态单点约束表
+     *
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/mode/results/spcforces/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> modeSpcForcesList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ModeMaxSpcForces> lists = modeMaxSpcForcesMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
+    /**
+     * 返回正向模态的模态最大位移表
+     *
+     * @param page
+     * @param limit
+     * @return
+     * @throws JsonProcessingException
+     */
+    @ResponseBody
+    @GetMapping(value = "/mode/results/displacements/{analysisId}", params = {"page", "limit"})
+    public Map<String, Object> modeDisplacementsList(@PathVariable String analysisId, int page, int limit) throws JsonProcessingException {
+        int start = (page - 1) * limit + 1;
+        int end = page * limit;
+        BigDecimal id=new BigDecimal(analysisId);
+        List<ModeMaxDisplacements> lists = modeMaxDisplacementsMapper.getAll(id,start, end);
+        return result.successResult(lists);
+    }
     /**
      * 返回气动颤振的颤振速度交叉表
      *
@@ -719,6 +761,7 @@ public class MyController {
                     getStaticService.getStaticResult(analysisTask.getId(),analysisTask.getResultPath());
                     break;
                 case "正向模态":
+                    getModeService.getModeResult(analysisTask.getId(),analysisTask.getResultPath());
                     break;
                 default:
                     break;
