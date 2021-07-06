@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 @Service
 public class GetStaticServiceImpl  implements GetStaticService {
     @Resource
+    private AnalysisTaskMapper analysisTaskMapper;
+    @Resource
     private GetStaticService getStaticService;
     @Resource
     private DisplacementTranslationalMinMapper displacementTranslationalMinMapper;
@@ -198,5 +200,27 @@ public class GetStaticServiceImpl  implements GetStaticService {
         GetStaticResult.readConstraintForceResultFile(filePath,analysisId);
         GetStaticResult.readStressResultFile(filePath,analysisId);
         GetStaticResult.readStrainResultFile(filePath,analysisId);
+    }
+
+    @Override
+    public void deleteAnalysisTask(String id) {
+        BigDecimal analysisId=new BigDecimal(id);
+        // 删除分析任务以及相关文件
+        analysisTaskMapper.deleteByPrimaryKey(analysisId);
+        // 删除相关结果
+        loadBCSMapper.deleteByAnalysisId(analysisId);
+        materialMapper.deleteByAnalysisId(analysisId);
+        displacementTranslationalMinMapper.deleteByAnalysisId(analysisId);
+        displacementTranslationalMaxMapper.deleteByAnalysisId(analysisId);
+        displacementRotationalMinMapper.deleteByAnalysisId(analysisId);
+        displacementRotationalMaxMapper.deleteByAnalysisId(analysisId);
+        constraintForceTMinMapper.deleteByAnalysisId(analysisId);
+        constraintForceTMaxMapper.deleteByAnalysisId(analysisId);
+        constraintForceRMinMapper.deleteByAnalysisId(analysisId);
+        constraintForceRMaxMapper.deleteByAnalysisId(analysisId);
+        stressMinMapper.deleteByAnalysisId(analysisId);
+        stressMaxMapper.deleteByAnalysisId(analysisId);
+        strainMinMapper.deleteByAnalysisId(analysisId);
+        strainMaxMapper.deleteByAnalysisId(analysisId);
     }
 }

@@ -27,4 +27,6 @@ public interface StressMaxMapper {
     int getMaxId();
 
     List<StressMax> getAll(BigDecimal id, int start, int end);
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }

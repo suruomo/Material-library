@@ -27,4 +27,6 @@ public interface DisplacementRotationalMaxMapper {
     int getMaxId();
 
     List<DisplacementRotationalMax> getAll(BigDecimal id, int start, int end);
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }

@@ -83,7 +83,11 @@
       </if>
     </trim>
   </insert>
-  <select id="getAll" resultType="com.suruomo.material.pojo.LoadBCS">
+    <delete id="deleteByAnalysisId">
+      delete from "METAL"."LOADBCS"
+      where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+    </delete>
+    <select id="getAll" resultType="com.suruomo.material.pojo.LoadBCS">
     select * from (
     <![CDATA[
         select rownum rn,a.* from (select * from "METAL"."LOADBCS" where ANALYSIS_ID=#{param1}) a where rownum <= #{end}

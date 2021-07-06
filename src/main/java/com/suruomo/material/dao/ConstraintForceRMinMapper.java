@@ -15,4 +15,6 @@ public interface ConstraintForceRMinMapper {
     int getMaxId();
 
     List<ConstraintForceRMin> getAll(BigDecimal id, int start, int end);
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }

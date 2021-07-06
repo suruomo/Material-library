@@ -96,7 +96,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.suruomo.material.pojo.DisplacementTranslationalMax" >
+    <delete id="deleteByAnalysisId">
+      delete from "METAL"."DISPLACEMENT_TRANSLATIONAL_MAX"
+      where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.suruomo.material.pojo.DisplacementTranslationalMax" >
     insert into "METAL"."DISPLACEMENT_TRANSLATIONAL_MAX" (ID, ANALYSIS_ID, GROUP_NAME, 
       LOADCASE_NAME, SUBCASE_NAME, LAYER_NAME, 
       T1, T2, T3, MAGNITUDE

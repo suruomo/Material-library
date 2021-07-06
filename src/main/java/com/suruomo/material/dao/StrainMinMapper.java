@@ -27,4 +27,6 @@ public interface StrainMinMapper {
     int getMaxId();
 
     List<StrainMin> getAll(BigDecimal id, int start, int end);
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }

@@ -90,7 +90,11 @@
       </if>
     </trim>
   </insert>
-    <select id="getMaxId" resultType="java.lang.Integer">
+  <delete id="deleteByAnalysisId">
+    delete from "METAL"."CONSTRAINT_FORCE_T_MIN"
+    where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+  </delete>
+  <select id="getMaxId" resultType="java.lang.Integer">
       select max(ID) from "METAL"."CONSTRAINT_FORCE_T_MIN"
     </select>
     <select id="getAll" resultType="com.suruomo.material.pojo.ConstraintForceTMin">

@@ -27,4 +27,6 @@ public interface DisplacementTranslationalMaxMapper {
     int getMaxId();
 
     List<DisplacementTranslationalMax> getAll(BigDecimal id, int start, int end);
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }

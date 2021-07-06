@@ -14,4 +14,6 @@ public interface LoadBCSMapper {
     List<LoadBCS> getAll(BigDecimal id, int start, int end);
 
     int getMaxId();
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }

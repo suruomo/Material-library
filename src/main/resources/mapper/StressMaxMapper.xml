@@ -99,6 +99,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteByAnalysisId">
+    delete from "METAL"."STRESS_MAX"
+    where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+  </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.StressMax" >
     insert into "METAL"."STRESS_MAX" (ID, ANALYSIS_ID, GROUP_NAME, 
       LOADCASE_NAME, SUBCASE_NAME, LAYER_NAME, 

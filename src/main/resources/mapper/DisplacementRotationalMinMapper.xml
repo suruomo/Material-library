@@ -96,7 +96,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.suruomo.material.pojo.DisplacementRotationalMin" >
+    <delete id="deleteByAnalysisId">
+      delete from "METAL"."DISPLACEMENT_ROTATIONAL_MIN"
+      where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+    </delete>
+    <insert id="insert" parameterType="com.suruomo.material.pojo.DisplacementRotationalMin" >
     insert into "METAL"."DISPLACEMENT_ROTATIONAL_MIN" (ID, ANALYSIS_ID, GROUP_NAME,
       LOADCASE_NAME, SUBCASE_NAME, LAYER_NAME,
       R1, R2, R3, MAGNITUDE

@@ -231,6 +231,50 @@ public class MyController {
     }
 
     /**
+     * 删除分析任务以及相关数据
+     * @param id
+     * @param type
+     * @return
+     */
+    @DeleteMapping("/analysis/task/{id}/{type}")
+    @ResponseBody
+    public int deleteAnalysisTask(@PathVariable String id, @PathVariable String type) {
+        try{
+            switch (type) {
+                case "staticType":
+                    getStaticService.deleteAnalysisTask(id);
+                case "modeType":
+                    System.out.println("删除模态分析任务未完成");
+            }
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
+    }
+
+    /**
+     * 删除模型任务以及以下的分析模型等相关数据
+     * @param id
+     * @param type
+     * @return
+     */
+    @DeleteMapping("/model/task/{id}")
+    @ResponseBody
+    public int deleteModelTask(@PathVariable String id, @PathVariable String type) {
+        try{
+            switch (type) {
+                case "staticType":
+                    getStaticService.deleteAnalysisTask(id);
+                case "modeType":
+                    System.out.println("删除模态分析任务未完成");
+            }
+            return 1;
+        }catch (Exception e){
+            return 0;
+        }
+
+    }
+    /**
      * 返回边界条件数据
      *
      * @param analysisId

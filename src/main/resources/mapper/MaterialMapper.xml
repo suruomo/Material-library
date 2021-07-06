@@ -44,6 +44,10 @@
       </if>
     </trim>
   </insert>
+  <delete id="deleteByAnalysisId">
+    delete from "METAL"."MATERIAL"
+    where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+  </delete>
   <select id="getAll" resultType="com.suruomo.material.pojo.Material">
     select * from (
     <![CDATA[

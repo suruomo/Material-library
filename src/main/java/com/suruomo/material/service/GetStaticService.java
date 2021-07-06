@@ -69,5 +69,16 @@ public interface GetStaticService {
 
     void insertStrainMax(StrainMax strainMax);
 
+    /**
+     * 获取静力分析结果，读取文件存入数据库
+     * @param id
+     * @param resultPath
+     */
     void getStaticResult(BigDecimal id, String resultPath);
+
+    /**
+     * 删除静力分析任务以及该任务的相关结果
+     * @param id
+     */
+    void deleteAnalysisTask(String id);
 }

@@ -77,9 +77,20 @@
                 case 'delete':
                     layer.confirm('真的删除行么', function (index) {
                         layer.msg('删除中...', {icon: 16, shade: 0.3, time: 3000});
-                        layer.msg("删除成功");
-                        obj.del();   //删除对应行（tr）的DOM结构，并更新缓存
-                        layer.close(index); //再执行关闭
+                        $.ajax({
+                            url: '/model/task/' + data.id,
+                            method: 'delete',
+                            dataType: 'text',
+                            success: function (data) {
+                                if (data==1){
+                                    layer.msg("删除成功");
+                                    obj.del();   //删除对应行（tr）的DOM结构，并更新缓存
+                                    layer.close(index); //再执行关闭
+                                }else {
+                                    layer.msg("删除失败");
+                                }
+                            }
+                        });
                     });
                     break;
                 case 'edit':

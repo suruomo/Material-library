@@ -15,4 +15,6 @@ public interface ConstraintForceTMaxMapper {
     int getMaxId();
 
     List<ConstraintForceTMax> getAll(BigDecimal id, int start, int end);
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }

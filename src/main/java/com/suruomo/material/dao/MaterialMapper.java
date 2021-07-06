@@ -14,4 +14,6 @@ public interface MaterialMapper {
     List<Material> getAll(BigDecimal id, int start, int end);
 
     int getMaxId();
+
+    void deleteByAnalysisId(BigDecimal analysisId);
 }
