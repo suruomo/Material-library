@@ -42,7 +42,8 @@ class MaterialApplicationTests {
 
     @Test
     void delete() throws IOException {
-        getStaticService.deleteAnalysisTask("5");
+//        getStaticService.deleteAnalysisTask("5");
+        getModeService.deleteAnalysisTask("2");
     }
 
 }

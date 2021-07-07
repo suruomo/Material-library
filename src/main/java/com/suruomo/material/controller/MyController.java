@@ -265,21 +265,16 @@ public class MyController {
     /**
      * 删除模型任务以及以下的分析模型等相关数据
      * @param id
-     * @param type
      * @return
      */
     @DeleteMapping("/model/task/{id}")
     @ResponseBody
-    public int deleteModelTask(@PathVariable String id, @PathVariable String type) {
+    public int deleteModelTask(@PathVariable String id) {
         try{
-            switch (type) {
-                case "staticType":
-                    getStaticService.deleteAnalysisTask(id);
-                case "modeType":
-                    getModeService.deleteAnalysisTask(id);
-            }
+            modelTaskService.deleteModelTask(id);
             return 1;
         }catch (Exception e){
+            e.printStackTrace();
             return 0;
         }
 

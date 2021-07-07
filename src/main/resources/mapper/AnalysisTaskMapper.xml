@@ -33,7 +33,10 @@
   <select id="getMaxId" resultType="java.math.BigDecimal">
      select max(ID) from "METAL"."ANALYSIS_TASK"
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    <select id="selectByModelId" resultType="com.suruomo.material.pojo.AnalysisTask">
+      select * from "METAL"."ANALYSIS_TASK" where MODEL_ID= #{modelId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."ANALYSIS_TASK"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
