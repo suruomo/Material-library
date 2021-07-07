@@ -11,6 +11,7 @@ import com.suruomo.material.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -253,7 +254,7 @@ public class MyController {
                 case "staticType":
                     getStaticService.deleteAnalysisTask(id);
                 case "modeType":
-                    System.out.println("删除模态分析任务未完成");
+                    getModeService.deleteAnalysisTask(id);
             }
             return 1;
         }catch (Exception e){
@@ -275,7 +276,7 @@ public class MyController {
                 case "staticType":
                     getStaticService.deleteAnalysisTask(id);
                 case "modeType":
-                    System.out.println("删除模态分析任务未完成");
+                    getModeService.deleteAnalysisTask(id);
             }
             return 1;
         }catch (Exception e){
@@ -789,7 +790,7 @@ public class MyController {
                 //解码，免得文件名中文乱码
                 filename = URLDecoder.decode(filename, "UTF-8");
                 //获取文件位置
-                String filePath = getClass().getResource(modelTask.getGeometricModel()).getPath();
+                String filePath =path.substring(1);
                 filePath = URLDecoder.decode(filePath, "UTF-8");
                 InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
                 //设置文件下载头
@@ -804,15 +805,16 @@ public class MyController {
                 }
                 out.close();
             }catch (Exception e){
+                e.printStackTrace();
                 // 没有该文件
-                response.reset();
+//                response.reset();
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().print("<script type='text/javascript'>alert('下载几何模型出错');location.href='/task/model/" + id + "'</script>");
                 response.getWriter().close();
             }
         }else {
             // 没有该文件
-            response.reset();
+//            response.reset();
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + id + "'</script>");
             response.getWriter().close();
@@ -829,7 +831,7 @@ public class MyController {
     @GetMapping("/download/finiteElementModel/{id}")
     public void downloadFiniteElementModel(@PathVariable String id, HttpServletResponse response) throws IOException {
         ModelTask modelTask=modelTaskMapper.selectByPrimaryKey(new BigDecimal(id));
-        String path=modelTask.getGeometricModel();
+        String path=modelTask.getFiniteElementModel();
         if (path!=null){
             try {
                 //假如以中文名下载的话，设置下载文件名称
@@ -838,7 +840,7 @@ public class MyController {
                 //解码，免得文件名中文乱码
                 filename = URLDecoder.decode(filename, "UTF-8");
                 //获取文件位置
-                String filePath = getClass().getResource(modelTask.getFiniteElementModel()).getPath();
+                String filePath =path.substring(1);
                 filePath = URLDecoder.decode(filePath, "UTF-8");
                 InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
                 //设置文件下载头
@@ -854,14 +856,14 @@ public class MyController {
                 out.close();
             }catch (Exception e){
                 // 没有该文件
-                response.reset();
+//                response.reset();
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().print("<script type='text/javascript'>alert('下载有限元模型出错');location.href='/task/model/" + id + "'</script>");
                 response.getWriter().close();
             }
         }else {
             // 没有该文件
-            response.reset();
+//            response.reset();
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + id + "'</script>");
             response.getWriter().close();
@@ -884,7 +886,7 @@ public class MyController {
                 //解码，免得文件名中文乱码
                 filename = URLDecoder.decode(filename, "UTF-8");
                 //获取文件位置
-                String filePath = getClass().getResource(analysisTask.getBeforePath()).getPath();
+                String filePath =path.substring(1);
                 filePath = URLDecoder.decode(filePath, "UTF-8");
                 InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
                 //设置文件下载头
@@ -900,14 +902,14 @@ public class MyController {
                 out.close();
             }catch (Exception e){
                 // 没有该文件
-                response.reset();
+//                response.reset();
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().print("<script type='text/javascript'>alert('下载前处理文件出错');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
                 response.getWriter().close();
             }
         }else {
             // 没有该文件
-            response.reset();
+//            response.reset();
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
             response.getWriter().close();
@@ -931,7 +933,7 @@ public class MyController {
                 //解码，免得文件名中文乱码
                 filename = URLDecoder.decode(filename, "UTF-8");
                 //获取文件位置
-                String filePath = getClass().getResource(analysisTask.getResultPath()).getPath();
+                String filePath =path.substring(1);
                 filePath = URLDecoder.decode(filePath, "UTF-8");
                 InputStream bis = new BufferedInputStream(new FileInputStream(new File(filePath)));
                 //设置文件下载头
@@ -947,14 +949,14 @@ public class MyController {
                 out.close();
             }catch (Exception e){
                 // 没有该文件
-                response.reset();
+//                response.reset();
                 response.setContentType("text/html;charset=UTF-8");
                 response.getWriter().print("<script type='text/javascript'>alert('下载结果文件出错');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
                 response.getWriter().close();
             }
         }else {
             // 没有该文件
-            response.reset();
+//            response.reset();
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().print("<script type='text/javascript'>alert('文件不存在');location.href='/task/model/" + analysisTask.getModelId() + "'</script>");
             response.getWriter().close();

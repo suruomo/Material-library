@@ -5,9 +5,12 @@ import com.suruomo.material.pojo.*;
 import com.suruomo.material.service.GetModeService;
 import com.suruomo.material.utils.GetModeResult;
 import com.suruomo.material.utils.GetStaticResult;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -17,6 +20,8 @@ import java.math.BigDecimal;
  */
 @Service
 public class GetModeServiceImpl implements GetModeService {
+    @Resource
+    private AnalysisTaskMapper analysisTaskMapper;
     @Resource
     private GetModeService getModeService;
     @Resource
@@ -94,7 +99,7 @@ public class GetModeServiceImpl implements GetModeService {
 
     @Override
     public void getModeResult(BigDecimal analysisId, String resultPath) {
-        String filePath = getClass().getResource(resultPath).getPath();
+        String filePath = resultPath.substring(1);
         GetModeResult getModeResult=new GetModeResult(getModeService);
         GetModeResult.readLoadBCSFile(filePath,analysisId);
         GetModeResult.readMaterialFile(filePath,analysisId);
@@ -105,7 +110,24 @@ public class GetModeServiceImpl implements GetModeService {
     }
 
     @Override
-    public void deleteAnalysisTask(String id) {
-
+    public void deleteAnalysisTask(String id) throws IOException {
+        BigDecimal analysisId=new BigDecimal(id);
+        AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(analysisId);
+        // 删除文件
+        String path=analysisTask.getResultPath();
+        String[] strings=path.trim().split("/");
+        // 该分析模型目相对路径
+        path=strings[0]+"/"+strings[1]+"/"+strings[2]+"/"+strings[3]+"/"+strings[4]+"/"+strings[5];
+        File file=new File(path.substring(1));
+        FileUtils.deleteDirectory(file);
+        // 删除分析任务
+        analysisTaskMapper.deleteByPrimaryKey(analysisId);
+        // 删除相关结果
+        loadBCSMapper.deleteByAnalysisId(analysisId);
+        materialMapper.deleteByAnalysisId(analysisId);
+        modeFrequencyResultMapper.deleteByPrimaryKey(analysisId);
+        modeFactorsMapper.deleteByPrimaryKey(analysisId);
+        displacementsMapper.deleteByPrimaryKey(analysisId);
+        modeMaxSpcForcesMapper.deleteByPrimaryKey(analysisId);
     }
 }

@@ -27,4 +27,6 @@ public interface ModeFactorsMapper {
     int getMaxId();
 
     List<ModeFactors> getAll(BigDecimal id, int start, int end);
+
+    void deleteByPrimaryKey(BigDecimal analysisId);
 }

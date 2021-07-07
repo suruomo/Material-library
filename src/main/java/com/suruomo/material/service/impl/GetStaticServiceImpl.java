@@ -4,9 +4,12 @@ import com.suruomo.material.dao.*;
 import com.suruomo.material.pojo.*;
 import com.suruomo.material.service.GetStaticService;
 import com.suruomo.material.utils.GetStaticResult;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -192,7 +195,7 @@ public class GetStaticServiceImpl  implements GetStaticService {
 
     @Override
     public void getStaticResult(BigDecimal analysisId, String resultPath) {
-        String filePath = getClass().getResource(resultPath).getPath();
+        String filePath = resultPath.substring(1);
         GetStaticResult getStaticResult=new GetStaticResult(getStaticService);
         GetStaticResult.readLoadBCSFile(filePath,analysisId);
         GetStaticResult.readMaterialFile(filePath,analysisId);
@@ -203,9 +206,17 @@ public class GetStaticServiceImpl  implements GetStaticService {
     }
 
     @Override
-    public void deleteAnalysisTask(String id) {
+    public void deleteAnalysisTask(String id) throws IOException {
         BigDecimal analysisId=new BigDecimal(id);
-        // 删除分析任务以及相关文件
+        AnalysisTask analysisTask=analysisTaskMapper.selectByPrimaryKey(analysisId);
+        // 删除文件
+        String path=analysisTask.getResultPath();
+        String[] strings=path.trim().split("/");
+        // 该分析模型目相对路径
+        path=strings[0]+"/"+strings[1]+"/"+strings[2]+"/"+strings[3]+"/"+strings[4]+"/"+strings[5];
+        File file=new File(path.substring(1));
+        FileUtils.deleteDirectory(file);
+        // 删除分析任务
         analysisTaskMapper.deleteByPrimaryKey(analysisId);
         // 删除相关结果
         loadBCSMapper.deleteByAnalysisId(analysisId);

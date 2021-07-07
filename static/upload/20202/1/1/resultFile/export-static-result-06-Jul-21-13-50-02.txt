@@ -1,0 +1,49 @@
+-----Load/BCs Start-----
+-----loadcase name*loadcase type*load id*load name*load type*application type*element dimension-----
+Default*Static*1*disp1*Displacement*nodes*node
+Default*Static*2*pre*Pressure*elements and constant over the element*solid elements
+-----Load/BCs End-----
+-----Material Start-----
+-----material name*info-----
+elastic*Elastic Modulus:2E+11,Possion Ratio:0.30000001,Density:7800.,
+-----Material End-----
+-----Displacements Translational Min Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.00082714454*-0.0040252954*-6.8937125E-06*0.0078883898
+-----Displacements Translational Min End-----
+-----Displacements Translational Max Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.0004230809*-0.0003352288*0.0001293252*0.0040474692
+-----Displacements Translational Max End-----
+-----Displacements Rotational Min Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.*0.*0.*0.
+-----Displacements Rotational Min End-----
+-----Displacements Rotational Max Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.*0.*0.*0.
+-----Displacements Rotational Max End-----
+-----Constraint Forces Translational Min Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.*0.*0.*0.
+-----Constraint Forces Translational Min End-----
+-----Constraint Forces Translational Max Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.*0.*0.*0.
+-----Constraint Forces Translational Max End-----
+-----Constraint Forces Rotational Min Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.*0.*0.*0.
+-----Constraint Forces Rotational Min End-----
+-----Constraint Forces Rotational Max Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*MAG-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*0.*0.*0.*0.
+-----Constraint Forces Rotational Max End-----
+-----Stress Tensor Min Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*XY*YZ*ZX*VON MISES-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*-14821.271*362.46658*4536.8218*-5783.4092*-94987.234*-309608.53*22752.85
+-----Stress Tensor Min End-----
+-----Stress Tensor Max Start-----
+-----group name*loadcase name*subcase name*layer name*XX*YY*ZZ*XY*YZ*ZX*VON MISES-----
+default_group*Default*A1:Static Subcase*(NON-LAYERED)*-181398.94*285.01685*-1169580.5*18804.545*-97072.961*381095.63*607479.25
+-----Stress Tensor Max End-----

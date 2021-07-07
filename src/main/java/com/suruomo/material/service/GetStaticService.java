@@ -3,6 +3,7 @@ package com.suruomo.material.service;
 import com.suruomo.material.pojo.*;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 
@@ -80,5 +81,5 @@ public interface GetStaticService {
      * 删除静力分析任务以及该任务的相关结果
      * @param id
      */
-    void deleteAnalysisTask(String id);
+    void deleteAnalysisTask(String id) throws IOException;
 }

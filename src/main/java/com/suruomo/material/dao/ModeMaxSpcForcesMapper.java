@@ -15,4 +15,6 @@ public interface ModeMaxSpcForcesMapper {
     int getMaxId();
 
     List<ModeMaxSpcForces> getAll(BigDecimal id, int start, int end);
+
+    void deleteByPrimaryKey(BigDecimal analysisId);
 }

@@ -95,6 +95,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteByPrimaryKey">
+    delete from "METAL"."MODE_FACTORS"
+    where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+  </delete>
   <insert id="insert" parameterType="com.suruomo.material.pojo.ModeFactors" >
     insert into "METAL"."MODE_FACTORS" (ID, ANALYSIS_ID, MODE_NO, 
       FREQUENCY, T1, T2, 

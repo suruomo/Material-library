@@ -22,4 +22,6 @@ public interface ModelTaskService {
     void updateByPrimaryKey(ModelTask task);
 
     int addModel(Long userId);
+
+    void deleteByPrimaryKey(int id);
 }

@@ -81,7 +81,11 @@
       </if>
     </trim>
   </insert>
-    <select id="getMaxId" resultType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey">
+    delete from "METAL"."MODE_MAX_SPCFORCES"
+    where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+  </delete>
+  <select id="getMaxId" resultType="java.lang.Integer">
       select max(ID) from "METAL"."MODE_MAX_SPCFORCES"
     </select>
   <select id="getAll" resultType="com.suruomo.material.pojo.ModeMaxSpcForces">

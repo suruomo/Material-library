@@ -81,6 +81,10 @@
       </if>
     </trim>
   </insert>
+  <delete id="deleteByPrimaryKey">
+    delete from "METAL"."MODE_MAX_DISPLACEMENTS"
+    where ANALYSIS_ID = #{analysisId,jdbcType=DECIMAL}
+  </delete>
   <select id="getMaxId" resultType="java.lang.Integer">
     select max(ID) from "METAL"."MODE_MAX_DISPLACEMENTS"
   </select>

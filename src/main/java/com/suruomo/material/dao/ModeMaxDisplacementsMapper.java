@@ -15,4 +15,6 @@ public interface ModeMaxDisplacementsMapper {
     int getMaxId();
 
     List<ModeMaxDisplacements> getAll(BigDecimal id, int start, int end);
+
+    void deleteByPrimaryKey(BigDecimal analysisId);
 }

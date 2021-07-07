@@ -58,4 +58,9 @@ public class ModelTaskServiceImpl implements ModelTaskService {
         modelTaskMapper.insert(modelTask);
         return id+1;
     }
+
+    @Override
+    public void deleteByPrimaryKey(int id) {
+        modelTaskMapper.deleteByPrimaryKey(new BigDecimal(id));
+    }
 }
