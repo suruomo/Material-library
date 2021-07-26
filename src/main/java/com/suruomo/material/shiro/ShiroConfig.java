@@ -45,22 +45,9 @@ public class ShiroConfig {
         filterMap.put("/verifycode", "anon");
         filterMap.put("/main", "anon");
         filterMap.put("/register", "anon");
-        filterMap.put("/user", "anon");
+//        filterMap.put("/user", "anon");
         filterMap.put("/admin/main", "anon");
-        filterMap.put("/admin/index", "anon");
-        //金属原始数据
-        filterMap.put("/metals", "anon");
-        filterMap.put("/metal/rawdata", "anon");
-        //铺层原始数据
-//        filterMap.put("/layups", "anon");
-//        filterMap.put("/layup", "anon");
-        //复合原始数据
-        filterMap.put("/composite/rawdata", "anon");
-        filterMap.put("/compositerawdatas", "anon");
-        filterMap.put("/metal/aluminum", "authc");
-        filterMap.put("/metal/titanium", "authc");
-        filterMap.put("/metal/steel", "authc");
-
+//        filterMap.put("/admin/index", "anon");
         //设置拦截页面:拦截user目录下所z 有页面，要写在最后面，否则全部拦截
         filterMap.put("/*", "authc");
         //拦截跳转页面

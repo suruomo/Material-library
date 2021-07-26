@@ -76,7 +76,6 @@ public class LoginController {
         //校验验证码
         //session中的验证
         String sessionCaptcha = (String) SecurityUtils.getSubject().getSession().getAttribute(verifyCode);
-        System.out.println("验证码是："+sessionCaptcha);
         if (null == verifycode || !verifycode.equalsIgnoreCase(sessionCaptcha)) {
             model.addAttribute("msg","验证码错误！");
             return "login";
@@ -159,7 +158,6 @@ public class LoginController {
                             else{
                                 return "login";
                             }
-//                            break;
                         }
                     }
                     break;
