@@ -36,20 +36,18 @@ public class Result {
         map.put("count", count);
         return map;
     }
-    public Map<String, Object> errorsResult(List<? extends Object> list) throws JsonProcessingException {
+    public Map<String, Object> errorsResult() throws JsonProcessingException {
         HashMap<String,Object> map=new HashMap<>();
-        // 数据量
-        int count = list.size();
         //返回Json
         ObjectMapper mapper = new ObjectMapper();
         //json内对象不为空
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String data = mapper.writeValueAsString(list);
+        String data = mapper.writeValueAsString("no data");
         JSONArray json = JSONArray.fromObject(data);
         map.put("code", 1);
         map.put("msg", "出错啦");
         map.put("data", json);
-        map.put("count", count);
+        map.put("count", 0);
         return map;
     }
 }

@@ -20,6 +20,7 @@
                 <dd><a th:href="@{/metals/isap/list}"><i class="layui-icon " style="font-size:18px;">&#xe629;</i>金属材料库</a></dd>
                 <dd><a th:href="@{/composites/isap/list}"><i class="layui-icon " style="font-size:18px;">&#xe857;</i>复合材料库</a></dd>
                 <dd><a th:href="@{/layups/isap/list}"><i class="layui-icon " style="font-size:18px;">&#xe6b1;</i>标准铺层库</a></dd>
+                <dd><a th:href="@{/profiles/isap/list}"><i class="layui-icon " style="font-size:18px;">&#xe663;</i>型材库</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item">
@@ -30,7 +31,7 @@
                 <dd><a th:href="@{/layups/card/list}"><i class="layui-icon " style="font-size:18px;">&#xe6b1;</i>导出铺层卡</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item"><a th:href="@{/my}">我的数据</a></li>
+        <li class="layui-nav-item"><a th:href="@{/my}">我的结构强度数据</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item" th:if="${session.user}!=null">

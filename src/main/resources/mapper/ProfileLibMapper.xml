@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suruomo.material.dao.ProfileLibMapper" >
+  <resultMap id="BaseResultMap" type="com.suruomo.material.pojo.ProfileLib" >
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="AID" property="aid" jdbcType="DECIMAL" />
+    <result column="MID" property="mid" jdbcType="DECIMAL" />
+    <result column="E" property="e" jdbcType="DECIMAL" />
+    <result column="G" property="g" jdbcType="DECIMAL" />
+    <result column="XC" property="xc" jdbcType="DECIMAL" />
+    <result column="A" property="a" jdbcType="DECIMAL" />
+    <result column="I" property="i" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.suruomo.material.pojo.ProfileLib" extends="BaseResultMap" >
+    <result column="IMAGE" property="image" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Blob_Column_List" >
+    IMAGE
+  </sql>
+  <insert id="insert" parameterType="com.suruomo.material.pojo.ProfileLib" >
+    insert into "METAL"."PROFILE_LIB" (PID, AID, MID, 
+      E, G, XC, A, 
+      I, IMAGE)
+    values (#{pid,jdbcType=VARCHAR}, #{aid,jdbcType=DECIMAL}, #{mid,jdbcType=DECIMAL}, 
+      #{e,jdbcType=DECIMAL}, #{g,jdbcType=DECIMAL}, #{xc,jdbcType=DECIMAL}, #{a,jdbcType=DECIMAL}, 
+      #{i,jdbcType=DECIMAL}, #{image,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.suruomo.material.pojo.ProfileLib" >
+    insert into "METAL"."PROFILE_LIB"
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="aid != null" >
+        AID,
+      </if>
+      <if test="mid != null" >
+        MID,
+      </if>
+      <if test="e != null" >
+        E,
+      </if>
+      <if test="g != null" >
+        G,
+      </if>
+      <if test="xc != null" >
+        XC,
+      </if>
+      <if test="a != null" >
+        A,
+      </if>
+      <if test="i != null" >
+        I,
+      </if>
+      <if test="image != null" >
+        IMAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="aid != null" >
+        #{aid,jdbcType=DECIMAL},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=DECIMAL},
+      </if>
+      <if test="e != null" >
+        #{e,jdbcType=DECIMAL},
+      </if>
+      <if test="g != null" >
+        #{g,jdbcType=DECIMAL},
+      </if>
+      <if test="xc != null" >
+        #{xc,jdbcType=DECIMAL},
+      </if>
+      <if test="a != null" >
+        #{a,jdbcType=DECIMAL},
+      </if>
+      <if test="i != null" >
+        #{i,jdbcType=DECIMAL},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+    <select id="getAll" resultType="com.suruomo.material.pojo.ProfileLib">
+      select * from (
+    <![CDATA[
+                      select rownum rn,a.* from (select * from "METAL"."PROFILE_LIB") a where rownum <= #{end}
+    ]]>
+    )
+      where rn >= #{start}
+    </select>
+</mapper>
