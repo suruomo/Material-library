@@ -1,6 +1,7 @@
 package com.suruomo.material.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.suruomo.material.aop.SystemLog;
 import com.suruomo.material.dao.*;
 import com.suruomo.material.pojo.*;
 import com.suruomo.material.service.AnalysisTaskService;
@@ -154,6 +155,7 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
+    @SystemLog(module = "操作：查看模型任务详情")
     @GetMapping(value = "/task/models", params = {"page", "limit"})
     public Map<String, Object> modelList(HttpServletRequest request,int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
@@ -187,6 +189,7 @@ public class MyController {
      * @throws JsonProcessingException
      */
     @ResponseBody
+    @SystemLog(module = "操作：查看分析任务")
     @GetMapping(value = "/task/analysis/{id}", params = {"page", "limit"})
     public Map<String, Object> analysisList(@PathVariable BigDecimal id, int page, int limit) throws JsonProcessingException {
         int start = (page - 1) * limit + 1;
@@ -773,6 +776,7 @@ public class MyController {
      * @throws IOException
      */
     @GetMapping("/download/geometricModel/{id}")
+    @SystemLog(module = "操作：下载几何模型文件")
     public  void downloadGeometricModel(@PathVariable String id, HttpServletResponse response) throws IOException {
         ModelTask modelTask=modelTaskMapper.selectByPrimaryKey(new BigDecimal(id));
         String path=modelTask.getGeometricModel();
@@ -817,11 +821,13 @@ public class MyController {
     }
 
 
+
     /**
      * 下载有限元模型文件
      * @param response
      * @throws IOException
      */
+    @SystemLog(module = "操作：下载有限元模型文件")
     @GetMapping("/download/finiteElementModel/{id}")
     public void downloadFiniteElementModel(@PathVariable String id, HttpServletResponse response) throws IOException {
         ModelTask modelTask=modelTaskMapper.selectByPrimaryKey(new BigDecimal(id));
