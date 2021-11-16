@@ -86,6 +86,15 @@
     )
     where rn >= #{start}
   </select>
+    <select id="getTypeCount" resultType="java.lang.Integer">
+    select count(*) from "METAL"."METAL_INPUT" where TYPE_NAME=#{typeName}
+    </select>
+  <select id="getTypeFamilyCount" resultType="java.lang.Integer">
+    select count(*) from "METAL"."METAL_INPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family}
+  </select>
+  <select id="getTypeFamilyTemperCount" resultType="java.lang.Integer">
+    select count(*) from "METAL"."METAL_INPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family} and TEMPER=#{temper}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."METAL_INPUT"
     where ID = #{id,jdbcType=DECIMAL}

@@ -134,7 +134,8 @@ public class MetalController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalInput> lists = metalInputMapper.getAll(start, end);
-        return result.successResult(lists);
+        int allCount=metalInputMapper.getCount();
+        return result.successResult(lists,allCount);
     }
     /**
      * 根据条件筛选ISAP金属列表
@@ -149,16 +150,20 @@ public class MetalController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalInput> lists;
+        int allCount=0;
         if(!typeName.equals(" ")&&family.equals(" ")){
             lists = metalInputMapper.getAllByType(start, end,typeName);
+            allCount=metalInputMapper.getTypeCount(typeName);
         }
         else if(!typeName.equals(" ")&&!family.equals(" ")&&temper.equals(" ")){
             lists = metalInputMapper.getAllDataByNT(start, end,typeName,family);
+            allCount=metalInputMapper.getTypeFamilyCount(typeName,family);
         }
         else{
             lists = metalInputMapper.getAllDataByCondition(start, end,typeName,family,temper);
+            allCount=metalInputMapper.getTypeFamilyTemperCount(typeName,family,temper);
         }
-        return result.successResult(lists);
+        return result.successResult(lists,allCount);
     }
     /**
      * 返回金属材料卡数据
@@ -173,33 +178,10 @@ public class MetalController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalOut> lists = metalOutMapper.getAllData(start, end);
-        return result.successResult(lists);
+        int allCount=metalOutMapper.getAllCount();
+        return result.successResult(lists,allCount);
     }
 
-    /**
-     * 条件筛选数据，重载表格
-     * @param page
-     * @param limit
-     * @return
-     * @throws JsonProcessingException
-     */
-    @ResponseBody
-    @GetMapping(value = "/metal/cards",params = {"page","limit","typeName","family","temper"})
-    public Map<String, Object> cardsReload(int page,  int limit,String typeName,String family,String temper) throws JsonProcessingException {
-        int start=(page-1)*limit+1;
-        int end =page*limit;
-        List<MetalOut> lists;
-        if(!typeName.equals(" ")&&family.equals(" ")){
-            lists = metalOutMapper.getAll(start, end,typeName);
-        }
-        else if(!typeName.equals(" ")&&!family.equals(" ")&&temper.equals(" ")){
-            lists = metalOutMapper.getAllDataByNT(start, end,typeName,family);
-        }
-        else{
-            lists = metalOutMapper.getAllDataByCondition(start, end,typeName,family,temper);
-        }
-        return result.successResult(lists);
-    }
     /**
      * 下载原始金属导入模板
      * @param response
@@ -320,7 +302,7 @@ public class MetalController {
         out.close();
     }
     /**
-     * 返回材料卡金属数据
+     * 根据组合条件返回材料卡金属数据
      * @param page
      * @param limit
      * @return
@@ -332,17 +314,30 @@ public class MetalController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<MetalOut> lists;
+        int allCount=0;
         if(!typeName.equals(" ")&&family.equals(" ")){
             lists = metalOutMapper.getAll(start, end,typeName);
+            allCount=metalOutMapper.getTypeCount(typeName);
         }
         else if(!typeName.equals(" ")&&!family.equals(" ")&&temper.equals(" ")){
             lists = metalOutMapper.getAllDataByNT(start, end,typeName,family);
+            allCount=metalOutMapper.getTwoCondition(typeName,family);
         }
         else{
             lists = metalOutMapper.getAllDataByCondition(start, end,typeName,family,temper);
+            allCount=metalOutMapper.getThreeCondition(typeName,family,temper);
         }
-        return result.successResult(lists);
+        return result.successResult(lists,allCount);
     }
+
+    /**
+     * 根据类型查询材料卡
+     * @param page
+     * @param limit
+     * @param type
+     * @return
+     * @throws JsonProcessingException
+     */
     @ResponseBody
     @GetMapping(value = "/metals/card/{type}",params = {"page","limit"})
     public Map<String, Object> list(int page,  int limit,@PathVariable("type") String type) throws JsonProcessingException {
@@ -359,7 +354,8 @@ public class MetalController {
             }
         }
         List<MetalOut> lists = metalOutMapper.getAll(start, end,queryType);
-        return result.successResult(lists);
+        int allCount=metalOutMapper.getCount(queryType);
+        return result.successResult(lists,allCount);
     }
     /**
      * 跳转至ISAP金属详细信息页面

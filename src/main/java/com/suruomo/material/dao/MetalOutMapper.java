@@ -42,4 +42,10 @@ public interface MetalOutMapper {
     List<MetalOut> getAllDataByCondition(int start, int end, String typeName, String family, String temper);
 
     List<MetalOut> getAllDataByNT(int start, int end, String typeName, String family);
+
+    int getThreeCondition(String typeName, String family, String temper);
+
+    int getTwoCondition(String typeName, String family);
+
+    int getTypeCount(String typeName);
 }

@@ -38,4 +38,10 @@ public interface MetalInputMapper {
     List<MetalInput> getAllDataByNT(int start, int end, String typeName, String family);
 
     List<MetalInput> getAllDataByCondition(int start, int end, String typeName, String family, String temper);
+
+    int getTypeCount(String typeName);
+
+    int getTypeFamilyCount(String typeName, String family);
+
+    int getTypeFamilyTemperCount(String typeName, String family, String temper);
 }

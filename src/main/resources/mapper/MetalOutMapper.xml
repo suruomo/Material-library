@@ -86,6 +86,15 @@ select * from (
     )
     where rn >= #{start}
   </select>
+  <select id="getThreeCondition" resultType="java.lang.Integer">
+   select count(*) from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family} and TEMPER=#{temper}
+  </select>
+  <select id="getTwoCondition" resultType="java.lang.Integer">
+    select count(*) from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{typeName} and FAMILY=#{family}
+  </select>
+  <select id="getTypeCount" resultType="java.lang.Integer">
+    select count(*) from "METAL"."METAL_OUTPUT" where TYPE_NAME=#{typeName}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."METAL_OUTPUT"
     where ID = #{id,jdbcType=DECIMAL}
