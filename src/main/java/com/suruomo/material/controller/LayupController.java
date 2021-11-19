@@ -96,7 +96,8 @@ public class LayupController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<Layup> lists = layupMapper.getAll(start, end);
-        return result.successResult(lists);
+        int allCount=layupMapper.getCount();
+        return result.successResult(lists,allCount);
     }
 
     /**
