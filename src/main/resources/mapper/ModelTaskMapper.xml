@@ -32,6 +32,10 @@
     <select id="getMaxId" resultType="java.math.BigDecimal">
        select max(ID) from "METAL"."MODEL_TASK"
     </select>
+    <select id="getCount" resultType="java.lang.Integer">
+      select count(*) from "METAL"."MODEL_TASK"
+      where CREATE_BY = #{param1}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."MODEL_TASK"
     where ID = #{id,jdbcType=DECIMAL}

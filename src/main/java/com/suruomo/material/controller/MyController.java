@@ -163,7 +163,8 @@ public class MyController {
         // 获取用户
         User user = (User) request.getSession().getAttribute("user");
         List<ModelTask> lists = modelTaskMapper.getAll(user.getUserId(),start, end);
-        return result.successResult(lists);
+        int allCount=modelTaskMapper.getCount(user.getUserId());
+        return result.successResult(lists,allCount);
     }
 
     /**
@@ -195,7 +196,8 @@ public class MyController {
         int start = (page - 1) * limit + 1;
         int end = page * limit;
         List<AnalysisTask> lists = analysisTaskMapper.getAll(id,start, end);
-        return result.successResult(lists);
+        int allCount=analysisTaskMapper.getCount(id);
+        return result.successResult(lists,allCount);
     }
 
     /**

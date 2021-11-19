@@ -23,4 +23,6 @@ public interface ModelTaskMapper {
     List<ModelTask> getAll(Long userId, int start, int end);
 
     BigDecimal getMaxId();
+
+    int getCount(Long userId);
 }

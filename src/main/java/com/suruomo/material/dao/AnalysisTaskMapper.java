@@ -23,4 +23,6 @@ public interface AnalysisTaskMapper {
     BigDecimal getMaxId();
 
     List<AnalysisTask> selectByModelId(BigDecimal modelId);
+
+    int getCount(BigDecimal id);
 }

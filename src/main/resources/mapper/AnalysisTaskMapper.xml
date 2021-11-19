@@ -36,7 +36,10 @@
     <select id="selectByModelId" resultType="com.suruomo.material.pojo.AnalysisTask">
       select * from "METAL"."ANALYSIS_TASK" where MODEL_ID= #{modelId}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(*) from "METAL"."ANALYSIS_TASK" where MODEL_ID= #{modelId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from "METAL"."ANALYSIS_TASK"
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
