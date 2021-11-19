@@ -111,7 +111,8 @@ public class CompositeController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<CompositeInput> lists = compositeInputMapper.getAll(start, end);
-        return result.successResult(lists);
+        int allCount=compositeInputMapper.getCount();
+        return result.successResult(lists,allCount);
     }
     /**
      * 按条件筛选重载ISAP表格
@@ -143,7 +144,8 @@ public class CompositeController {
         int start=(page-1)*limit+1;
         int end =page*limit;
         List<CompositeOut> lists = compositeOutMapper.getAll(start, end);
-        return result.successResult(lists);
+        int allCount=compositeOutMapper.getCount();
+        return result.successResult(lists,allCount);
     }
 
     /**
