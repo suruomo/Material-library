@@ -1,0 +1,192 @@
+$ MSC.Nastran input file created on June      25, 2021 at 14:16:53 by
+$ Patran 2019
+$ Direct Text Input for Nastran System Cell Section
+$ Direct Text Input for File Management Section
+$ Direct Text Input for Executive Control
+$ Normal Modes Analysis, Database
+SOL 103
+CEND
+$ Direct Text Input for Global Case Control Data
+TITLE = MSC.Nastran job created on 25-Jun-21 at 14:16:16
+ECHO = NONE
+$ Using Nastran default values for RESVEC
+SUBCASE 1
+$ Subcase name : Default
+   SUBTITLE=Default
+   METHOD = 1
+   SPC = 2
+   VECTOR(SORT1,REAL)=ALL
+   SPCFORCES(SORT1,REAL)=ALL
+BEGIN BULK
+$ Direct Text Input for Bulk Data
+MDLPRM   HDF5    0
+PARAM    POST    0
+PARAM   PRTMAXIM YES
+EIGRL    1                       10      0
+$ Elements and Element Properties for region : prop
+PSHELL   1       1      3.       1               1
+$ Pset: "prop" will be imported as: "pshell.1"
+CQUAD4   1       1       1       2       13      12
+CQUAD4   2       1       2       3       14      13
+CQUAD4   3       1       3       4       15      14
+CQUAD4   4       1       4       5       16      15
+CQUAD4   5       1       5       6       17      16
+CQUAD4   6       1       6       7       18      17
+CQUAD4   7       1       7       8       19      18
+CQUAD4   8       1       8       9       20      19
+CQUAD4   9       1       9       10      21      20
+CQUAD4   10      1       10      11      22      21
+CQUAD4   11      1       12      13      24      23
+CQUAD4   12      1       13      14      25      24
+CQUAD4   13      1       14      15      26      25
+CQUAD4   14      1       15      16      27      26
+CQUAD4   15      1       16      17      28      27
+CQUAD4   16      1       17      18      29      28
+CQUAD4   17      1       18      19      30      29
+CQUAD4   18      1       19      20      31      30
+CQUAD4   19      1       20      21      32      31
+CQUAD4   20      1       21      22      33      32
+CQUAD4   21      1       23      24      35      34
+CQUAD4   22      1       24      25      36      35
+CQUAD4   23      1       25      26      37      36
+CQUAD4   24      1       26      27      38      37
+CQUAD4   25      1       27      28      39      38
+CQUAD4   26      1       28      29      40      39
+CQUAD4   27      1       29      30      41      40
+CQUAD4   28      1       30      31      42      41
+CQUAD4   29      1       31      32      43      42
+CQUAD4   30      1       32      33      44      43
+CQUAD4   31      1       34      35      46      45
+CQUAD4   32      1       35      36      47      46
+CQUAD4   33      1       36      37      48      47
+CQUAD4   34      1       37      38      49      48
+CQUAD4   35      1       38      39      50      49
+CQUAD4   36      1       39      40      51      50
+CQUAD4   37      1       40      41      52      51
+CQUAD4   38      1       41      42      53      52
+CQUAD4   39      1       42      43      54      53
+CQUAD4   40      1       43      44      55      54
+CQUAD4   41      1       45      46      57      56
+CQUAD4   42      1       46      47      58      57
+CQUAD4   43      1       47      48      59      58
+CQUAD4   44      1       48      49      60      59
+CQUAD4   45      1       49      50      61      60
+CQUAD4   46      1       50      51      62      61
+CQUAD4   47      1       51      52      63      62
+CQUAD4   48      1       52      53      64      63
+CQUAD4   49      1       53      54      65      64
+CQUAD4   50      1       54      55      66      65
+$ Referenced Material Records
+$ Material Record : 2060_T8E30_Sheet_AMS
+$ Description of Material : Date: 27-Nov-12 Time: 04:59:56
+MAT1     1      10200.  3800.   .33     .094     0.      0.      0.
+$ Nodes of the Entire Model
+GRID     1               0.      0.      0.
+GRID     2              10.      0.      0.
+GRID     3              20.      0.      0.
+GRID     4              30.      0.      0.
+GRID*    5                              39.9999961853027 0.
+*        0.
+GRID*    6                              49.9999961853027 0.
+*        0.
+GRID*    7                              60.0000038146973 0.
+*        0.
+GRID     8              70.      0.      0.
+GRID     9              80.      0.      0.
+GRID     10             90.      0.      0.
+GRID     11             100.     0.      0.
+GRID     12              0.     10.      0.
+GRID*    13                             9.9999990463256810.
+*        0.
+GRID     14             20.     10.      0.
+GRID     15             30.     10.      0.
+GRID*    16                             39.999996185302710.
+*        0.
+GRID*    17                             49.999996185302710.
+*        0.
+GRID*    18                             60.000003814697310.
+*        0.
+GRID     19             70.     10.      0.
+GRID     20             80.     10.      0.
+GRID     21             90.     10.      0.
+GRID     22             100.    10.      0.
+GRID     23              0.     20.      0.
+GRID*    24                             9.9999990463256820.
+*        0.
+GRID     25             20.     20.      0.
+GRID     26             30.     20.      0.
+GRID*    27                             39.999996185302720.
+*        0.
+GRID*    28                             49.999996185302720.
+*        0.
+GRID*    29                             60.000003814697320.
+*        0.
+GRID     30             70.     20.      0.
+GRID     31             80.     20.      0.
+GRID     32             90.     20.      0.
+GRID     33             100.    20.      0.
+GRID*    34                              0.             30.0000019073486
+*        0.
+GRID*    35                             9.9999980926513730.0000019073486
+*        0.
+GRID*    36                             19.999998092651430.0000019073486
+*        0.
+GRID*    37                             30.             30.0000019073486
+*        0.
+GRID*    38                             39.999996185302730.0000019073486
+*        0.
+GRID*    39                             50.             30.0000019073486
+*        0.
+GRID*    40                             60.000003814697330.0000019073486
+*        0.
+GRID*    41                             70.             30.0000019073486
+*        0.
+GRID*    42                             80.             30.0000019073486
+*        0.
+GRID*    43                             90.             30.0000019073486
+*        0.
+GRID*    44                             100.            30.0000019073486
+*        0.
+GRID*    45                              0.             39.9999961853027
+*        0.
+GRID*    46                             9.9999971389770539.9999961853027
+*        0.
+GRID*    47                             19.999998092651439.9999961853027
+*        0.
+GRID*    48                             30.             39.9999961853027
+*        0.
+GRID*    49                             39.999996185302739.9999961853027
+*        0.
+GRID*    50                             50.             39.9999961853027
+*        0.
+GRID*    51                             60.000003814697339.9999961853027
+*        0.
+GRID*    52                             70.             39.9999961853027
+*        0.
+GRID*    53                             80.             39.9999961853027
+*        0.
+GRID*    54                             90.             39.9999961853027
+*        0.
+GRID*    55                             100.            39.9999961853027
+*        0.
+GRID     56              0.     50.      0.
+GRID*    57                             9.9999961853027350.
+*        0.
+GRID*    58                             19.999998092651450.
+*        0.
+GRID     59             30.     50.      0.
+GRID*    60                             39.999996185302750.
+*        0.
+GRID     61             50.     50.      0.
+GRID*    62                             60.000003814697350.
+*        0.
+GRID     63             70.     50.      0.
+GRID     64             80.     50.      0.
+GRID     65             90.     50.      0.
+GRID     66             100.    50.      0.
+$ Loads for Load Case : Default
+SPCADD   2       1
+$ Displacement Constraints of Load Set : fixed
+SPC1     1       123456  1       12      23      34      45      56
+$ Referenced Coordinate Frames
+ENDDATA 89ab1dce
