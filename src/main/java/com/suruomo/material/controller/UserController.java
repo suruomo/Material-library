@@ -58,7 +58,6 @@ public class UserController {
      * @param request
      * @return
      */
-    @SystemLog(module = "操作：管理员增加用户")
     @PostMapping(value ={"/user"})
     public String addUser(User user, HttpServletRequest request){
         String password=new Md5().endode(user.getPassword());
@@ -78,7 +77,6 @@ public class UserController {
      * @param request
      * @return
      */
-    @SystemLog(module = "操作：管理员修改用户")
     @PutMapping("/user")
     public String modifyUser(User user, HttpServletRequest request){
         User oldUser=userMapper.selectByPrimaryKey(user.getUserId());

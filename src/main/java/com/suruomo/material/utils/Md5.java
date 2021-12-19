@@ -26,5 +26,4 @@ public class Md5 {  //Md5加密
         }
         return str;
     }
-
 }
